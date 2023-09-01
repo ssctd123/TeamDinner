@@ -2,7 +2,6 @@
 Backend/node_modules/
 Backend/.idea
 Backend/dist
-*.env
 .DS_Store
 *.lock
 
