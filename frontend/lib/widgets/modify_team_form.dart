@@ -29,12 +29,23 @@ class _ModifyTeamFormState extends State<ModifyTeamForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color(0xFF045F5F),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            // Handle back button press here
+            Navigator.of(context).pop(); // Navigate back
+          },
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            /*
             Padding(
               padding: const EdgeInsets.only(top: 60.0),
               child: Container(
@@ -51,6 +62,8 @@ class _ModifyTeamFormState extends State<ModifyTeamForm> {
                 ),
               ),
             ),
+             */
+
             Visibility(
                 visible: team.members.length > 1,
                 child: Column(children: [
@@ -98,7 +111,7 @@ class _ModifyTeamFormState extends State<ModifyTeamForm> {
             const Padding(
               padding: EdgeInsets.symmetric(vertical: 8.0),
               child: Text(
-                "Modify you team",
+                "Modify Your Team",
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 32.0,
@@ -120,12 +133,13 @@ class _ModifyTeamFormState extends State<ModifyTeamForm> {
                       ),
                     ),
                   ),
+
                   Padding(
                     padding: const EdgeInsets.only(bottom: 16.0),
                     child: TextFormField(
                       controller: descriptionController,
                       decoration: const InputDecoration(
-                        hintText: "Description",
+                        hintText: "Event Name",
                         prefixIcon: Icon(Icons.abc, color: Colors.black),
                       ),
                     ),
@@ -133,7 +147,7 @@ class _ModifyTeamFormState extends State<ModifyTeamForm> {
                   SizedBox(
                     width: double.infinity,
                     child: RawMaterialButton(
-                      fillColor: Colors.deepPurple[300],
+                      fillColor: const Color(0xFF2E9079),
                       padding: const EdgeInsets.symmetric(vertical: 20.0),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12.0)),
@@ -151,6 +165,7 @@ class _ModifyTeamFormState extends State<ModifyTeamForm> {
                                   content: Text("Team updated"),
                                 ),
                               );
+                              Navigator.pop(context);
                             }
                           } on Exception {
                             ScaffoldMessenger.of(context).showSnackBar(

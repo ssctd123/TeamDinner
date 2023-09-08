@@ -83,11 +83,11 @@ class _PollFormState extends State<PollForm> {
                 }
               },
               style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
+                  backgroundColor: const Color(0xFF045F5F),
                   side: BorderSide.none,
                   shape: const StadiumBorder()),
               child: const Text('Submit Vote',
-                  style: TextStyle(color: Colors.black)),
+                  style: TextStyle(color: Colors.white)),
             ))
       ],
     );

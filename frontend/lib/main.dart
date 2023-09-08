@@ -71,9 +71,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 padding: const EdgeInsets.only(top: 30),
                 decoration: const BoxDecoration(
                     image: DecorationImage(
-                  alignment: Alignment.topLeft,
-                  image: AssetImage("assets/images/TDlogo.png"),
-                )),
+                      alignment: Alignment.topLeft,
+                      image: AssetImage("assets/images/Plate.png"),
+                    )),
               ),
             ),
             // const Text(

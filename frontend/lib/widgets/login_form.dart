@@ -69,7 +69,7 @@ class LoginFormState extends State<LoginForm> {
           ),
           // Todo: Add functionality to this button
           const Text(
-            "Don't remember your Password?",
+            "Forgot Your Password?",
             style: TextStyle(color: Colors.blue),
           ),
           // Button to login to account
@@ -78,24 +78,24 @@ class LoginFormState extends State<LoginForm> {
             child: SizedBox(
               width: double.infinity,
               child: RawMaterialButton(
-                fillColor: const Color(0xFF0069FE),
+                fillColor: const Color(0xFF045D5D),
                 padding: const EdgeInsets.symmetric(vertical: 20.0),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12.0)),
                 onPressed: () async {
                   if (formKey.currentState!.validate()) {
-                      if (await Util.login(emailController.value.text, passwordController.value.text)) {
-                        emailController.clear();
-                        passwordController.clear();
-                        Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(
-                                builder:(context) => const HomePage())
-                        );
-                        // Error handling for not being able to login
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Login failed.')));
-                      }
+                    if (await Util.login(emailController.value.text, passwordController.value.text)) {
+                      emailController.clear();
+                      passwordController.clear();
+                      Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                              builder:(context) => const HomePage())
+                      );
+                      // Error handling for not being able to login
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Login failed.')));
+                    }
                   }
                 },
                 child: const Text("Login",

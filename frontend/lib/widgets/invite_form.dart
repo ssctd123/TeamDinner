@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/api/teams_repository.dart';
 import 'package:frontend/api/users_repository.dart';
 
+
 import '../Types/team.dart';
 import '../Types/user.dart';
 
@@ -28,28 +29,22 @@ class _InviteFormState extends State<InviteForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color(0xFF045F5F),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            // Handle back button press here
+            Navigator.of(context).pop(); // Navigate back
+          },
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 60.0),
-              child: Container(
-                alignment: Alignment.centerLeft,
-                width: double.infinity,
-                child: IconButton(
-                  color: Colors.deepPurple[300],
-                  onPressed: () {
-                    Navigator.pop(
-                      context,
-                    );
-                  },
-                  icon: const Icon(Icons.arrow_back_ios),
-                ),
-              ),
-            ),
             Visibility(
               visible: team.invitations.isNotEmpty,
               child: Column(
@@ -91,7 +86,7 @@ class _InviteFormState extends State<InviteForm> {
                   SizedBox(
                     width: double.infinity,
                     child: RawMaterialButton(
-                      fillColor: Colors.deepPurple[300],
+                      fillColor: const Color(0xFF2E9079),
                       padding: const EdgeInsets.symmetric(vertical: 20.0),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12.0)),

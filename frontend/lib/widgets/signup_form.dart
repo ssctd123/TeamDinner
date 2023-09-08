@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../api/users_repository.dart';
 import '../homepage.dart';
 import '../util.dart';
+import '../utils/extensions/EmailValidatorExtensions.dart';
 
 class SignupForm extends StatefulWidget {
   const SignupForm({super.key});
@@ -78,8 +79,8 @@ class SignupFormState extends State<SignupForm> {
             child: TextFormField(
               controller: emailController,
               validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return "Please enter an email";
+                if ((value == null || value.isEmpty) || value?.isValidEmail() != true) {
+                  return "Please enter a valid email";
                 }
                 return null;
               },
@@ -130,7 +131,7 @@ class SignupFormState extends State<SignupForm> {
           SizedBox(
             width: double.infinity,
             child: RawMaterialButton(
-              fillColor: const Color(0xFF0069FE),
+              fillColor: const Color(0xFF216067),
               padding: const EdgeInsets.symmetric(vertical: 20.0),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12.0)),
@@ -161,7 +162,7 @@ class SignupFormState extends State<SignupForm> {
               },
               // button to signup with the inputted information
               child: const Text(
-                "Signup",
+                "Sign-up",
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 18,

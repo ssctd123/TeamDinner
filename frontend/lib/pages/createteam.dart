@@ -14,7 +14,7 @@ class _CreateTeamPageState extends State<CreateTeamPage> {
     return Scaffold(
       body: listView(),
       appBar: AppBar(
-        backgroundColor: Colors.deepPurple[300],
+        backgroundColor: const Color(0xFF3CBD9F),
         elevation: 0,
         centerTitle: true,
         title: const Text('T E A M   R E Q U E S T S'),
@@ -29,7 +29,7 @@ class _CreateTeamPageState extends State<CreateTeamPage> {
                 )
             );
           },
-              icon: const Icon(Icons.add),
+            icon: const Icon(Icons.add),
           )
         ],
       ),
@@ -41,10 +41,10 @@ Widget listView() {
   return ListView.separated(
       itemBuilder: (context, index) {
         return listViewItem(index);
-  },
-  separatorBuilder: (context, index) {
+      },
+      separatorBuilder: (context, index) {
         return const Divider(height: 0);
-  },
+      },
       itemCount: 15
   );
 }
@@ -90,43 +90,43 @@ Widget message(int index) {
     maxLines: 3,
     overflow: TextOverflow.ellipsis,
     text: TextSpan(
-      text: 'Team',
-      style: TextStyle(
-        fontSize: textSize,
-        color:  Colors.black,
-        fontWeight: FontWeight.bold,
-      ),
-      children: const [
-        TextSpan(
-          text: 'Team Description',
-          style: TextStyle(
-            fontWeight: FontWeight.w400,
+        text: 'Team',
+        style: TextStyle(
+          fontSize: textSize,
+          color:  Colors.black,
+          fontWeight: FontWeight.bold,
+        ),
+        children: const [
+          TextSpan(
+              text: 'Team Description',
+              style: TextStyle(
+                fontWeight: FontWeight.w400,
+              )
           )
-        )
-      ]
+        ]
     ),
   );
 }
 // Hard coded date and time of team creation to test functionality
 Widget timeAndDate(int index) {
   return Container(
-    margin: const EdgeInsets.only(top: 5),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: const [
-        Text(
-          '16-02-2021',
-          style: TextStyle(
-            fontSize: 10,
+      margin: const EdgeInsets.only(top: 5),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: const [
+          Text(
+            '16-02-2021',
+            style: TextStyle(
+              fontSize: 10,
+            ),
           ),
-        ),
-        Text(
-          '8:00 pm',
-          style: TextStyle(
-            fontSize: 10,
+          Text(
+            '8:00 pm',
+            style: TextStyle(
+              fontSize: 10,
+            ),
           ),
-        ),
-      ],
-    )
+        ],
+      )
   );
 }
