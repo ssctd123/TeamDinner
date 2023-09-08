@@ -53,6 +53,9 @@ export class UsersService {
 		if (modifyDto.lastName) {
 			updateData.lastName = modifyDto.lastName;
 		}
+		if (modifyDto.email) {
+			updateData.email = modifyDto.email;
+		}
 		if (modifyDto.venmo) {
 			updateData.venmo = modifyDto.venmo;
 		}

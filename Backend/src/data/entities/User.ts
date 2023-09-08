@@ -9,6 +9,8 @@ export class User {
 	firstName?: string;
 	@ApiPropertyOptional()
 	lastName?: string;
+	@ApiPropertyOptional()
+	email?: string;
 	@ApiPropertyOptional({ type: [String] })
 	teams?: string[];
 	@ApiPropertyOptional()
