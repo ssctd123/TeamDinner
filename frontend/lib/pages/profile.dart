@@ -175,22 +175,9 @@ class _ProfilePageState extends State<ProfilePage> {
                               (value is String && value.isEmpty));
                           try {
                             await UsersRepository.modify(updates);
-                            if (loginUpdated &&
-                                await Util.login(email, password) &&
-                                mounted) {
-                              Navigator.of(context).pushAndRemoveUntil(
-                                  MaterialPageRoute(
-                                      builder: (context) => const TeamPage()),
-                                      (r) => false);
-                            } else if (loginUpdated) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      content: Text('Login failed.')));
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      content: Text('Profile updated.')));
-                            }
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text('Profile updated.')));
                           } on Exception {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
