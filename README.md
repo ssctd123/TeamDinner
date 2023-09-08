@@ -5,7 +5,6 @@ service applications with functionalities to assign parent leaders and splitting
 The app incorporates interfaces for login/signup, team landing page, restaurant searching, polling, 
 and connection to a third-party cost-splitting app.
 
-
 # Setup Instructions
 ## Frontend - Flutter
 Install Android Studio at https://developer.android.com/studio
