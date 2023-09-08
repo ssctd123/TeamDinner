@@ -4,6 +4,8 @@ import 'package:frontend/pages/profile.dart';
 import 'package:frontend/pages/teams.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
+import 'pages/help_page.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -26,10 +28,28 @@ class _HomePageState extends State<HomePage> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: Colors.deepPurple[300],
+        backgroundColor: const Color(0xFF045D5D),
         elevation: 0,
         centerTitle: true,
-        title: const Text('T E A M D I N N E R'),
+        title: const Text('T e a m   D i n n e r'),
+        actions: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 8.0),
+            child: Align(
+              alignment: Alignment.topLeft,
+              child: IconButton(
+                icon: const Icon(Icons.help_outline),
+                onPressed: () {
+                  // Go to help_page.dart
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => HelpButton()),
+                  );
+                },
+              ),
+            ),
+          ),
+        ],
       ),
       body: Center(child: _widgetOptions.elementAt(_selectedIndex)),
       bottomNavigationBar: Container(
@@ -45,21 +65,23 @@ class _HomePageState extends State<HomePage> {
             backgroundColor: Colors.black,
             color: Colors.white,
             activeColor: Colors.white,
-            tabBackgroundColor: Colors.grey,
             padding: const EdgeInsets.all(16),
             gap: 8,
             tabs: const [
               GButton(
                 icon: Icons.group,
                 text: 'Team',
+                backgroundColor: Color(0xFFEAB541),
               ),
               GButton(
                 icon: Icons.poll,
                 text: 'Poll',
+                backgroundColor: Color(0xFF9E3531),
               ),
               GButton(
                 icon: Icons.person,
                 text: 'Profile',
+                backgroundColor: Color(0xFF045F5F),
               ),
               //GButton(icon: Icons.people),
             ],

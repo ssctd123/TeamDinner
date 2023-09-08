@@ -4,6 +4,7 @@ import 'package:frontend/api/users_repository.dart';
 
 import '../Types/team.dart';
 import '../Types/user.dart';
+import '../pages/send_email.dart';
 
 class NewTeamForm extends StatefulWidget {
   const NewTeamForm({Key? key}) : super(key: key);
@@ -36,6 +37,9 @@ class _NewTeamFormState extends State<NewTeamForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color(0xFF045D5D),
+      ),
       resizeToAvoidBottomInset: false,
       body: Padding(
         padding: const EdgeInsets.only(top: 32.0),
@@ -45,19 +49,6 @@ class _NewTeamFormState extends State<NewTeamForm> {
             // mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                alignment: Alignment.centerLeft,
-                width: double.infinity,
-                child: IconButton(
-                  color: Colors.deepPurple[300],
-                  onPressed: () {
-                    Navigator.pop(
-                      context,
-                    );
-                  },
-                  icon: const Icon(Icons.arrow_back_ios),
-                ),
-              ),
               Visibility(
                 visible: teams.isNotEmpty,
                 child: Column(
@@ -118,7 +109,7 @@ class _NewTeamFormState extends State<NewTeamForm> {
                                         team.id, user.id);
                                     setState(() {
                                       teams.removeWhere(
-                                          (element) => element.id == team.id);
+                                              (element) => element.id == team.id);
                                     });
                                   } on Exception {
                                     ScaffoldMessenger.of(context).showSnackBar(
@@ -141,18 +132,21 @@ class _NewTeamFormState extends State<NewTeamForm> {
               ),
               const Padding(
                 padding: EdgeInsets.all(16),
-                child: Text(
-                  "Create a Team",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 32.0,
-                    fontWeight: FontWeight.bold,
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    "Create a Team",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 32.0,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
               const Center(
                 child: CircleAvatar(
-                  backgroundImage: AssetImage('assets/images/notinteam.png'),
+                  backgroundImage: AssetImage('assets/images/go_team_green.png'),
                   radius: 80,
                 ),
               ),
@@ -171,10 +165,11 @@ class _NewTeamFormState extends State<NewTeamForm> {
                           return null;
                         },
                         decoration: InputDecoration(
-                          hintText: "Enter team name",
+                          hintText: "Enter Team Name",
+                          hintStyle: TextStyle(color: Colors.black),
                           prefixIcon:
-                              const Icon(Icons.abc, color: Colors.black),
-                          fillColor: const Color(0xFFede9f0),
+                          const Icon(Icons.abc, color: Colors.black),
+                          fillColor: const Color(0xFFD3F1EA),
                           filled: true,
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(30),
@@ -188,15 +183,16 @@ class _NewTeamFormState extends State<NewTeamForm> {
                         controller: descriptionController,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return "Please enter a description";
+                            return "Please enter event name";
                           }
                           return null;
                         },
                         decoration: InputDecoration(
-                          hintText: "Enter description",
+                          hintText: "Enter Event Name",
+                          hintStyle: TextStyle(color: Colors.black),
                           prefixIcon:
-                              const Icon(Icons.abc, color: Colors.black),
-                          fillColor: const Color(0xFFede9f0),
+                          const Icon(Icons.abc, color: Colors.black),
+                          fillColor: const Color(0xFFD3F1EA),
                           filled: true,
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(30),
@@ -210,7 +206,7 @@ class _NewTeamFormState extends State<NewTeamForm> {
                     SizedBox(
                       width: double.infinity,
                       child: RawMaterialButton(
-                        fillColor: Colors.deepPurple[300],
+                        fillColor: const Color(0xFF2E9079),
                         padding: const EdgeInsets.symmetric(vertical: 20.0),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12.0)),
@@ -245,6 +241,22 @@ class _NewTeamFormState extends State<NewTeamForm> {
                         ),
                       ),
                     ),
+                    Visibility(
+                      //If not part of a team, send email to ask to join
+                        visible: teams.isEmpty,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFF31535C),
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => SendEmail()),
+                            );
+                          },
+                          child: Text('Not part of a team?  Send an Email!'),
+                        )
+                    )
                   ],
                 ),
               ),

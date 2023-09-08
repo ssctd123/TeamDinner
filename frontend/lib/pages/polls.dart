@@ -13,6 +13,8 @@ import '../api/users_repository.dart';
 import '../widgets/create_poll_form.dart';
 import '../widgets/poll_form.dart';
 import '../widgets/split_bill_form.dart';
+import '../helpers/PollHelper.dart';
+
 
 // Poll handling and functionality page
 class PollsPage extends StatefulWidget {
@@ -28,6 +30,7 @@ class _PollsPageState extends State<PollsPage> {
   Vote vote = Vote("", []);
   bool reset = true;
   PollResults? results;
+  bool pollHasBeenSplit = false;
 
   // Establish layout of the page
   @override
@@ -61,6 +64,7 @@ class _PollsPageState extends State<PollsPage> {
   // Getting poll information for processing
   Future<Poll> _getPoll() async {
     if (!reset) {
+      pollHasBeenSplit = await PollHelper.hasPollBeenSplit(poll.id);
       return poll;
     }
     var user = await UsersRepository.get(null);
@@ -93,6 +97,8 @@ class _PollsPageState extends State<PollsPage> {
         reset = false;
       });
     }
+
+    pollHasBeenSplit = await PollHelper.hasPollBeenSplit(poll.id);
     return poll;
   }
 
@@ -152,7 +158,7 @@ class _PollsPageState extends State<PollsPage> {
         if (poll.options.any((element) => key == element.id)) {
           String name = poll.options
               .firstWhere((element) => key == element.id,
-                  orElse: () => PollOption("", ""))
+              orElse: () => PollOption("", ""))
               .option;
           widgets.add(Padding(
             padding: const EdgeInsets.all(10.0),
@@ -166,13 +172,13 @@ class _PollsPageState extends State<PollsPage> {
     widgets.add(Divider(),);
     if (isOwner && poll.stage != null && poll.stage != PollStage.FINISHED) {
       String text =
-          poll.stage == PollStage.NOT_STARTED ? "Start Poll" : "End Poll";
+      poll.stage == PollStage.NOT_STARTED ? "Start Poll" : "End Poll";
       widgets.add(Padding(
         padding: const EdgeInsets.all(8.0),
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
             backgroundColor:
-                poll.stage == PollStage.NOT_STARTED ? Colors.green : Colors.red,
+            poll.stage == PollStage.NOT_STARTED ? Colors.green : Color.fromRGBO(199, 137, 54, 1.0),
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(10)),
             ),
@@ -192,7 +198,7 @@ class _PollsPageState extends State<PollsPage> {
         (poll.stage == PollStage.FINISHED || poll.stage == null)) {
       widgets.add(ElevatedButton.icon(
           style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.blue,
+              backgroundColor: const Color(0xFF9E3531),
               side: BorderSide.none,
               shape: const StadiumBorder()),
           onPressed: () {
@@ -202,33 +208,35 @@ class _PollsPageState extends State<PollsPage> {
           },
           icon: const Icon(Icons.poll),
           label: const Text('Create Poll',
-              style: TextStyle(color: Colors.black))));
-      if (poll.stage == PollStage.FINISHED) {
+              style: TextStyle(color: Colors.white))));
+      if (poll.stage == PollStage.FINISHED && !pollHasBeenSplit) {
         widgets.add(ElevatedButton.icon(
             style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.greenAccent,
+                backgroundColor: const Color(0xFF2E9079),
                 side: BorderSide.none,
                 shape: const StadiumBorder()),
             onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return const SplitBillForm();
+                return SplitBillForm(poll: poll);
               })).then((value) => {resetPage()});
             },
             icon: const Icon(Icons.monetization_on),
             label: const Text('Split Bill',
-                style: TextStyle(color: Colors.black))));
+                style: TextStyle(color: Colors.white))));
       }
     }
     return widgets;
   }
 
   // Used to reset the poll page when finished
-  resetPage() {
-    if (mounted) {
-      setState(() {
-        reset = true;
-      });
-    }
-    _getPoll();
+  resetPage() async {
+    poll = Poll("", "", "", DateTime.now(), "", false, []);
+    isOwner = false;
+    vote = Vote("", []);
+    pollHasBeenSplit = false;
+    reset = true;
+
+    await _getPoll();
+    setState(() { });
   }
 }

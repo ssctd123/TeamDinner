@@ -38,6 +38,7 @@ class _ProfilePageState extends State<ProfilePage> {
     final tipPercent = user.tipPercent != null ? user.tipPercent * 100 : 0;
     firstNameController.text = user.firstName;
     lastNameController.text = user.lastName;
+    emailController.text = user.email ?? "";
     preferredTipController.text = tipPercent.toString();
     venmoController.text = user.venmo ?? "";
     setState(() {});
@@ -125,6 +126,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                   ),
+                  /*
                   Padding(
                     padding: const EdgeInsets.only(bottom: 12.0),
                     child: TextFormField(
@@ -140,10 +142,11 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                   ),
+                   */
                   SizedBox(
                     width: double.infinity,
                     child: RawMaterialButton(
-                      fillColor: Colors.deepPurple[300],
+                      fillColor: const Color(0xFF045F5F),
                       padding: const EdgeInsets.symmetric(vertical: 20.0),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12.0)),
@@ -161,14 +164,14 @@ class _ProfilePageState extends State<ProfilePage> {
                           Map<String, dynamic> updates = {
                             'firstName': firstNameController.value.text,
                             'lastName': lastNameController.value.text,
-                            'email': email,
+                            'email': emailController.value.text,
                             'password': password,
                             'venmo': venmoController.value.text,
                             'tipAmount': tipAmount,
                           };
                           // handling updating the suer profiling
                           updates.removeWhere((key, value) =>
-                              value == null ||
+                          value == null ||
                               (value is String && value.isEmpty));
                           try {
                             await UsersRepository.modify(updates);
@@ -178,7 +181,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               Navigator.of(context).pushAndRemoveUntil(
                                   MaterialPageRoute(
                                       builder: (context) => const TeamPage()),
-                                  (r) => false);
+                                      (r) => false);
                             } else if (loginUpdated) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
@@ -218,7 +221,7 @@ class _ProfilePageState extends State<ProfilePage> {
               child: SizedBox(
                 width: double.infinity,
                 child: RawMaterialButton(
-                  fillColor: Colors.redAccent,
+                  fillColor: const Color(0xFF31535C),
                   padding: const EdgeInsets.symmetric(vertical: 20.0),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12.0)),
@@ -228,7 +231,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       Navigator.of(context).pushAndRemoveUntil(
                           MaterialPageRoute(
                               builder: (context) => const MyApp()),
-                          (r) => false);
+                              (r) => false);
                     } on Exception {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(

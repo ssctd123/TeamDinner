@@ -29,12 +29,23 @@ class _MemberListWidgetState extends State<MemberListWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color(0xFF045F5F),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            // Handle back button press here
+            Navigator.of(context).pop(); // Navigate back
+          },
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            /*
             Padding(
               padding: const EdgeInsets.only(top: 60.0),
               child: Container(
@@ -51,6 +62,7 @@ class _MemberListWidgetState extends State<MemberListWidget> {
                 ),
               ),
             ),
+            */
             // Title of the page
             const Text(
               "Log Member Payments",

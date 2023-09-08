@@ -22,7 +22,7 @@ class _TeamPageState extends State<TeamPage> {
   Team team = Team("", "", "", false, [], []);
   bool isOwner = false;
   bool reset = true;
-  User user = User("", "", "");
+  User user = User("", "", "", "");
 
   @override
   // layout of the body of the team page
@@ -66,7 +66,8 @@ class _TeamPageState extends State<TeamPage> {
                 }
               })).then((value) => resetPage());
             },
-            backgroundColor: Colors.deepPurple[300],
+            // Plus button
+            backgroundColor: const Color(0xFF9E3531),
             child: const Icon(Icons.add),
           ),
         ));
@@ -120,7 +121,7 @@ class _TeamPageState extends State<TeamPage> {
         const Padding(
             padding: EdgeInsets.all(20.0),
             child: Image(
-              image: AssetImage('assets/images/notinteam.png'),
+              image: AssetImage('assets/images/go_team_gold.png'),
               height: 250,
             )),
         const Padding(
@@ -133,7 +134,7 @@ class _TeamPageState extends State<TeamPage> {
         ),
         const Padding(
           padding:
-              EdgeInsets.only(left: 40.0, right: 40.0, top: 8.0, bottom: 10.0),
+          EdgeInsets.only(left: 40.0, right: 40.0, top: 8.0, bottom: 10.0),
           child: Text(
             "Click on the plus button to create or join a team.",
             textAlign: TextAlign.center,
@@ -153,20 +154,20 @@ class _TeamPageState extends State<TeamPage> {
                 color: Colors.black)),
       ),
       const Image(
-        image: AssetImage('assets/images/teamnew.png'),
+        image: AssetImage('assets/images/go_team_gold.png'),
         height: 100,
         alignment: Alignment.topRight,
       ),
       Divider(),
       Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Text("Description: ${team.description}",
+        child: Text("Event: ${team.description}",
             textAlign: TextAlign.left,
             style: const TextStyle(fontSize: 18, color: Colors.black)),
       ),
       Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Text("Owner: ${team.owner.toString()}",
+        child: Text("Team Lead: ${team.owner.toString()}",
             textAlign: TextAlign.left,
             style: const TextStyle(fontSize: 18, color: Colors.black)),
       ),
@@ -188,10 +189,9 @@ class _TeamPageState extends State<TeamPage> {
       // Display the owners venmmo with how much the user owes
       Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text("Owner Venmo: ${team.owner.venmo ?? "N/A"}",
+          child: Text("Payor's Venmo: ${team.owner.venmo ?? "N/A"}",
               textAlign: TextAlign.left,
               style: const TextStyle(fontSize: 18, color: Colors.black))),
-
       Padding(
         padding: const EdgeInsets.all(10.0),
         child: Text(getDebtText(),
@@ -209,11 +209,11 @@ class _TeamPageState extends State<TeamPage> {
             },
             icon: const Icon(Icons.edit),
             style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
+                backgroundColor: const Color(0xFF045D5D),
                 side: BorderSide.none,
                 shape: const StadiumBorder()),
             label:
-                const Text('Edit Team', style: TextStyle(color: Colors.black)),
+            const Text('Edit Team', style: TextStyle(color: Colors.white)),
           )),
       // Payments are visible if you are the owner
       Visibility(
@@ -226,11 +226,11 @@ class _TeamPageState extends State<TeamPage> {
             },
             icon: const Icon(Icons.payment),
             style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.greenAccent,
+                backgroundColor: const Color(0xFF3CBD9F),
                 side: BorderSide.none,
                 shape: const StadiumBorder()),
             label:
-                const Text('Payments', style: TextStyle(color: Colors.black)),
+            const Text('Payments', style: TextStyle(color: Colors.white)),
           )),
       // Both owner and user can see the leave team button
       Visibility(
@@ -244,7 +244,7 @@ class _TeamPageState extends State<TeamPage> {
                 if (mounted) {
                   setState(() {
                     team = Team("", "", "", "", [], []);
-                    reset = true;
+                    //reset = true;
                   });
                 }
                 // Error handling for not being able to leave the team
@@ -268,13 +268,16 @@ class _TeamPageState extends State<TeamPage> {
   }
 
   // this resets the entire team page
-  resetPage() {
+  resetPage() async {
+    team = Team("", "", "", false, [], []);
+    isOwner = false;
+    reset = true;
+    user = User("", "", "", "");
+    await _getTeam();
+
     if (mounted) {
-      setState(() {
-        reset = true;
-      });
+      setState(() { });
     }
-    _getTeam();
   }
 
   // calculation for debit for the users

@@ -3,6 +3,7 @@ import 'package:frontend/Types/poll_option.dart';
 import 'package:frontend/api/polls_repository.dart';
 
 import '../Types/Poll.dart';
+import '../helpers/PollHelper.dart';
 
 class CreatePollForm extends StatefulWidget {
   const CreatePollForm({Key? key}) : super(key: key);
@@ -16,7 +17,7 @@ class _CreatePollFormState extends State<CreatePollForm> {
   bool isMultiple = false;
   bool isAlcohol = false;
   TimeOfDay time =
-      TimeOfDay.fromDateTime(DateTime.now().add(const Duration(hours: 1)));
+  TimeOfDay.fromDateTime(DateTime.now().add(const Duration(hours: 1)));
   TextEditingController meetingLocation = TextEditingController();
   TextEditingController meetingTime = TextEditingController();
   TextEditingController topic = TextEditingController();
@@ -28,6 +29,16 @@ class _CreatePollFormState extends State<CreatePollForm> {
   // layout of the poll page
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color(0xFF045F5F),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            // Handle back button press here
+            Navigator.of(context).pop(); // Navigate back
+          },
+        ),
+      ),
       resizeToAvoidBottomInset: false,
       body: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -106,30 +117,30 @@ class _CreatePollFormState extends State<CreatePollForm> {
     return Column(
       children: [
         getHeader(),
-        buildTextField(topic, "Topic", Icons.topic),
-        buildTextField(description, "Description", Icons.description),
+        buildTextField(topic, "Poll Name (i.e. Pick Your Favorite)", Icons.topic),
+        buildTextField(description, "Reason (i.e. Food Options or Final Selections)", Icons.description),
         buildTextField(
-            meetingLocation, "Meeting Location", Icons.location_city),
-        buildTextField(meetingTime, "Meeting Time", Icons.punch_clock,
-            () async {
-          FocusScope.of(context).requestFocus(FocusNode());
+            meetingLocation, "Location (Where will we meet to eat?)", Icons.location_city),
+        buildTextField(meetingTime, "Time (When will we meet?)", Icons.punch_clock,
+                () async {
+              FocusScope.of(context).requestFocus(FocusNode());
 
-          TimeOfDay? picked = await showTimePicker(
-            initialTime: TimeOfDay.now(),
-            context: context,
-          );
-          if (picked != null) {
-            meetingTime.text = picked.format(context); // add this line.
-            setState(() {
-              time = picked;
-            });
-          }
-        }),
+              TimeOfDay? picked = await showTimePicker(
+                initialTime: TimeOfDay.now(),
+                context: context,
+              );
+              if (picked != null) {
+                meetingTime.text = picked.format(context); // add this line.
+                setState(() {
+                  time = picked;
+                });
+              }
+            }),
         // Check box to enable eating at multiple restaurants
         Padding(
             padding: const EdgeInsets.only(bottom: 16.0),
             child: CheckboxListTile(
-              title: const Text("Enable Multiple Restaurant Selections"),
+              title: const Text("Enable Multiple Menu Selections"),
               value: isMultiple,
               activeColor: Colors.blue,
               tristate: false,
@@ -142,6 +153,8 @@ class _CreatePollFormState extends State<CreatePollForm> {
               },
             )),
         // Check box to enable alcohol menu
+        // FUTURE release
+        /*
         Padding(
             padding: const EdgeInsets.only(bottom: 16.0),
             child: CheckboxListTile(
@@ -157,6 +170,7 @@ class _CreatePollFormState extends State<CreatePollForm> {
                 }
               },
             )),
+         */
         getButton()
       ],
     );
@@ -243,13 +257,14 @@ class _CreatePollFormState extends State<CreatePollForm> {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
+        /*
         Padding(
           padding: const EdgeInsets.only(top: 60.0),
           child: Container(
             alignment: Alignment.centerLeft,
             width: double.infinity,
             child: IconButton(
-              color: Colors.deepPurple[300],
+              color: const Color(0xFF045D5D),
               onPressed: () {
                 if (stage > 0) {
                   setState(() {
@@ -265,6 +280,7 @@ class _CreatePollFormState extends State<CreatePollForm> {
             ),
           ),
         ),
+        */
         const Padding(
           padding: EdgeInsets.symmetric(vertical: 16.0),
           child: Text(
@@ -284,10 +300,10 @@ class _CreatePollFormState extends State<CreatePollForm> {
     return SizedBox(
       width: double.infinity,
       child: RawMaterialButton(
-        fillColor: Colors.deepPurple[300],
+        fillColor: const Color(0xFF045D5D),
         padding: const EdgeInsets.symmetric(vertical: 20.0),
         shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+        RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
         onPressed: () async {
           if (formKey.currentState!.validate()) {
             if (stage == 1) {
@@ -309,8 +325,8 @@ class _CreatePollFormState extends State<CreatePollForm> {
                 isMultiple,
                 options,
               );
-              await PollsRepository.create(poll);
-
+              poll = await PollsRepository.create(poll);
+              PollHelper.saveHasPollBeenSplit(poll.id, false);
               if (mounted) {
                 Navigator.pop(
                   context,
