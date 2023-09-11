@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../Types/user_type.dart';
 import '../api/users_repository.dart';
 import '../homepage.dart';
 import '../util.dart';
@@ -21,6 +22,7 @@ class SignupFormState extends State<SignupForm> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
+  UserType userTypeValue = UserType.PLAYER;
 
   @override
   void dispose() {
@@ -128,6 +130,35 @@ class SignupFormState extends State<SignupForm> {
               ),
             ),
           ),
+          SizedBox(height: 10),
+          Row(
+            children: <Widget>[
+              SizedBox(
+                width: 10,
+              ), //SizedBox
+              Text(
+                'Player',
+                style: TextStyle(fontSize: 17.0),
+              ), //Text//SizedBox
+              Checkbox(
+                value: this.userTypeValue == UserType.PLAYER,
+                onChanged: (bool? value) {
+                  setState(() => this.userTypeValue = UserType.PLAYER);
+                },
+              ),
+              SizedBox(width: 10),
+              Text(
+                'Family',
+                style: TextStyle(fontSize: 17.0),
+              ), //Text
+              Checkbox(
+                value: this.userTypeValue == UserType.FAMILY,
+                onChanged: (bool? value) {
+                  setState(() => this.userTypeValue = UserType.FAMILY);
+                },
+              ),
+            ],
+          ),
           SizedBox(
             width: double.infinity,
             child: RawMaterialButton(
@@ -141,7 +172,7 @@ class SignupFormState extends State<SignupForm> {
                     var email = emailController.value.text;
                     var password = passwordController.value.text;
                     await UsersRepository.signup(firstNameController.value.text,
-                        lastNameController.value.text, email, password);
+                        lastNameController.value.text, email, password, userTypeValue);
                     clear();
                     if (await Util.login(email, password) && mounted) {
                       Navigator.of(context).pushAndRemoveUntil(
