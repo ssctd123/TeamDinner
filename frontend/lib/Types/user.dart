@@ -1,3 +1,5 @@
+import 'user_type.dart';
+
 // Initializing the attributes of a user
 class User {
   String id;
@@ -8,16 +10,18 @@ class User {
   String? paypal;
   dynamic debt;
   dynamic tipPercent;
+  UserType? userType;
 
   User(this.firstName, this.lastName, this.email, this.id,
-      {this.venmo, this.paypal, this.debt, this.tipPercent});
+      {this.venmo, this.paypal, this.debt, this.tipPercent, this.userType});
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(json['firstName'], json['lastName'], json['email'], json['id'],
         venmo: json['venmo'],
         paypal: json['paypal'],
         debt: json['debt'],
-        tipPercent: json['tipAmount']);
+        tipPercent: json['tipAmount'],
+        userType: json['userType']);
   }
 
   setDebt(dynamic debt) {

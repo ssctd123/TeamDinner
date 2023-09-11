@@ -1,6 +1,11 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { IsOptional } from "class-validator";
 
+export enum UserType {
+	PLAYER = "PLAYER",
+	FAMILY = "FAMILY",
+}
+
 export class User {
 	@ApiProperty()
 	id: string;
@@ -17,4 +22,6 @@ export class User {
 	venmo?: string;
 	@ApiPropertyOptional()
 	tipAmount?: number;
+	@ApiProperty({ enum: PollStage })
+	userType?: UserType;
 }
