@@ -76,7 +76,7 @@ class _PollFormState extends State<PollForm> {
                     .map((option) => option.id)
                     .toList();
                 var user = await UsersRepository.get(null);
-                await PollsRepository.vote(poll.id, Vote(user.id, optionIds));
+                await PollsRepository.vote(poll.id, Vote(user.id, optionIds, null));
                 if (mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Vote cast.')));
