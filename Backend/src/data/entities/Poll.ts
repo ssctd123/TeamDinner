@@ -23,6 +23,8 @@ export class Poll {
 	location: string;
 	@ApiProperty()
 	isMultichoice: boolean;
+	@ApiProperty()
+	isQuantityEnabled: boolean;
 	@ApiProperty({ type: () => [Poll_Option] })
 	options: Poll_Option[];
 	@ApiProperty({ type: () => [Vote] })
@@ -49,6 +51,7 @@ export class Poll {
 			time: dto.time,
 			location: dto.location,
 			isMultichoice: dto.isMultichoice,
+			isQuantityEnabled: dto.isQuantityEnabled,
 			options: options,
 			votes: [],
 			stage: PollStage.NOT_STARTED
