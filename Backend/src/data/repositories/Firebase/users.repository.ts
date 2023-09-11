@@ -34,7 +34,8 @@ export class UsersRepository extends FirebaseRepository {
 			id: user.id,
 			firstName: user.firstName,
 			lastName: user.lastName,
-			email: user.email
+			email: user.email,
+			userType: user.userType,
 		});
 		await this.authsRepository.createAccount({
 			id: user.id,
