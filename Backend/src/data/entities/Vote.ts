@@ -6,11 +6,14 @@ export class Vote {
 	optionIds: string[];
 	@ApiProperty()
 	userId: string;
+	@ApiProperty()
+	quantity?: integer;
 
 	static fromDto(dto: VoteDto): Vote {
 		return {
 			optionIds: dto.optionIds,
-			userId: dto.userId
+			userId: dto.userId,
+			quantity: dto.quantity
 		};
 	}
 }
