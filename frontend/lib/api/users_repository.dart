@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 
 import '../Types/token.dart';
 import '../Types/user.dart';
+import '../Types/user_type.dart';
 import '../util.dart';
 // Repository for users, stores descriptions and behaviors of user object
 class UsersRepository {
@@ -30,7 +31,7 @@ class UsersRepository {
   }
   // Handles signup function, processes firstName, lastName, email, and password
   static Future<User> signup(
-      String firstName, String lastName, String email, String password) async {
+      String firstName, String lastName, String email, String password, UserType userType) async {
     final response = await http.post(
       Uri.parse("$baseUrl/$repositoryName/signup"),
       headers: <String, String>{
@@ -40,7 +41,8 @@ class UsersRepository {
         'firstName': firstName,
         'lastName': lastName,
         'email': email,
-        'password': password
+        'password': password,
+        'userType': userType.toString()
       }),
     );
     // Error handling failed to signup
