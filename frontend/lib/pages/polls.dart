@@ -25,7 +25,7 @@ class PollsPage extends StatefulWidget {
 }
 
 class _PollsPageState extends State<PollsPage> {
-  Poll poll = Poll("", "", "", DateTime.now(), "", false, []);
+  Poll poll = Poll("", "", "", DateTime.now(), "", false, false, []);
   bool isOwner = false;
   Vote vote = Vote("", [], null);
   bool reset = true;
@@ -230,7 +230,7 @@ class _PollsPageState extends State<PollsPage> {
 
   // Used to reset the poll page when finished
   resetPage() async {
-    poll = Poll("", "", "", DateTime.now(), "", false, []);
+    poll = Poll("", "", "", DateTime.now(), "", false, false, []);
     isOwner = false;
     vote = Vote("", [], null);
     pollHasBeenSplit = false;

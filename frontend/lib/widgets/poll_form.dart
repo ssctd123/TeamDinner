@@ -79,7 +79,7 @@ class _PollFormState extends State<PollForm> {
                 children:
                   poll.options
                       .map((option) =>
-                      Visibility(visible: poll.options.indexOf(option) != poll.options.length - 1,
+                      Visibility(visible: (poll.options.indexOf(option) != poll.options.length - 1) || poll.isQuantityEnabled,
                         child: Padding(
                             padding: const EdgeInsets.only(left: 4.0, bottom: 2.0, top: 0.0),
                             child: Row(children: [
