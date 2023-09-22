@@ -20,7 +20,7 @@ class _PollFormState extends State<PollForm> {
   late Poll poll;
   late List<bool> isSelected;
   late Vote? vote;
-  final quantityController = TextEditingController();
+  final textEditingDict = <String, TextEditingController>{};
 
   @override
   void initState() {
@@ -34,6 +34,8 @@ class _PollFormState extends State<PollForm> {
     } else {
       isSelected = List.filled(poll.options.length, false);
     }
+    poll.options
+      .map((option) => textEditingDict[option.id] = TextEditingController());
   }
 
   @override
@@ -41,7 +43,7 @@ class _PollFormState extends State<PollForm> {
   Widget build(BuildContext context) {
     return Column(
         children: [
-          Row(mainAxisAlignment: MainAxisAlignment.center, children:[
+          Row(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children:[
             ToggleButtons(
               direction: Axis.vertical,
               borderRadius: const BorderRadius.all(Radius.circular(8)),
@@ -71,28 +73,31 @@ class _PollFormState extends State<PollForm> {
                   .toList(),
             ),
             Padding(
-              padding: const EdgeInsets.only(bottom: 10.0, top: 10.0),
+              padding: const EdgeInsets.only(bottom: 10.0, top: 0.0),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children:
                   poll.options
                       .map((option) =>
-                  Padding(
-                    padding: const EdgeInsets.only(left: 4.0, bottom: 2.0, top: 2.0),
-                    child: Row(children: [
-                      SizedBox(
-                        width: 50,
-                        child: TextField(
-                          controller: quantityController,
-                          keyboardType: TextInputType.number,
-                          decoration: const InputDecoration(
-                            fillColor: Color(0xFFEBEBEB),
-                            filled: true,
-                            border: InputBorder.none,
-                          ),
-                        ),
+                      Visibility(visible: poll.options.indexOf(option) != poll.options.length - 1,
+                        child: Padding(
+                            padding: const EdgeInsets.only(left: 4.0, bottom: 2.0, top: 0.0),
+                            child: Row(children: [
+                              SizedBox(
+                                width: 50,
+                                child: TextField(
+                                  controller: textEditingDict[option.id],
+                                  keyboardType: TextInputType.number,
+                                  decoration: const InputDecoration(
+                                    fillColor: Color(0xFFEBEBEB),
+                                    filled: true,
+                                    border: InputBorder.none,
+                                  ),
+                                ),
+                              )
+                            ])
+                        )
                       )
-                    ])
-                  )
                   )
                     .toList()
               )
