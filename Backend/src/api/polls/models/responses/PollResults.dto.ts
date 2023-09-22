@@ -1,5 +1,5 @@
 import { Poll } from "../../../../data/entities/Poll";
-import { QuantityResult } from "QuantityResult";
+import { QuantityResult } from "QuantityResult.dto";
 import { ApiProperty } from "@nestjs/swagger";
 
 export class PollResultsDto {
