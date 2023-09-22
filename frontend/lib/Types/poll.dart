@@ -11,12 +11,13 @@ class Poll {
   DateTime time;
   String location;
   bool isMultipleChoice;
+  bool isQuantityEnabled;
   List<PollOption> options;
   List<Vote>? votes = [];
   PollStage? stage;
 
   Poll(this.id, this.topic, this.description, this.time, this.location,
-      this.isMultipleChoice, this.options,
+      this.isMultipleChoice, this.isQuantityEnabled, this.options,
       [this.votes, this.stage]);
 
   factory Poll.fromJson(Map<String, dynamic> json) {
@@ -27,6 +28,7 @@ class Poll {
         DateTime.parse(json['time'] as String),
         json['location'] as String,
         json['isMultichoice'] as bool,
+        json['isQuantityEnabled'] as bool,
         json["options"].map<PollOption>((e) => PollOption.fromJson(e)).toList(),
         json["votes"].map<Vote>((e) => Vote.fromJson(e)).toList(),
         PollStage.values

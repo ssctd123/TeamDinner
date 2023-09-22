@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
-import { IsNotEmpty, IsOptional, IsString } from "class-validator";
+import { IsNotEmpty, IsOptional, IsString, Min } from "class-validator";
 
 export class VoteDto {
 	@ApiPropertyOptional()
@@ -14,4 +14,8 @@ export class VoteDto {
 	@IsString({ each: true })
 	@IsNotEmpty({ each: true })
 	optionIds: string[];
+	@ApiPropertyOptional()
+	@IsOptional()
+	@Min(1)
+	quantity?: number;
 }

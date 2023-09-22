@@ -323,6 +323,7 @@ class _CreatePollFormState extends State<CreatePollForm> {
                 DateTime(now.year, now.month, now.day, time.hour, time.minute),
                 meetingLocation.text,
                 isMultiple,
+                false,
                 options,
               );
               poll = await PollsRepository.create(poll);
