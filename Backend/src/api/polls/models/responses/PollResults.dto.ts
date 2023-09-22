@@ -12,7 +12,7 @@ export class PollResultsDto {
 		}
 	})
 	results: { [key: string]: number };
-	quantityResults: { [key: string]: QuantityResult };
+	quantityResults: { [key: string]: QuantityResult[] };
 
 	static fromPoll(poll: Poll): PollResultsDto {
 		const results = {};
@@ -24,10 +24,22 @@ export class PollResultsDto {
 				} else {
 					results[optionId] = 1;
 				}
-				quantityResults[vote.userId] = {
-					optionId: optionId,
-					quantity: vote.quantities[optionId]
-				};
+			    if (quantityResults[vote.userId]) {
+					quantityResults[vote.userId].push(
+						{
+							optionId: optionId,
+							quantity: vote.quantities[optionId]
+						}
+					);
+			    } else {
+				    quantityResults[vote.userId] = [
+						{
+							optionId: optionId,
+							quantity: vote.quantities[optionId]
+						}
+					];
+			    }
+
 			});
 		});
 

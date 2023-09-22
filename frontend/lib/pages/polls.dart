@@ -161,23 +161,26 @@ class _PollsPageState extends State<PollsPage> {
       ));
       if (poll.isQuantityEnabled) {
         results!.quantityResults.forEach((key, value) {
-          var quantityResult = value as QuantityResult;
+          var quantityResultList = value as List<QuantityResult>;
           widgets.add(Padding(
-            padding: const EdgeInsets.all(0.0),
+            padding: const EdgeInsets.only(top: 5.0),
             child: Text(memberNames[key] ?? "",
-                style: const TextStyle(fontSize: 18, color: Colors.black)),
+                textAlign: TextAlign.left,
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black)),
           ));
 
-          if (poll.options.any((element) => quantityResult.optionId == element.id)) {
-            String name = poll.options
-                .firstWhere((element) => key == element.id,
-                orElse: () => PollOption("", ""))
-                .option;
-            widgets.add(Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Text("$name: $value",
-                  style: const TextStyle(fontSize: 16, color: Colors.black)),
-            ));
+          for (var quantityResult in quantityResultList) {
+            if (poll.options.any((element) => quantityResult.optionId == element.id)) {
+              String name = poll.options
+                  .firstWhere((element) => quantityResult.optionId == element.id,
+                  orElse: () => PollOption("", ""))
+                  .option;
+              widgets.add(Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Text("$name: ${quantityResult.quantity}",
+                    style: const TextStyle(fontSize: 16, color: Colors.black)),
+              ));
+            }
           }
         });
       } else {
