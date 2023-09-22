@@ -26,7 +26,7 @@ export class PollResultsDto {
 				}
 				quantityResults[vote.userId] = {
 					optionId: optionId,
-					quantity: vote.quantity,
+					quantity: vote.quantities[optionId]
 				};
 			});
 		});
