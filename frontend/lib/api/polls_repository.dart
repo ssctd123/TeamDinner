@@ -89,6 +89,7 @@ class PollsRepository {
       body: jsonEncode(<String, dynamic>{
         "pollId": pollId,
         "userId": vote.userId,
+        "quantities": vote.quantities,
         "optionIds": vote.optionIds
       }),
     );
