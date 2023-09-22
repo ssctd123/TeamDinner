@@ -16,12 +16,14 @@ class User {
       {this.venmo, this.paypal, this.debt, this.tipPercent, this.userType});
 
   factory User.fromJson(Map<String, dynamic> json) {
+    var userType = UserType.values
+        .firstWhere((e) => e.toString() == '${json["userType"]}');
     return User(json['firstName'], json['lastName'], json['email'], json['id'],
         venmo: json['venmo'],
         paypal: json['paypal'],
         debt: json['debt'],
         tipPercent: json['tipAmount'],
-        userType: json['userType']);
+        userType: userType);
   }
 
   setDebt(dynamic debt) {
