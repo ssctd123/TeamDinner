@@ -18,7 +18,7 @@ export class UsersRepository extends FirebaseRepository {
 	async getUser(userID: string): Promise<User> {
 		const data: DocumentData = await this.collection
 			.doc(userID)
-			.Fget()
+			.get()
 			.then((doc) => doc.data());
 		return data as User;
 	}

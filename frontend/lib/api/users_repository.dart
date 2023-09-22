@@ -8,7 +8,7 @@ import '../Types/user_type.dart';
 import '../util.dart';
 // Repository for users, stores descriptions and behaviors of user object
 class UsersRepository {
-  static const String baseUrl = "https://team-dinner-otplyyvjh-teamdinner057-gmailcom.vercel.app";
+  static const String baseUrl = "https://team-dinner-l4mkqofl9-teamdinner057-gmailcom.vercel.app";
   static final Map<String, String> headers = <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
   };
