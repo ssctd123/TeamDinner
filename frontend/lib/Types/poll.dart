@@ -28,7 +28,8 @@ class Poll {
         DateTime.parse(json['time'] as String),
         json['location'] as String,
         json['isMultichoice'] as bool,
-        json['isQuantityEnabled'] as bool,
+        false,
+        //json['isQuantityEnabled'] as bool,
         json["options"].map<PollOption>((e) => PollOption.fromJson(e)).toList(),
         json["votes"].map<Vote>((e) => Vote.fromJson(e)).toList(),
         PollStage.values

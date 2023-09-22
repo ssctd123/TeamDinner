@@ -24,7 +24,7 @@ export class Poll {
 	@ApiProperty()
 	isMultichoice: boolean;
 	@ApiProperty()
-	isQuantityEnabled: boolean;
+	isQuantityEnabled: boolean = false;
 	@ApiProperty({ type: () => [Poll_Option] })
 	options: Poll_Option[];
 	@ApiProperty({ type: () => [Vote] })
