@@ -24,7 +24,7 @@ export class PollResultsDto {
 				} else {
 					results[optionId] = 1;
 				}
-				quantityResults[vote.id] = {
+				quantityResults[vote.userId] = {
 					optionId: optionId,
 					quantity: vote.quantity,
 				};
