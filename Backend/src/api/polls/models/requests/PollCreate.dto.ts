@@ -21,6 +21,9 @@ export class PollCreateDto {
 	@IsBoolean()
 	isMultichoice: boolean;
 	@ApiProperty()
+	@IsBoolean()
+	isQuantityEnabled: boolean;
+	@ApiProperty()
 	@IsString({ each: true })
 	@IsNotEmpty({ each: true })
 	options: string[];
