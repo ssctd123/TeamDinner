@@ -15,6 +15,7 @@ class CreatePollForm extends StatefulWidget {
 class _CreatePollFormState extends State<CreatePollForm> {
   final formKey = GlobalKey<FormState>();
   bool isMultiple = false;
+  bool isQuantity = false;
   bool isAlcohol = false;
   TimeOfDay time =
   TimeOfDay.fromDateTime(DateTime.now().add(const Duration(hours: 1)));
@@ -148,6 +149,21 @@ class _CreatePollFormState extends State<CreatePollForm> {
                 if (newBool != null) {
                   setState(() {
                     isMultiple = newBool;
+                  });
+                }
+              },
+            )),
+        Padding(
+            padding: const EdgeInsets.only(bottom: 16.0),
+            child: CheckboxListTile(
+              title: const Text("Enable Quantity Entry"),
+              value: isQuantity,
+              activeColor: Colors.blue,
+              tristate: false,
+              onChanged: (newBool) {
+                if (newBool != null) {
+                  setState(() {
+                    isQuantity = newBool;
                   });
                 }
               },
@@ -323,7 +339,7 @@ class _CreatePollFormState extends State<CreatePollForm> {
                 DateTime(now.year, now.month, now.day, time.hour, time.minute),
                 meetingLocation.text,
                 isMultiple,
-                false,
+                isQuantity,
                 options,
               );
               poll = await PollsRepository.create(poll);

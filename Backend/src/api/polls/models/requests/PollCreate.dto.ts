@@ -22,7 +22,7 @@ export class PollCreateDto {
 	isMultichoice: boolean;
 	@ApiProperty()
 	@IsBoolean()
-	isQuantityEnabled: boolean;
+	isQuantityEnabled: boolean = false;
 	@ApiProperty()
 	@IsString({ each: true })
 	@IsNotEmpty({ each: true })

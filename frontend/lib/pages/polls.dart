@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/Types/poll_option.dart';
 import 'package:frontend/Types/poll_results.dart';
 import 'package:frontend/Types/poll_stage.dart';
+import 'package:frontend/Types/quantity_result.dart';
 import 'package:frontend/Types/vote.dart';
 import 'package:intl/intl.dart';
 
@@ -31,6 +32,7 @@ class _PollsPageState extends State<PollsPage> {
   bool reset = true;
   PollResults? results;
   bool pollHasBeenSplit = false;
+  Map<String, String> memberNames = {};
 
   // Establish layout of the page
   @override
@@ -72,7 +74,10 @@ class _PollsPageState extends State<PollsPage> {
       Team memberTeam = await TeamsRepository.getMembersTeam(user.id);
       isOwner = memberTeam.owner == user.id;
       Poll poll = await PollsRepository.get(memberTeam.id);
-
+      for (var member in memberTeam.members) {
+        var memberUser = await UsersRepository.get(member["id"]);
+        memberNames[member["id"]] = memberUser.firstName + " " + memberUser.lastName;
+      }
       if (poll.votes != null) {
         vote = poll.votes!.firstWhere((vote) => vote.userId == user.id,
             orElse: () => Vote("", [], null));
@@ -154,19 +159,45 @@ class _PollsPageState extends State<PollsPage> {
                 fontWeight: FontWeight.bold,
                 color: Colors.black)),
       ));
-      results!.results.forEach((key, value) {
-        if (poll.options.any((element) => key == element.id)) {
-          String name = poll.options
-              .firstWhere((element) => key == element.id,
-              orElse: () => PollOption("", ""))
-              .option;
+      if (poll.isQuantityEnabled) {
+        results!.quantityResults.forEach((key, value) {
+          var quantityResultList = value as List<QuantityResult>;
           widgets.add(Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Text("$name: $value",
-                style: const TextStyle(fontSize: 16, color: Colors.black)),
+            padding: const EdgeInsets.only(top: 5.0),
+            child: Text(memberNames[key] ?? "",
+                textAlign: TextAlign.left,
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black)),
           ));
-        }
-      });
+
+          for (var quantityResult in quantityResultList) {
+            if (poll.options.any((element) => quantityResult.optionId == element.id)) {
+              String name = poll.options
+                  .firstWhere((element) => quantityResult.optionId == element.id,
+                  orElse: () => PollOption("", ""))
+                  .option;
+              widgets.add(Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Text("$name: ${quantityResult.quantity}",
+                    style: const TextStyle(fontSize: 16, color: Colors.black)),
+              ));
+            }
+          }
+        });
+      } else {
+        results!.results.forEach((key, value) {
+          if (poll.options.any((element) => key == element.id)) {
+            String name = poll.options
+                .firstWhere((element) => key == element.id,
+                orElse: () => PollOption("", ""))
+                .option;
+            widgets.add(Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Text("$name: $value",
+                  style: const TextStyle(fontSize: 16, color: Colors.black)),
+            ));
+          }
+        });
+      }
 
     }
     widgets.add(Divider(),);
