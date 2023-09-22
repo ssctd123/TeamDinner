@@ -22,6 +22,6 @@ export class User {
 	venmo?: string;
 	@ApiPropertyOptional()
 	tipAmount?: number;
-	@ApiProperty({ enum: PollStage })
+	@ApiProperty({ enum: UserType })
 	userType?: UserType;
 }
