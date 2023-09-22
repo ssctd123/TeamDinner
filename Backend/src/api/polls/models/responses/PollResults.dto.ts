@@ -12,7 +12,7 @@ export class PollResultsDto {
 		}
 	})
 	results: { [key: string]: number };
-	quantityResults { [key: string]: QuantityResult };
+	quantityResults: { [key: string]: QuantityResult };
 
 	static fromPoll(poll: Poll): PollResultsDto {
 		const results = {};
