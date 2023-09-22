@@ -107,6 +107,7 @@ class _PollFormState extends State<PollForm> {
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
                 onPressed: () async {
+                  FocusManager.instance.primaryFocus?.unfocus();
                   List<String> optionIds = poll.options
                       .where((option) => isSelected[poll.options.indexOf(option)])
                       .map((option) => option.id)
