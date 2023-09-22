@@ -10,7 +10,7 @@ import '../util.dart';
 
 /* Repository for polls; stores descriptions and behaviors of the poll object */
 class PollsRepository {
-  static const String baseUrl = "https://team-dinner-nw8ayfvsu-teamdinner057-gmailcom.vercel.app";
+  static const String baseUrl = "https://team-dinner-h1nl8lnt0-teamdinner057-gmailcom.vercel.app";
   static final Map<String, String> headers = <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
   };

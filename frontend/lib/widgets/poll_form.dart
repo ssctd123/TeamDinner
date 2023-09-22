@@ -20,7 +20,7 @@ class _PollFormState extends State<PollForm> {
   late Poll poll;
   late List<bool> isSelected;
   late Vote? vote;
-  final textEditingDict = <String, TextEditingController>{};
+  var textEditingDict = <String, TextEditingController>{};
 
   @override
   void initState() {
@@ -34,8 +34,7 @@ class _PollFormState extends State<PollForm> {
     } else {
       isSelected = List.filled(poll.options.length, false);
     }
-    poll.options
-      .map((option) => textEditingDict[option.id] = TextEditingController());
+    textEditingDict = {for (var item in poll.options) item.id : TextEditingController()};
   }
 
   @override
@@ -112,8 +111,9 @@ class _PollFormState extends State<PollForm> {
                       .where((option) => isSelected[poll.options.indexOf(option)])
                       .map((option) => option.id)
                       .toList();
+                  Map<String, int> optionQuantities = {for (var item in optionIds) item : textEditingDict[item]!.text == '' ? 0 : int.parse(textEditingDict[item]!.text)};
                   var user = await UsersRepository.get(null);
-                  await PollsRepository.vote(poll.id, Vote(user.id, optionIds, null));
+                  await PollsRepository.vote(poll.id, Vote(user.id, optionIds, optionQuantities));
                   if (mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('Vote cast.')));

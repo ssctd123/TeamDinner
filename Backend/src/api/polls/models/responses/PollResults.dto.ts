@@ -1,4 +1,5 @@
 import { Poll } from "../../../../data/entities/Poll";
+import { QuantityResult } from "QuantityResult";
 import { ApiProperty } from "@nestjs/swagger";
 
 export class PollResultsDto {
@@ -11,9 +12,11 @@ export class PollResultsDto {
 		}
 	})
 	results: { [key: string]: number };
+	quantityResults { [key: string]: QuantityResult };
 
 	static fromPoll(poll: Poll): PollResultsDto {
 		const results = {};
+		const quantityResults = {};
 		poll.votes.forEach((vote) => {
 			vote.optionIds.forEach((optionId) => {
 				if (results[optionId]) {
@@ -21,12 +24,17 @@ export class PollResultsDto {
 				} else {
 					results[optionId] = 1;
 				}
+				quantityResults[vote.id] = {
+					optionId: optionId,
+					quantity: vote.quantity,
+				};
 			});
 		});
 
 		return {
 			id: poll.id,
-			results: results
+			results: results,
+			quantityResults: quantityResults
 		};
 	}
 }
