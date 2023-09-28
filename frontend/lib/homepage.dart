@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/pages/polls.dart';
 import 'package:frontend/pages/profile.dart';
 import 'package:frontend/pages/teams.dart';
+import 'package:frontend/widgets/nav_drawer.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 import 'pages/help_page.dart';
@@ -27,7 +28,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: true,
         backgroundColor: const Color(0xFF045D5D),
         elevation: 0,
         centerTitle: true,
@@ -50,6 +51,13 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ],
+      ),
+      drawer: NavDrawer(
+        onSwitchTab: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
       ),
       body: Center(child: _widgetOptions.elementAt(_selectedIndex)),
       bottomNavigationBar: Container(
