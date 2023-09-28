@@ -17,7 +17,7 @@ class User {
 
   factory User.fromJson(Map<String, dynamic> json) {
     var userType = UserType.values
-        .firstWhere((e) => e.toString() == '${json["userType"]}');
+        .firstWhere((e) => e.toString() == '${json["userType"]}', orElse: () => UserType.PLAYER);
     return User(json['firstName'], json['lastName'], json['email'], json['id'],
         venmo: json['venmo'],
         paypal: json['paypal'],
