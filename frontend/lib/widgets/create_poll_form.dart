@@ -47,14 +47,14 @@ class _CreatePollFormState extends State<CreatePollForm> {
         ),
       ),
       resizeToAvoidBottomInset: false,
-      body: ListView(
-        padding: const EdgeInsets.all(16.0),
-        children: <Widget>[
-          Form(
-            key: formKey,
-            child: buildStage(context),
-          ),
-        ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Form(
+          key: formKey,
+          child: buildStage(context),
+        ),
+        ),
       ),
     );
   }

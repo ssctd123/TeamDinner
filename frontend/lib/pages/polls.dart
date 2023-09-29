@@ -40,6 +40,7 @@ class _PollsPageState extends State<PollsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
+        padding: const EdgeInsets.all(20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
