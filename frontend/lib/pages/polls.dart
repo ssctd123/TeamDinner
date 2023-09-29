@@ -32,6 +32,7 @@ class _PollsPageState extends State<PollsPage> {
   bool reset = true;
   PollResults? results;
   bool pollHasBeenSplit = false;
+  int tlPollStage = 0;
   Map<String, String> memberNames = {};
 
   // Establish layout of the page
@@ -67,6 +68,7 @@ class _PollsPageState extends State<PollsPage> {
   Future<Poll> _getPoll() async {
     if (!reset) {
       pollHasBeenSplit = await PollHelper.hasPollBeenSplit(poll.id);
+      tlPollStage = await PollHelper.getTLPollStage();
       return poll;
     }
     var user = await UsersRepository.get(null);
@@ -104,6 +106,7 @@ class _PollsPageState extends State<PollsPage> {
     }
 
     pollHasBeenSplit = await PollHelper.hasPollBeenSplit(poll.id);
+    tlPollStage = await PollHelper.getTLPollStage();
     return poll;
   }
 
@@ -218,6 +221,7 @@ class _PollsPageState extends State<PollsPage> {
             if (poll.stage == PollStage.NOT_STARTED) {
               await PollsRepository.startPoll(poll.id);
             } else {
+              PollHelper.saveTLPollStage(tlPollStage + 1);
               await PollsRepository.endPoll(poll.id);
             }
             resetPage();
@@ -234,13 +238,18 @@ class _PollsPageState extends State<PollsPage> {
               shape: const StadiumBorder()),
           onPressed: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return const CreatePollForm();
+              return CreatePollForm(
+                topicValue: (tlPollStage == 1) ? "Final Selections" : "Dinner Choices",
+                descriptionValue: (tlPollStage == 1) ? "Choose your final dinner selections and how many of each you want per family (including players)" : "What would you like for dinner?",
+                enableMultipleMenuSelections: (tlPollStage == 1) ? true : false,
+                enableQuantityEntry: (tlPollStage == 1) ? true : false,
+              );
             })).then((value) => {resetPage()});
           },
           icon: const Icon(Icons.poll),
-          label: const Text('Create Poll',
+          label: Text((tlPollStage == 1) ? 'Start Final Selections Poll' : 'Start Dinner Choices Poll',
               style: TextStyle(color: Colors.white))));
-      if (poll.stage == PollStage.FINISHED && !pollHasBeenSplit) {
+      if (poll.stage == PollStage.FINISHED && !pollHasBeenSplit && tlPollStage == 2) {
         widgets.add(ElevatedButton.icon(
             style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF2E9079),
@@ -265,6 +274,7 @@ class _PollsPageState extends State<PollsPage> {
     isOwner = false;
     vote = Vote("", [], null);
     pollHasBeenSplit = false;
+    tlPollStage = 0;
     reset = true;
 
     await _getPoll();
