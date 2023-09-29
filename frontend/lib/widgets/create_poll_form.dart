@@ -6,13 +6,19 @@ import '../Types/Poll.dart';
 import '../helpers/PollHelper.dart';
 
 class CreatePollForm extends StatefulWidget {
-  const CreatePollForm({Key? key}) : super(key: key);
+  const CreatePollForm({Key? key, this.topicValue, this.descriptionValue, this.enableMultipleMenuSelections, this.enableQuantityEntry}) : super(key: key);
+
+  final String? topicValue;
+  final String? descriptionValue;
+  final bool? enableMultipleMenuSelections;
+  final bool? enableQuantityEntry;
 
   @override
   State<CreatePollForm> createState() => _CreatePollFormState();
 }
 // File for creating the actual poll
 class _CreatePollFormState extends State<CreatePollForm> {
+
   final formKey = GlobalKey<FormState>();
   bool isMultiple = false;
   bool isQuantity = false;
@@ -24,7 +30,7 @@ class _CreatePollFormState extends State<CreatePollForm> {
   TextEditingController topic = TextEditingController();
   TextEditingController description = TextEditingController();
   List options = [TextEditingController(), TextEditingController()];
-  int stage = 0;
+  int stage = 1;
 
   @override
   // layout of the poll page
@@ -41,12 +47,15 @@ class _CreatePollFormState extends State<CreatePollForm> {
         ),
       ),
       resizeToAvoidBottomInset: false,
-      body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Form(
+      body: ListView(
+        padding: const EdgeInsets.all(16.0),
+        children: <Widget>[
+          Form(
             key: formKey,
             child: buildStage(context),
-          )),
+          ),
+        ],
+      ),
     );
   }
   // function to add poll option
@@ -236,7 +245,6 @@ class _CreatePollFormState extends State<CreatePollForm> {
           ),
         ),
         Visibility(
-          visible: options.length < 4,
           child: Expanded(
             child: Padding(
               padding: const EdgeInsets.all(16.0),
@@ -297,10 +305,10 @@ class _CreatePollFormState extends State<CreatePollForm> {
           ),
         ),
         */
-        const Padding(
+        Padding(
           padding: EdgeInsets.symmetric(vertical: 16.0),
           child: Text(
-            "Create a Poll",
+            "${widget.topicValue ?? ""} Poll",
             style: TextStyle(
               color: Colors.black,
               fontSize: 32.0,
@@ -334,12 +342,12 @@ class _CreatePollFormState extends State<CreatePollForm> {
               }
               Poll poll = Poll(
                 "",
-                topic.text,
-                description.text,
+                widget.topicValue ?? "",
+                widget.descriptionValue ?? "",
                 DateTime(now.year, now.month, now.day, time.hour, time.minute),
-                meetingLocation.text,
-                isMultiple,
-                isQuantity,
+                "location",
+                widget.enableMultipleMenuSelections ?? false,
+                widget.enableQuantityEntry ?? false,
                 options,
               );
               poll = await PollsRepository.create(poll);
