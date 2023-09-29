@@ -47,12 +47,15 @@ class _CreatePollFormState extends State<CreatePollForm> {
         ),
       ),
       resizeToAvoidBottomInset: false,
-      body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Form(
+      body: ListView(
+        padding: const EdgeInsets.all(16.0),
+        children: <Widget>[
+          Form(
             key: formKey,
             child: buildStage(context),
-          )),
+          ),
+        ],
+      ),
     );
   }
   // function to add poll option
@@ -242,7 +245,6 @@ class _CreatePollFormState extends State<CreatePollForm> {
           ),
         ),
         Visibility(
-          visible: options.length < 4,
           child: Expanded(
             child: Padding(
               padding: const EdgeInsets.all(16.0),
