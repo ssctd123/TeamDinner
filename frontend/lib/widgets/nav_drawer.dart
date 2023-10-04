@@ -11,7 +11,7 @@ class NavDrawer extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: <Widget>[
           const SizedBox(
-            height: 100.0,
+            height: 150.0,
             width: double.infinity,
             child: DrawerHeader(
               decoration: BoxDecoration(color: Color(0xFF045D5D)),

@@ -211,68 +211,73 @@ class _CreatePollFormState extends State<CreatePollForm> {
   }
   // Functionality for adding and removing options
   Widget getAddRemove() {
-    return Row(
-      children: [
-        Visibility(
-          visible: options.length > 2,
-          child: Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: SizedBox(
-                width: double.infinity,
-                child: RawMaterialButton(
-                  fillColor: Colors.red[300],
-                  padding: const EdgeInsets.symmetric(vertical: 20.0),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12.0)),
-                  onPressed: () {
-                    if (options.length > 2) {
+    return IntrinsicHeight(
+        child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Visibility(
+            visible: options.length > 2,
+            child: Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: RawMaterialButton(
+                    fillColor: Colors.red[300],
+                    padding: const EdgeInsets.symmetric(vertical: 20.0),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0)),
+                    onPressed: () {
+                      if (options.length > 2) {
+                        setState(() {
+                          options.removeLast();
+                        });
+                      }
+                    },
+                    child: const Text(
+                      "Remove Option",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Visibility(
+            child: Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: RawMaterialButton(
+                    fillColor: Colors.green[300],
+                    padding: const EdgeInsets.symmetric(vertical: 20.0),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0)),
+                    onPressed: () {
                       setState(() {
-                        options.removeLast();
+                        options.add(TextEditingController());
                       });
-                    }
-                  },
-                  child: const Text(
-                    "Remove Option",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
+                    },
+                    child: const Text(
+                      "Add Option",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-        ),
-        Visibility(
-          child: Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: SizedBox(
-                width: double.infinity,
-                child: RawMaterialButton(
-                  fillColor: Colors.green[300],
-                  padding: const EdgeInsets.symmetric(vertical: 20.0),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12.0)),
-                  onPressed: () {
-                    setState(() {
-                      options.add(TextEditingController());
-                    });
-                  },
-                  child: const Text(
-                    "Add Option",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        )
-      ],
+          )
+        ],
+      ),
     );
   }
 

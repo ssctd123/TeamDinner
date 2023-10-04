@@ -158,7 +158,7 @@ class _TeamPageState extends State<TeamPage> {
         height: 100,
         alignment: Alignment.topRight,
       ),
-      Divider(),
+      Container(height: 15),
       Padding(
         padding: const EdgeInsets.all(8.0),
         child: Text("Event: ${team.description}",
@@ -198,7 +198,7 @@ class _TeamPageState extends State<TeamPage> {
             style: const TextStyle(fontSize: 18, color: Colors.black)),
       ),
       // Edit team button is visible if you are the owner
-      Divider(),
+      Container(height: 15),
       Visibility(
           visible: isOwner,
           child: ElevatedButton.icon(
