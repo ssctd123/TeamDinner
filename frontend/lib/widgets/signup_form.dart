@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../Types/user_type.dart';
 import '../api/users_repository.dart';
@@ -171,7 +172,9 @@ class SignupFormState extends State<SignupForm> {
                   try {
                     var email = emailController.value.text;
                     var password = passwordController.value.text;
-                    await UsersRepository.signup(firstNameController.value.text,
+                    var user = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                        email: email, password: password);
+                    await UsersRepository.signup(user.user?.uid ?? "", firstNameController.value.text,
                         lastNameController.value.text, email, password, userTypeValue);
                     clear();
                     if (await Util.login(email, password) && mounted) {
