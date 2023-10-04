@@ -38,7 +38,6 @@ export class UsersService {
 	async signup(userQueryDTO: SignupDto): Promise<User> {
 		const hashedPassword = await hash(userQueryDTO.password);
 		return await this.usersRepository.createUser({
-			id: uuid(),
 			...userQueryDTO,
 			password: hashedPassword
 		});
