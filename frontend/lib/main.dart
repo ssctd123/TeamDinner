@@ -3,8 +3,13 @@ import 'package:frontend/homepage.dart';
 import 'package:frontend/signup.dart';
 import 'package:frontend/util.dart';
 import 'package:frontend/widgets/login_form.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
+void main() async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
