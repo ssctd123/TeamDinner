@@ -58,6 +58,16 @@ class _HomePageState extends State<HomePage> {
             _selectedIndex = index;
           });
         },
+        onNavigate: (page) {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return page;
+                },
+              ),
+          );
+        },
       ),
       body: Center(child: _widgetOptions.elementAt(_selectedIndex)),
       bottomNavigationBar: Container(

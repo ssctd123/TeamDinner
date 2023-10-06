@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import '../pages/help_page.dart';
+import '../pages/notify_location_time.dart';
 
 class NavDrawer extends StatelessWidget {
-  const NavDrawer({Key? key, this.onSwitchTab}) : super(key: key);
+  const NavDrawer({Key? key, this.onSwitchTab, this.onNavigate}) : super(key: key);
   final ValueChanged<int>? onSwitchTab;
+  final ValueChanged<StatefulWidget>? onNavigate;
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +46,14 @@ class NavDrawer extends StatelessWidget {
             onTap: () => {
               onSwitchTab?.call(2),
               Navigator.of(context).pop()
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.location_city),
+            title: const Text('Notify Location and Times'),
+            onTap: () => {
+              Navigator.of(context).pop(),
+              onNavigate?.call(const NotifyLocationTimePage()),
             },
           ),
         ],
