@@ -6,6 +6,7 @@ import 'package:frontend/signup.dart';
 import 'package:frontend/util.dart';
 import 'package:frontend/widgets/login_form.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'api/users_repository.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -23,6 +24,14 @@ void main() async {
     sound: true,
   );
   final fcmToken = await FirebaseMessaging.instance.getToken().then((value) {
+    Map<String, dynamic> updates = {
+      'deviceId': value
+    };
+    // handling updating the suer profiling
+    updates.removeWhere((key, value) =>
+    value == null ||
+        (value is String && value.isEmpty));
+    UsersRepository.modify(updates);
     print(value);
   });
   if (fcmToken != null) {

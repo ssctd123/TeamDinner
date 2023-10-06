@@ -26,4 +26,8 @@ export class ModifyDto {
 	@IsOptional()
 	@Min(0)
 	tipAmount?: number;
+	@ApiPropertyOptional()
+	@IsOptional()
+	@IsString()
+	deviceId?: string;
 }
