@@ -8,7 +8,7 @@ import '../util.dart';
 
 /* Repository for teams; stores descriptions and behaviors of the teams object */
 class TeamsRepository {
-  static const String baseUrl = "https://team-dinner-k0yxnhoni-teamdinner057-gmailcom.vercel.app";
+  static const String baseUrl = "https://team-dinner-9qpyh2rcf-teamdinner057-gmailcom.vercel.app";
   static final Map<String, String> headers = <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
   };

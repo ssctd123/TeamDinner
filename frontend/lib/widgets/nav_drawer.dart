@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../pages/help_page.dart';
 import '../pages/notify_location_time.dart';
 
 class NavDrawer extends StatelessWidget {

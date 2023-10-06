@@ -73,7 +73,9 @@ export class UsersController {
 	@ApiNotFoundResponse({ description: "Entity not found" })
 	@Post("modify")
 	async modify(@Body() modifyDto: ModifyDto): Promise<User> {
-		await this.authService.modify(modifyDto);
+		if (modifyDto.password || modifyDto.email) {
+			await this.authService.modify(modifyDto);
+		}
 		return await this.usersService.modify(modifyDto);
 	}
 }
