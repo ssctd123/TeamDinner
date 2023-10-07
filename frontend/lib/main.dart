@@ -8,12 +8,15 @@ import 'package:frontend/widgets/login_form.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'api/users_repository.dart';
 import 'firebase_options.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(alert: true,badge: true,sound: true);
+  //FirebaseFunctions.instance.useFunctionsEmulator('localhost', 5001);
   await FirebaseMessaging.instance.requestPermission(
     alert: true,
     announcement: false,
