@@ -61,6 +61,7 @@ class _NotifyLocationTimePage extends State<NotifyLocationTimePage> {
                     onPressed: () async {
                       if (formKey.currentState!.validate()) {
                         LocationsRepository.create(meetingLocation.text, meetingTime.text);
+                        Navigator.of(context).pop();
                       }
                     },
                     child: Text(
