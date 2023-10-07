@@ -35,8 +35,8 @@ class _NotifyLocationTimePage extends State<NotifyLocationTimePage> {
             child: Column(
               children: [
                 buildTextField(
-                    meetingLocation, "Location (Where will we meet to eat?)", Icons.location_city),
-                buildTextField(meetingTime, "Time (When will we meet?)", Icons.punch_clock,
+                    meetingLocation, "Location (Where are we eating?)", Icons.location_city),
+                buildTextField(meetingTime, "Time", Icons.punch_clock,
                         () async {
                       FocusScope.of(context).requestFocus(FocusNode());
 

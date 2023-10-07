@@ -49,7 +49,7 @@ class NavDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.location_city),
-            title: const Text('Notify Location and Times'),
+            title: const Text('Notify Location and Time'),
             onTap: () => {
               Navigator.of(context).pop(),
               onNavigate?.call(const NotifyLocationTimePage()),
