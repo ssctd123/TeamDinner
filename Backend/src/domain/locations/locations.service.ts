@@ -19,7 +19,7 @@ constructor(
         const team = await this.teamsService.get();
 		if (await this.isOwner()) {
 			const location = Location.fromDto(locationCreateDto, team.id);
-			return await this.pollsRepository.createLocation(location);
+			return await this.locationsRepository.createLocation(location);
 		}
 		throw new HttpException(
 			"You are not the owner of this team",
