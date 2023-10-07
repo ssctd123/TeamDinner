@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import '../Types/location.dart';
+import '../util.dart';
 import 'base_repository.dart';
 // Repository for users, stores descriptions and behaviors of user object
 class LocationsRepository extends BaseRepository {
@@ -16,8 +17,12 @@ class LocationsRepository extends BaseRepository {
       Uri.parse("${BaseRepository.baseUrl}/$repositoryName/create"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        "Authorization": "Bearer ${(await Util.getAccessToken())!.token}"
       },
-      body: jsonEncode(<String, String>{'name': name, 'time': time}),
+      body: jsonEncode(<String, dynamic>{
+        'name': name,
+        'time': time
+      }),
     );
     // Error handling, failed to login
     if (response.statusCode == 201) {
