@@ -15,4 +15,12 @@ export class LocationsRepository extends FirebaseRepository {
 		await doc.set(location);
 		return await this.get(doc.id);
 	}
+
+    async get(id: string): Promise<Location> {
+		const data = await this.collection
+			.doc(id)
+			.get()
+			.then((doc) => doc.data());
+		return data as Location;
+	}
 }
