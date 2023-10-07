@@ -5,7 +5,7 @@ import { LocationCreateDto } from "../../api/locations/models/requests/locationc
 import { TeamsService } from "../teams/teams.service";
 
 @Injectable()
-export class LocaitonsService {
+export class LocationsService {
 constructor(
 		private locationsRepository: LocationsRepository,
         private teamsService: TeamsService
