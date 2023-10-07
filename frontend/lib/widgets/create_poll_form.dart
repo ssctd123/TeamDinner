@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/Types/poll_option.dart';
-import 'package:frontend/api/polls_repository.dart';
+import 'package:TeamDinner/Types/poll_option.dart';
+import 'package:TeamDinner/api/polls_repository.dart';
 
 import '../Types/Poll.dart';
 import '../helpers/PollHelper.dart';
@@ -130,8 +130,8 @@ class _CreatePollFormState extends State<CreatePollForm> {
         buildTextField(topic, "Poll Name (i.e. Pick Your Favorite)", Icons.topic),
         buildTextField(description, "Reason (i.e. Food Options or Final Selections)", Icons.description),
         buildTextField(
-            meetingLocation, "Location (Where will we meet to eat?)", Icons.location_city),
-        buildTextField(meetingTime, "Time (When will we meet?)", Icons.punch_clock,
+            meetingLocation, "Location (Where are we eating?)", Icons.location_city),
+        buildTextField(meetingTime, "Time", Icons.punch_clock,
                 () async {
               FocusScope.of(context).requestFocus(FocusNode());
 

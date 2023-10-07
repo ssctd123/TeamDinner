@@ -1,0 +1,118 @@
+{
+  "project_info": {
+    "project_number": "542749627477",
+    "project_id": "teamdinner-f6f35",
+    "storage_bucket": "teamdinner-f6f35.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:542749627477:android:d47430959586b5ae36f0dc",
+        "android_client_info": {
+          "package_name": "com.TeamDinner.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "542749627477-fs5qn71h0a572vcsbaac9br8ige4pktr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPyKP8VncxAUs4owO4SPD-ghSowxeNWfs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "542749627477-fs5qn71h0a572vcsbaac9br8ige4pktr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "542749627477-7jt68k8s5nlhr0jd9fks4lhi8n4614pn.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.TeamDinner.app"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:542749627477:android:21f7a1e09da00f1e36f0dc",
+        "android_client_info": {
+          "package_name": "com.example.frontend"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "542749627477-fs5qn71h0a572vcsbaac9br8ige4pktr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPyKP8VncxAUs4owO4SPD-ghSowxeNWfs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "542749627477-fs5qn71h0a572vcsbaac9br8ige4pktr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "542749627477-7jt68k8s5nlhr0jd9fks4lhi8n4614pn.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.TeamDinner.app"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:542749627477:android:62b49c55eb7843bd36f0dc",
+        "android_client_info": {
+          "package_name": "com.teamdinner.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "542749627477-fs5qn71h0a572vcsbaac9br8ige4pktr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPyKP8VncxAUs4owO4SPD-ghSowxeNWfs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "542749627477-fs5qn71h0a572vcsbaac9br8ige4pktr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "542749627477-7jt68k8s5nlhr0jd9fks4lhi8n4614pn.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.TeamDinner.app"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

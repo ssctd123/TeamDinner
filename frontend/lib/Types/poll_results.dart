@@ -1,7 +1,7 @@
 // Initialization of poll results
 import 'dart:collection';
 
-import 'package:frontend/Types/quantity_result.dart';
+import 'package:TeamDinner/Types/quantity_result.dart';
 
 class PollResults {
   Map<String, int> results;

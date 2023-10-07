@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:frontend/api/teams_repository.dart';
+import 'package:TeamDinner/api/teams_repository.dart';
 import '../api/users_repository.dart';
 import '../homepage.dart';
 import '../util.dart';

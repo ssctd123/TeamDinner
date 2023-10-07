@@ -24,4 +24,6 @@ export class User {
 	tipAmount?: number;
 	@ApiProperty({ enum: UserType })
 	userType?: UserType;
+	@ApiPropertyOptional()
+	deviceId?: string;
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/api/polls_repository.dart';
+import 'package:TeamDinner/api/polls_repository.dart';
 
 import '../Types/Poll.dart';
 import '../Types/poll_option.dart';

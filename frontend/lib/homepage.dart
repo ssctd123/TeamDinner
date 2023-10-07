@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/pages/polls.dart';
-import 'package:frontend/pages/profile.dart';
-import 'package:frontend/pages/teams.dart';
-import 'package:frontend/widgets/nav_drawer.dart';
+import 'package:TeamDinner/pages/polls.dart';
+import 'package:TeamDinner/pages/profile.dart';
+import 'package:TeamDinner/pages/teams.dart';
+import 'package:TeamDinner/widgets/nav_drawer.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 import 'pages/help_page.dart';
@@ -57,6 +57,16 @@ class _HomePageState extends State<HomePage> {
           setState(() {
             _selectedIndex = index;
           });
+        },
+        onNavigate: (page) {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return page;
+                },
+              ),
+          );
         },
       ),
       body: Center(child: _widgetOptions.elementAt(_selectedIndex)),

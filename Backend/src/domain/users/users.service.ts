@@ -62,6 +62,9 @@ export class UsersService {
 		if (modifyDto.tipAmount) {
 			updateData.tipAmount = modifyDto.tipAmount;
 		}
+		if (modifyDto.deviceId) {
+			updateData.deviceId = modifyDto.deviceId;
+		}
 		return await this.usersRepository.modify(user.id, updateData);
 	}
 

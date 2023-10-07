@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/Types/poll_option.dart';
-import 'package:frontend/Types/poll_results.dart';
-import 'package:frontend/Types/poll_stage.dart';
-import 'package:frontend/Types/quantity_result.dart';
-import 'package:frontend/Types/vote.dart';
+import 'package:TeamDinner/Types/poll_option.dart';
+import 'package:TeamDinner/Types/poll_results.dart';
+import 'package:TeamDinner/Types/poll_stage.dart';
+import 'package:TeamDinner/Types/quantity_result.dart';
+import 'package:TeamDinner/Types/vote.dart';
 import 'package:intl/intl.dart';
 
 import '../Types/Poll.dart';
