@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/api/locations_repository.dart';
 
 
 class NotifyLocationTimePage extends StatefulWidget {
@@ -59,9 +60,7 @@ class _NotifyLocationTimePage extends State<NotifyLocationTimePage> {
                     RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
                     onPressed: () async {
                       if (formKey.currentState!.validate()) {
-                        print("Validated");
-                      } else {
-                        print("Not Validated");
+                        LocationsRepository.create(meetingLocation.text, meetingTime.text);
                       }
                     },
                     child: Text(
