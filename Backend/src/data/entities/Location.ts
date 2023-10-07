@@ -12,12 +12,12 @@ export class Location {
     @ApiProperty()
     teamId: string;
 
-    static fromDto(dto: LocationCreateDto, teamId: string): Poll {
+    static fromDto(dto: LocationCreateDto, teamId: string): Location {
 		return {
 			id: uuid(),
 			name: dto.name,
 			time: dto.time,
-			team: teamId
+			teamId: teamId
 		};
 	}
 }
