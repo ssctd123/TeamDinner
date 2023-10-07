@@ -8,4 +8,4 @@ import { TeamsModule } from "../teams/teams.module";
     exports: [LocationsService],
     providers: [LocationsService]
 })
-export class PollsModule {}
+export class LocationsModule {}
