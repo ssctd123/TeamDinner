@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:frontend/api/users_repository.dart';
-import 'package:frontend/main.dart';
-import 'package:frontend/pages/teams.dart';
+import 'package:TeamDinner/api/users_repository.dart';
+import 'package:TeamDinner/main.dart';
+import 'package:TeamDinner/pages/teams.dart';
 
 import '../Types/user.dart';
 import '../util.dart';

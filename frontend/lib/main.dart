@@ -1,10 +1,10 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/helpers/FCMTokenHelper.dart';
-import 'package:frontend/homepage.dart';
-import 'package:frontend/signup.dart';
-import 'package:frontend/util.dart';
-import 'package:frontend/widgets/login_form.dart';
+import 'package:TeamDinner/helpers/FCMTokenHelper.dart';
+import 'package:TeamDinner/homepage.dart';
+import 'package:TeamDinner/signup.dart';
+import 'package:TeamDinner/util.dart';
+import 'package:TeamDinner/widgets/login_form.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'api/users_repository.dart';
 import 'firebase_options.dart';

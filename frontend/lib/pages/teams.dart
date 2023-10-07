@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/api/teams_repository.dart';
-import 'package:frontend/api/users_repository.dart';
-import 'package:frontend/widgets/invite_form.dart';
-import 'package:frontend/widgets/member_list_widgets.dart';
+import 'package:TeamDinner/api/teams_repository.dart';
+import 'package:TeamDinner/api/users_repository.dart';
+import 'package:TeamDinner/widgets/invite_form.dart';
+import 'package:TeamDinner/widgets/member_list_widgets.dart';
 import 'package:intl/intl.dart';
 
 import '../Types/team.dart';

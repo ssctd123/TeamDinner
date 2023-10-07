@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/api/locations_repository.dart';
+import 'package:TeamDinner/api/locations_repository.dart';
 
 
 class NotifyLocationTimePage extends StatefulWidget {

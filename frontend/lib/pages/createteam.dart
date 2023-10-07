@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/new_team.dart';
+import 'package:TeamDinner/new_team.dart';
 
 class CreateTeamPage extends StatefulWidget {
   const CreateTeamPage({Key? key}) : super(key: key);

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/api/teams_repository.dart';
+import 'package:TeamDinner/api/teams_repository.dart';
 import 'package:intl/intl.dart';
 
 import '../Types/team.dart';

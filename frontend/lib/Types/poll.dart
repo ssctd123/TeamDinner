@@ -1,4 +1,4 @@
-import 'package:frontend/Types/vote.dart';
+import 'package:TeamDinner/Types/vote.dart';
 
 import 'poll_option.dart';
 import 'poll_stage.dart';

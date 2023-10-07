@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:frontend/Types/poll_results.dart';
-import 'package:frontend/Types/poll_stage.dart';
+import 'package:TeamDinner/Types/poll_results.dart';
+import 'package:TeamDinner/Types/poll_stage.dart';
 import 'package:http/http.dart' as http;
 
 import '../Types/Poll.dart';

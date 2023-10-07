@@ -1,5 +1,5 @@
 // Initializing the attributes of a team
-import 'package:frontend/Types/user.dart';
+import 'package:TeamDinner/Types/user.dart';
 
 class Team {
   String id;

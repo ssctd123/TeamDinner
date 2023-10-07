@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:frontend/api/polls_repository.dart';
+import 'package:TeamDinner/api/polls_repository.dart';
 import 'package:intl/intl.dart';
 import '../helpers/PollHelper.dart';
 import '../Types/Poll.dart';
