@@ -7,10 +7,10 @@ import 'package:http/http.dart' as http;
 import '../Types/Poll.dart';
 import '../Types/vote.dart';
 import '../util.dart';
+import 'base_repository.dart';
 
 /* Repository for polls; stores descriptions and behaviors of the poll object */
-class PollsRepository {
-  static const String baseUrl = "https://team-dinner-gaaejpfqd-teamdinner057-gmailcom.vercel.app";
+class PollsRepository extends BaseRepository {
   static final Map<String, String> headers = <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
   };
@@ -19,7 +19,7 @@ class PollsRepository {
   /* Waiting for creator to send in poll */
   static Future<Poll> get(String id) async {
     final response = await http.get(
-      Uri.parse("$baseUrl/$repositoryName?id=$id"),
+      Uri.parse("${BaseRepository.baseUrl}/$repositoryName?id=$id"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         "Authorization": "Bearer ${(await Util.getAccessToken())!.token}"
@@ -37,7 +37,7 @@ class PollsRepository {
   /* Handling poll results that are sent in */
   static Future<PollResults> getResults(String id) async {
     final response = await http.get(
-      Uri.parse("$baseUrl/$repositoryName/results?id=$id"),
+      Uri.parse("${BaseRepository.baseUrl}/$repositoryName/results?id=$id"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         "Authorization": "Bearer ${(await Util.getAccessToken())!.token}"
@@ -55,7 +55,7 @@ class PollsRepository {
   /* creating the poll, with all attributes (topic, description, time, location, isMultichoice, options */
   static Future<Poll> create(Poll poll) async {
     final response = await http.post(
-      Uri.parse("$baseUrl/$repositoryName/create"),
+      Uri.parse("${BaseRepository.baseUrl}/$repositoryName/create"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         "Authorization": "Bearer ${(await Util.getAccessToken())!.token}"
@@ -81,7 +81,7 @@ class PollsRepository {
   /* Waiting for poll vote info to be sent in for processing, pollId, userId, optionIds */
   static Future<Poll> vote(String pollId, Vote vote) async {
     final response = await http.post(
-      Uri.parse("$baseUrl/$repositoryName/vote"),
+      Uri.parse("${BaseRepository.baseUrl}/$repositoryName/vote"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         "Authorization": "Bearer ${(await Util.getAccessToken())!.token}"
@@ -114,7 +114,7 @@ class PollsRepository {
   /* Change the stage of the current poll, i.e. in progress or finished */
   static Future<Poll> changeStage(String pollId, PollStage stage) async {
     final response = await http.post(
-      Uri.parse("$baseUrl/$repositoryName/stage"),
+      Uri.parse("${BaseRepository.baseUrl}/$repositoryName/stage"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         "Authorization": "Bearer ${(await Util.getAccessToken())!.token}"
@@ -133,7 +133,7 @@ class PollsRepository {
   /* Handles splitting payment after poll has been completed */
   static Future<double> split(double amount) async {
     final response = await http.post(
-      Uri.parse("$baseUrl/$repositoryName/split"),
+      Uri.parse("${BaseRepository.baseUrl}/$repositoryName/split"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         "Authorization": "Bearer ${(await Util.getAccessToken())!.token}"

@@ -6,9 +6,9 @@ import '../Types/token.dart';
 import '../Types/user.dart';
 import '../Types/user_type.dart';
 import '../util.dart';
+import 'base_repository.dart';
 // Repository for users, stores descriptions and behaviors of user object
-class UsersRepository {
-  static const String baseUrl = "https://team-dinner-gaaejpfqd-teamdinner057-gmailcom.vercel.app";
+class UsersRepository extends BaseRepository {
   static final Map<String, String> headers = <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
   };
@@ -16,7 +16,7 @@ class UsersRepository {
   // Handles login function for the user
   static Future<Token> login(String email, String password) async {
     final response = await http.post(
-      Uri.parse("$baseUrl/$repositoryName/login"),
+      Uri.parse("${BaseRepository.baseUrl}/$repositoryName/login"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -33,7 +33,7 @@ class UsersRepository {
   static Future<User> signup(
       String firstName, String lastName, String email, String password, UserType userType) async {
     final response = await http.post(
-      Uri.parse("$baseUrl/$repositoryName/signup"),
+      Uri.parse("${BaseRepository.baseUrl}/$repositoryName/signup"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -55,7 +55,7 @@ class UsersRepository {
   // Handles modify your own user info
   static Future<User> modify(Map<String, dynamic> values) async {
     final response = await http.post(
-      Uri.parse("$baseUrl/$repositoryName/modify"),
+      Uri.parse("${BaseRepository.baseUrl}/$repositoryName/modify"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         "Authorization": "Bearer ${(await Util.getAccessToken())!.token}"
@@ -73,7 +73,7 @@ class UsersRepository {
   // Handles finding a specific user
   static Future<User> get(String? id) async {
     final response = await http.get(
-      Uri.parse("$baseUrl/$repositoryName${id != null ? "?id=$id" : ""}"),
+      Uri.parse("${BaseRepository.baseUrl}/$repositoryName${id != null ? "?id=$id" : ""}"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         "Authorization": "Bearer ${(await Util.getAccessToken())!.token}"

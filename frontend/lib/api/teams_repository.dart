@@ -5,10 +5,10 @@ import 'package:http/http.dart' as http;
 import '../Types/team.dart';
 import '../Types/user.dart';
 import '../util.dart';
+import 'base_repository.dart';
 
 /* Repository for teams; stores descriptions and behaviors of the teams object */
-class TeamsRepository {
-  static const String baseUrl = "https://team-dinner-gaaejpfqd-teamdinner057-gmailcom.vercel.app";
+class TeamsRepository extends BaseRepository {
   static final Map<String, String> headers = <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
   };
@@ -16,7 +16,7 @@ class TeamsRepository {
   /* Waiting for team user information */
   static Future<User> get(String id) async {
     final response = await http.get(
-      Uri.parse("$baseUrl/$repositoryName?id=$id"),
+      Uri.parse("${BaseRepository.baseUrl}/$repositoryName?id=$id"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         "Authorization": "Bearer ${(await Util.getAccessToken())!.token}"
@@ -33,7 +33,7 @@ class TeamsRepository {
   /* create a team with name and description */
   static Future<Team> create(String name, String description) async {
     final response = await http.post(
-      Uri.parse("$baseUrl/$repositoryName/create"),
+      Uri.parse("${BaseRepository.baseUrl}/$repositoryName/create"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         "Authorization": "Bearer ${(await Util.getAccessToken())!.token}"
@@ -52,7 +52,7 @@ class TeamsRepository {
   /* update the team name and description */
   static Future<Team> update(String? name, String? description) async {
     final response = await http.post(
-      Uri.parse("$baseUrl/$repositoryName/update"),
+      Uri.parse("${BaseRepository.baseUrl}/$repositoryName/update"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         "Authorization": "Bearer ${(await Util.getAccessToken())!.token}"
@@ -71,7 +71,7 @@ class TeamsRepository {
   /* delete the current team */
   static Future<bool> delete(String? id) async {
     final response = await http.delete(
-        Uri.parse("$baseUrl/$repositoryName${id != null ? "?id=$id" : ""}"),
+        Uri.parse("${BaseRepository.baseUrl}/$repositoryName${id != null ? "?id=$id" : ""}"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           "Authorization": "Bearer ${(await Util.getAccessToken())!.token}"
@@ -88,7 +88,7 @@ class TeamsRepository {
   static Future<Team> getMembersTeam(String? id) async {
     final response = await http.get(
       Uri.parse(
-          "$baseUrl/$repositoryName/members${id != null ? "?id=$id" : ""}"),
+          "${BaseRepository.baseUrl}/$repositoryName/members${id != null ? "?id=$id" : ""}"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         "Authorization": "Bearer ${(await Util.getAccessToken())!.token}"
@@ -105,7 +105,7 @@ class TeamsRepository {
   /* removing team member with teamId and userId */
   static Future<Team> removeMember(String teamId, String? userId) async {
     final response = await http.post(
-      Uri.parse("$baseUrl/$repositoryName/members/remove"),
+      Uri.parse("${BaseRepository.baseUrl}/$repositoryName/members/remove"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         "Authorization": "Bearer ${(await Util.getAccessToken())!.token}"
@@ -122,7 +122,7 @@ class TeamsRepository {
   /* invite users to the team with teamId and email */
   static Future<Team> invites(String teamID, String email) async {
     final response = await http.post(
-      Uri.parse("$baseUrl/$repositoryName/invites"),
+      Uri.parse("${BaseRepository.baseUrl}/$repositoryName/invites"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         "Authorization": "Bearer ${(await Util.getAccessToken())!.token}"
@@ -140,7 +140,7 @@ class TeamsRepository {
   /* accept team invite, process teamId and userId */
   static Future<Team> acceptInvites(String teamId, String userId) async {
     final response = await http.post(
-      Uri.parse("$baseUrl/$repositoryName/invites/accept"),
+      Uri.parse("${BaseRepository.baseUrl}/$repositoryName/invites/accept"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         "Authorization": "Bearer ${(await Util.getAccessToken())!.token}"
@@ -157,7 +157,7 @@ class TeamsRepository {
   /* reject pending invites, processing teamId and userId */
   static Future<Team> rejectInvites(String teamId, String userId) async {
     final response = await http.post(
-      Uri.parse("$baseUrl/$repositoryName/invites/reject"),
+      Uri.parse("${BaseRepository.baseUrl}/$repositoryName/invites/reject"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         "Authorization": "Bearer ${(await Util.getAccessToken())!.token}"
@@ -174,7 +174,7 @@ class TeamsRepository {
   /* Get current invites for user with userId */
   static Future<List<Team>> getInvitesForUser(String? userId) async {
     final response = await http.get(
-      Uri.parse("$baseUrl/$repositoryName/invites/member"
+      Uri.parse("${BaseRepository.baseUrl}/$repositoryName/invites/member"
           "${userId != null ? "?id=$userId" : ""}"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
@@ -195,7 +195,7 @@ class TeamsRepository {
   /* Handles payment with teamId, userId, and amount */
   static Future<Team> pay(String teamId, String userId, double amount) async {
     final response = await http.post(
-      Uri.parse("$baseUrl/$repositoryName/pay"),
+      Uri.parse("${BaseRepository.baseUrl}/$repositoryName/pay"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         "Authorization": "Bearer ${(await Util.getAccessToken())!.token}"
