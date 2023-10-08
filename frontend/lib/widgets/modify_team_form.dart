@@ -156,7 +156,10 @@ class _ModifyTeamFormState extends State<ModifyTeamForm> {
                           var teamName = teamNameController.value.text;
                           var description = descriptionController.value.text;
                           try {
-                            await TeamsRepository.update(teamName, description);
+                            Map<String, dynamic> updates = {
+                              'description': description
+                            };
+                            await TeamsRepository.update(teamName, updates);
                             teamNameController.clear();
                             descriptionController.clear();
                             if (mounted) {

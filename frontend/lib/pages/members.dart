@@ -56,6 +56,8 @@ class _MembersPage extends State<MembersPage> {
       widgets.add(Padding(
         padding: const EdgeInsets.all(5.0),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -78,6 +80,31 @@ class _MembersPage extends State<MembersPage> {
                 const Divider(),
               ],
             ),
+            if (isOwner && team.owner != element.id)
+              SizedBox(
+                width: 120,
+                height: 35,
+                child: RawMaterialButton(
+                  fillColor: const Color(0xFF045D5D),
+                  padding: const EdgeInsets.symmetric(vertical: 5.0),
+                  shape:
+                  RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+                  onPressed: () async {
+                    Map<String, dynamic> updates = {
+                      'owner': element.id
+                    };
+                    await TeamsRepository.update(team.name, updates);
+                    setState(() {});
+                  },
+                  child: Text(
+                    "Assign Team Lead",
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
+              ),
           ],
         )
       ));
