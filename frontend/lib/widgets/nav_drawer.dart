@@ -6,6 +6,8 @@ class NavDrawer extends StatelessWidget {
   const NavDrawer({Key? key, this.onSwitchTab, this.onNavigate}) : super(key: key);
   final ValueChanged<int>? onSwitchTab;
   final ValueChanged<StatefulWidget>? onNavigate;
+  static const PollsPage menuChoicesPollPage = PollsPage();
+  static const PollsPage finalSelectionsPollPage = PollsPage();
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +55,7 @@ class NavDrawer extends StatelessWidget {
             title: const Text('Create Menu Choices Poll'),
             onTap: () => {
               onSwitchTab?.call(1),
-              onNavigate?.call(const PollsPage()),
+              onNavigate?.call(menuChoicesPollPage),
             },
           ),
           ListTile(
@@ -61,7 +63,7 @@ class NavDrawer extends StatelessWidget {
             title: const Text('Create Final Selections Poll'),
             onTap: () => {
               onSwitchTab?.call(1),
-              onNavigate?.call(const PollsPage()),
+              onNavigate?.call(finalSelectionsPollPage),
             },
           ),
           ListTile(
