@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../pages/members.dart';
 import '../pages/notify_location_time.dart';
+import '../pages/polls.dart';
 
 class NavDrawer extends StatelessWidget {
   const NavDrawer({Key? key, this.onSwitchTab, this.onNavigate}) : super(key: key);
@@ -33,16 +33,8 @@ class NavDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.poll),
-            title: const Text('Create Menu Choices Poll'),
-            onTap: () => {
-              onSwitchTab?.call(1),
-              Navigator.of(context).pop()
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.poll),
-            title: const Text('Create Final Selections Poll'),
+            leading: const Icon(Icons.people),
+            title: const Text('Members'),
             onTap: () => {
               onSwitchTab?.call(1),
               Navigator.of(context).pop()
@@ -57,11 +49,19 @@ class NavDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.people),
-            title: const Text('Members'),
+            leading: const Icon(Icons.poll),
+            title: const Text('Create Menu Choices Poll'),
             onTap: () => {
-              Navigator.of(context).pop(),
-              onNavigate?.call(const MembersPage()),
+              onSwitchTab?.call(1),
+              onNavigate?.call(const PollsPage()),
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.poll),
+            title: const Text('Create Final Selections Poll'),
+            onTap: () => {
+              onSwitchTab?.call(1),
+              onNavigate?.call(const PollsPage()),
             },
           ),
           ListTile(

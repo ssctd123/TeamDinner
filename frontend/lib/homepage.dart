@@ -1,5 +1,5 @@
+import 'package:TeamDinner/pages/members.dart';
 import 'package:flutter/material.dart';
-import 'package:TeamDinner/pages/polls.dart';
 import 'package:TeamDinner/pages/profile.dart';
 import 'package:TeamDinner/pages/teams.dart';
 import 'package:TeamDinner/widgets/nav_drawer.dart';
@@ -17,7 +17,7 @@ class HomePage extends StatefulWidget {
 int _selectedIndex = 0;
 const List<Widget> _widgetOptions = <Widget>[
   TeamPage(),
-  PollsPage(),
+  MembersPage(),
   ProfilePage(),
 ];
 
@@ -92,8 +92,8 @@ class _HomePageState extends State<HomePage> {
                 backgroundColor: Color(0xFFEAB541),
               ),
               GButton(
-                icon: Icons.poll,
-                text: 'Poll',
+                icon: Icons.people,
+                text: 'Members',
                 backgroundColor: Color(0xFF9E3531),
               ),
               GButton(
