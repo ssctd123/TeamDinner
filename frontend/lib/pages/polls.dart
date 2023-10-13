@@ -135,21 +135,6 @@ class _PollsPageState extends State<PollsPage> {
               style: TextStyle(fontSize: 18, color: Colors.black)),
         ));
         break;
-      case PollStage.IN_PROGRESS:
-        widgets.add(Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text("Poll ends at ${DateFormat.jm().format(poll.time)}",
-              style: const TextStyle(fontSize: 18, color: Colors.black)),
-        ));
-        widgets.add(PollForm(poll: poll, vote: vote));
-        break;
-      case PollStage.FINISHED:
-        widgets.add(Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text("Poll ended at ${DateFormat.jm().format(poll.time)}",
-              style: const TextStyle(fontSize: 18, color: Colors.black)),
-        ));
-        break;
       case null:
         break;
     }

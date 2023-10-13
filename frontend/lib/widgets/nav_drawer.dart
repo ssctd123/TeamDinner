@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../pages/members.dart';
 import '../pages/notify_location_time.dart';
 
 class NavDrawer extends StatelessWidget {
@@ -24,8 +25,8 @@ class NavDrawer extends StatelessWidget {
             ),
           ),
           ListTile(
-            leading: const Icon(Icons.group),
-            title: const Text('Team'),
+            leading: const Icon(Icons.edit),
+            title: const Text('Edit Team Info'),
             onTap: () => {
               onSwitchTab?.call(0),
               Navigator.of(context).pop()
@@ -45,6 +46,14 @@ class NavDrawer extends StatelessWidget {
             onTap: () => {
               onSwitchTab?.call(2),
               Navigator.of(context).pop()
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.people),
+            title: const Text('Members'),
+            onTap: () => {
+              Navigator.of(context).pop(),
+              onNavigate?.call(const MembersPage()),
             },
           ),
           ListTile(

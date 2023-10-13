@@ -50,15 +50,14 @@ class TeamsRepository extends BaseRepository {
   }
 
   /* update the team name and description */
-  static Future<Team> update(String? name, String? description) async {
+  static Future<Team> update(String? name, Map<String, dynamic> values) async {
     final response = await http.post(
       Uri.parse("${BaseRepository.baseUrl}/$repositoryName/update"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         "Authorization": "Bearer ${(await Util.getAccessToken())!.token}"
       },
-      body: jsonEncode(
-          <String, String?>{'name': name, "description": description}),
+      body: jsonEncode(values)
     );
     /* Error handling for failing to create a team */
     if (response.statusCode == 201) {
