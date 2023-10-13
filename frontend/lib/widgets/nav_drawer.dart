@@ -34,7 +34,15 @@ class NavDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.poll),
-            title: const Text('Poll'),
+            title: const Text('Create Menu Choices Poll'),
+            onTap: () => {
+              onSwitchTab?.call(1),
+              Navigator.of(context).pop()
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.poll),
+            title: const Text('Create Final Selections Poll'),
             onTap: () => {
               onSwitchTab?.call(1),
               Navigator.of(context).pop()
