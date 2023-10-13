@@ -25,8 +25,8 @@ class NavDrawer extends StatelessWidget {
             ),
           ),
           ListTile(
-            leading: const Icon(Icons.group),
-            title: const Text('Team'),
+            leading: const Icon(Icons.edit),
+            title: const Text('Edit Team Info'),
             onTap: () => {
               onSwitchTab?.call(0),
               Navigator.of(context).pop()
