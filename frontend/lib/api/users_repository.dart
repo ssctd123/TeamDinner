@@ -86,4 +86,20 @@ class UsersRepository extends BaseRepository {
       throw Exception('User not found.');
     }
   }
+  // Handles requesting a password reset
+  static Future<bool> sendResetPassword(String? email) async {
+    final response = await http.get(
+      Uri.parse("${BaseRepository.baseUrl}/$repositoryName/sendResetPassword${email != null ? "?email=$email" : ""}"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8'
+      },
+    );
+    //Error handling failed to send password reset
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      throw Exception('Failed to send reset password.');
+    }
+  }
 }

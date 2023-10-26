@@ -1,3 +1,3 @@
 class BaseRepository {
-  static const String baseUrl = "https://team-dinner-k9h78y2tk-teamdinner057-gmailcom.vercel.app";
+  static const String baseUrl = "https://team-dinner-git-feature-pollsidem-13cee4-teamdinner057-gmailcom.vercel.app";
 }
