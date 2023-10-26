@@ -78,4 +78,13 @@ export class UsersController {
 		}
 		return await this.usersService.modify(modifyDto);
 	}
+
+	@ApiOperation({ summary: "Request for you your password to be reset" })
+	@ApiCreatedResponse({ description: "Password reset requested", type: User })
+	@ApiUnauthorizedResponse({ description: "Unauthorized JWT Token" })
+	@ApiNotFoundResponse({ description: "Entity not found" })
+	@Post("sendResetPassword")
+	async sendResetPassword(): Promise<Boolean> {
+		return await this.usersService.modify(modifyDto);
+	}
 }

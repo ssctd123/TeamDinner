@@ -6,6 +6,7 @@ import { SignupDto } from "../../api/users/models/requests/signup.dto";
 import { Auth } from "../../data/entities/Auth";
 import { AuthService } from "../auth/auth.service";
 import { ModifyDto } from "../../api/users/models/requests/modify.dto";
+import generateResetPasswordTemplate from '../templates/resetPasswordTemplate';
 
 @Injectable()
 export class UsersService {
@@ -78,5 +79,23 @@ export class UsersService {
 			throw new HttpException("User not found", 404);
 		}
 		return this.get(auth.id);
+	}
+
+	async sendResetPassword(): Promise<Boolean> {
+		const user: User = await this.getWithToken();
+		if (user != null) {
+			const emailTemplate = generateResetPasswordTemplate(
+				'123456',
+				user.firstName
+			);
+			const mailService = MailService.getInstance();
+			await mailService.sendMail({
+				to: user.email,
+				subject: 'Reset Password',
+				html: emailTemplate.html,
+			});
+			return true;
+		}
+		return false;
 	}
 }
