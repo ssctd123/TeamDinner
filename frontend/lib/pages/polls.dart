@@ -4,7 +4,6 @@ import 'package:TeamDinner/Types/poll_results.dart';
 import 'package:TeamDinner/Types/poll_stage.dart';
 import 'package:TeamDinner/Types/quantity_result.dart';
 import 'package:TeamDinner/Types/vote.dart';
-import 'package:intl/intl.dart';
 
 import '../Types/Poll.dart';
 import '../Types/team.dart';
@@ -12,14 +11,15 @@ import '../api/polls_repository.dart';
 import '../api/teams_repository.dart';
 import '../api/users_repository.dart';
 import '../widgets/create_poll_form.dart';
-import '../widgets/poll_form.dart';
 import '../widgets/split_bill_form.dart';
 import '../helpers/PollHelper.dart';
 
 
 // Poll handling and functionality page
 class PollsPage extends StatefulWidget {
-  const PollsPage({Key? key}) : super(key: key);
+  const PollsPage({Key? key, this.title, this.tlPollStage}) : super(key: key);
+  final String? title;
+  final int? tlPollStage;
 
   @override
   State<PollsPage> createState() => _PollsPageState();
@@ -32,13 +32,17 @@ class _PollsPageState extends State<PollsPage> {
   bool reset = true;
   PollResults? results;
   bool pollHasBeenSplit = false;
-  int tlPollStage = 0;
   Map<String, String> memberNames = {};
 
   // Establish layout of the page
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color(0xFF045D5D),
+        centerTitle: true,
+        title: Text("Poll"),
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(
@@ -71,7 +75,6 @@ class _PollsPageState extends State<PollsPage> {
   Future<Poll> _getPoll() async {
     if (!reset) {
       pollHasBeenSplit = await PollHelper.hasPollBeenSplit(poll.id);
-      tlPollStage = await PollHelper.getTLPollStage();
       return poll;
     }
     var user = await UsersRepository.get(null);
@@ -109,7 +112,6 @@ class _PollsPageState extends State<PollsPage> {
     }
 
     pollHasBeenSplit = await PollHelper.hasPollBeenSplit(poll.id);
-    tlPollStage = await PollHelper.getTLPollStage();
     return poll;
   }
 
@@ -118,7 +120,7 @@ class _PollsPageState extends State<PollsPage> {
     List<Widget> widgets = [];
     widgets.add(Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Text(poll.topic,
+      child: Text(widget.title ?? "",
           style: const TextStyle(
               fontSize: 30, fontWeight: FontWeight.bold, color: Colors.black)),
     ));
@@ -141,7 +143,7 @@ class _PollsPageState extends State<PollsPage> {
 
     widgets.add(Container(height: 15,),);
 
-    if (results != null) {
+    if (results != null && (results?.results.isNotEmpty == true || results?.quantityResults.isNotEmpty == true)) {
       widgets.add(const Padding(
         padding: EdgeInsets.all(6.0),
         child: Text("Results",
@@ -209,7 +211,6 @@ class _PollsPageState extends State<PollsPage> {
             if (poll.stage == PollStage.NOT_STARTED) {
               await PollsRepository.startPoll(poll.id);
             } else {
-              PollHelper.saveTLPollStage(tlPollStage + 1);
               await PollsRepository.endPoll(poll.id);
             }
             resetPage();
@@ -227,17 +228,17 @@ class _PollsPageState extends State<PollsPage> {
           onPressed: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
               return CreatePollForm(
-                topicValue: (tlPollStage == 1) ? "Final Selections" : "Dinner Choices",
-                descriptionValue: (tlPollStage == 1) ? "Choose your final dinner selections and how many of each you want per family (including players)" : "What would you like for dinner?",
-                enableMultipleMenuSelections: (tlPollStage == 1) ? true : false,
-                enableQuantityEntry: (tlPollStage == 1) ? true : false,
+                topicValue: widget.title,
+                descriptionValue: (widget.tlPollStage == 1) ? "Choose your final dinner selections and how many of each you want per family (including players)" : "What would you like for dinner?",
+                enableMultipleMenuSelections: (widget.tlPollStage == 1) ? true : false,
+                enableQuantityEntry: (widget.tlPollStage == 1) ? true : false,
               );
             })).then((value) => {resetPage()});
           },
           icon: const Icon(Icons.poll),
-          label: Text((tlPollStage == 1) ? 'Start Final Selections Poll' : 'Start Dinner Choices Poll',
+          label: Text((widget.tlPollStage == 1) ? 'Start Final Selections Poll' : 'Start Dinner Choices Poll',
               style: TextStyle(color: Colors.white))));
-      if (poll.stage == PollStage.FINISHED && !pollHasBeenSplit && tlPollStage == 2) {
+      if (poll.stage == PollStage.FINISHED && !pollHasBeenSplit && widget.tlPollStage == 1) {
         widgets.add(ElevatedButton.icon(
             style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF2E9079),
@@ -262,7 +263,6 @@ class _PollsPageState extends State<PollsPage> {
     isOwner = false;
     vote = Vote("", [], null);
     pollHasBeenSplit = false;
-    tlPollStage = 0;
     reset = true;
 
     await _getPoll();

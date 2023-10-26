@@ -23,11 +23,6 @@ class _MembersPage extends State<MembersPage> {
   @override
   Widget build(BuildContext context){
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color(0xFF045D5D),
-        centerTitle: true,
-        title: const Text('Members'),
-      ),
       resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
         child: Padding(
