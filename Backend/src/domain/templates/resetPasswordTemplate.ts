@@ -105,7 +105,7 @@ const resetPassword = function (token, firstName) {
                         This is the password reset you requested from TeamDinner.
                       </p>
 
-                      <lable style="display: block; font-size: 24px; line-height: 100%; margin-bottom: 24px; --text-opacity: 1; color: #000000; text-decoration: none;">${otp}</lable>
+                      <lable style="display: block; font-size: 24px; line-height: 100%; margin-bottom: 24px; --text-opacity: 1; color: #000000; text-decoration: none;">${token}</lable>
                       <table style="font-family: 'Montserrat',Arial,sans-serif;" cellpadding="0" cellspacing="0"
                         role="presentation">
                         <tr>

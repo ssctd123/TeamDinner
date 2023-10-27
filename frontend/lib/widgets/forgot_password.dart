@@ -21,6 +21,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   void sendEmail() async {
     UsersRepository.sendResetPassword(senderEmail.text);
 
+    ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+            content: Text('Forgot password email sent.')));
+
     senderEmail.clear();
   }
 
