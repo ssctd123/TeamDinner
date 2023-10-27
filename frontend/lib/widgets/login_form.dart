@@ -1,3 +1,5 @@
+import 'package:TeamDinner/api/users_repository.dart';
+import 'package:TeamDinner/widgets/forgot_password.dart';
 import 'package:flutter/material.dart';
 import '../Types/token.dart';
 import '../homepage.dart';
@@ -68,9 +70,21 @@ class LoginFormState extends State<LoginForm> {
             ),
           ),
           // Todo: Add functionality to this button
-          const Text(
-            "Forgot Your Password?",
-            style: TextStyle(color: Colors.blue),
+          GestureDetector(
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return const ForgotPassword();
+                  },
+                )
+            );
+          },
+          child: const Text(
+              "Forgot Your Password?",
+              style: TextStyle(color: Colors.blue),
+            ),
           ),
           // Button to login to account
           Padding(

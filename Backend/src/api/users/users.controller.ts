@@ -82,6 +82,7 @@ export class UsersController {
 	@ApiOperation({ summary: "Request for you your password to be reset" })
 	@ApiCreatedResponse({ description: "Password reset requested", type: User })
 	@ApiNotFoundResponse({ description: "Entity not found" })
+	@SkipAuth()
 	@Get("sendResetPassword")
 	async sendResetPassword(@Query("email") email: string): Promise<Boolean> {
 		if (!email) {
