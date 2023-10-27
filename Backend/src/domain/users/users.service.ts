@@ -7,6 +7,7 @@ import { Auth } from "../../data/entities/Auth";
 import { AuthService } from "../auth/auth.service";
 import { ModifyDto } from "../../api/users/models/requests/modify.dto";
 import generateResetPasswordTemplate from '../templates/resetPasswordTemplate';
+import MailService from '../mail/mail.service';
 
 @Injectable()
 export class UsersService {
