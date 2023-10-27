@@ -23,7 +23,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
 
     ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-            content: Text('Forgot password email sent.')));
+            content: Text('Email sent.')));
 
     senderEmail.clear();
   }
@@ -43,7 +43,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      'Send Forgot Password Email',
+                      'Forgot Password',
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
@@ -60,7 +60,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           backgroundColor: MaterialStateProperty.all<Color>(const Color(0xFF3CBD9F)),
                         ),
                         onPressed: sendEmail,
-                        child: Text('Send Forgot Password Email',
+                        child: Text('Submit',
                           style: TextStyle(
                             fontSize: 16,
                           )
