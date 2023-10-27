@@ -118,7 +118,6 @@ const resetPassword = function (token, firstName) {
 
                       <p style="margin: 20px 0 2px;">
                         If you did not request this password reset, please contact us immediately.
-                        <br>TeamDinner Support
                       </p>
 
                       <table style="font-family: 'Montserrat',Arial,sans-serif; width: 100%;" width="100%"
@@ -133,8 +132,8 @@ const resetPassword = function (token, firstName) {
                       </table>
                       <p style="margin: 0 0 16px;">
                         Have additional questions or need direct assistance? <br /> Contact our team at
-                        <a href="mailto:teamdinner995@gmail.com" class="hover-underline"
-                          style="--text-opacity: 1; color: #7367f0; text-decoration: none;">teamdinner995@gmail.com</a>.
+                        <a href="mailto:teamdinner057@gmail.com" class="hover-underline"
+                          style="--text-opacity: 1; color: #7367f0; text-decoration: none;">teamdinner057@gmail.com</a>.
                       </p>
                     </td>
                   </tr>
