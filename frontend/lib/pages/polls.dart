@@ -1,3 +1,4 @@
+import 'package:TeamDinner/widgets/poll_form.dart';
 import 'package:flutter/material.dart';
 import 'package:TeamDinner/Types/poll_option.dart';
 import 'package:TeamDinner/Types/poll_results.dart';
@@ -192,11 +193,12 @@ class _PollsPageState extends State<PollsPage> {
         });
       }
 
+    } else {
+      widgets.add(PollForm(poll: poll));
     }
     widgets.add(Container(height: 15,),);
     if (isOwner && poll.stage != null && poll.stage != PollStage.FINISHED) {
-      String text =
-      poll.stage == PollStage.NOT_STARTED ? "Start Poll" : "End Poll";
+      String text = poll.stage == PollStage.NOT_STARTED ? "Start Poll" : "End Poll";
       widgets.add(Padding(
         padding: const EdgeInsets.all(8.0),
         child: ElevatedButton(
