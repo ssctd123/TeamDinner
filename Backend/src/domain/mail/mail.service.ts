@@ -13,7 +13,8 @@ export default class MailService {
     private static instance: MailService;
     // Create a transport for sending emails (replace with your email service's data)
     const transporter = nodemailer.createTransport({
-        service: 'Gmail', // Use your email service
+        service: 'gmail', // Use your email service
+        host: 'smtp.gmail.com',
         auth: {
             user: process.env.EMAIL, // Your email address
             pass: process.env.PASSWORD, // Your password
