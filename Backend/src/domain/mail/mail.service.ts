@@ -16,8 +16,8 @@ export default class MailService {
         service: 'gmail', // Use your email service
         host: 'smtp.gmail.com',
         auth: {
-            user: process.env.EMAIL, // Your email address
-            pass: process.env.PASSWORD, // Your password
+            user: 'teamdinner057@gmail.com', // Your email address
+            pass: 'TeamDinner999', // Your password
         },
     });
 
