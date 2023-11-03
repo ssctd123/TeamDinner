@@ -17,6 +17,7 @@ class MembersPage extends StatefulWidget {
 class _MembersPage extends State<MembersPage> {
 
   List<User> memberList = [];
+  User currentUser = User("", "", "", "");
   Team team = Team("", "", "", [], [], []);
   bool isOwner = false;
 
@@ -101,6 +102,32 @@ class _MembersPage extends State<MembersPage> {
                   ),
                 ),
               ),
+            if (isOwner && element.id != currentUser.id)
+              SizedBox(
+                width: 120,
+                height: 35,
+                child: RawMaterialButton(
+                  fillColor: Colors.red[300],
+                  padding: const EdgeInsets.symmetric(vertical: 5.0),
+                  shape:
+                  RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+                  onPressed: () async {
+                    team.owners.remove(element.id);
+                    Map<String, dynamic> updates = {
+                      'owners': team.owners
+                    };
+                    await TeamsRepository.update(team.name, updates);
+                    setState(() {});
+                  },
+                  child: Text(
+                    "Remove Team Lead",
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
+              ),
           ],
         )
       ));
@@ -115,10 +142,10 @@ class _MembersPage extends State<MembersPage> {
 
   Future<List<User>> getInformation() async {
     memberList = [];
-    var user = await UsersRepository.get(null);
+    currentUser = await UsersRepository.get(null);
 
-    team = await TeamsRepository.getMembersTeam(user.id);
-    isOwner = team.owners.contains(user.id);
+    team = await TeamsRepository.getMembersTeam(currentUser.id);
+    isOwner = team.owners.contains(currentUser.id);
 
     for (var member in team.members) {
       memberList.add(await UsersRepository.get(member['id']));

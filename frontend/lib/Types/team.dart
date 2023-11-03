@@ -5,7 +5,7 @@ class Team {
   String id;
   String name;
   String description;
-  List<String> owners;
+  List<dynamic> owners;
   List<dynamic> members;
   List<dynamic> invitations;
 

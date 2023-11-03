@@ -23,6 +23,7 @@ class _TeamPageState extends State<TeamPage> {
   bool isOwner = false;
   bool reset = true;
   User user = User("", "", "", "");
+  List<String> ownerNames = [];
 
   @override
   // layout of the body of the team page
@@ -99,6 +100,12 @@ class _TeamPageState extends State<TeamPage> {
         }
         memberTeam.setInvitations(invitations);
       }
+
+      for (var owner in memberTeam.owners) {
+        var userResult = await UsersRepository.get(owner);
+        ownerNames.add("${userResult.firstName} ${userResult.lastName}");
+      }
+
       if (mounted) {
         setState(() {
           team = memberTeam;
@@ -166,7 +173,7 @@ class _TeamPageState extends State<TeamPage> {
       ),
       Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Text("Team Lead(s): ${team.owners.join(', ')}",
+        child: Text("Team Lead(s): ${ownerNames.join(', ')}",
             textAlign: TextAlign.left,
             style: const TextStyle(fontSize: 18, color: Colors.black)),
       ),
