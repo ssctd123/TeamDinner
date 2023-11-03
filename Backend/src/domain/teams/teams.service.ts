@@ -36,7 +36,7 @@ export class TeamsService {
 						debt: 0
 					}
 				],
-				owner: owner.id,
+				owners: [owner.id],
 				name: teamDTO.name,
 				description: teamDTO.description,
 				invitations: []
@@ -51,7 +51,7 @@ export class TeamsService {
 	async update(teamDTO: TeamModifyDto): Promise<Team> {
 		const owner: User = await this.usersService.getWithToken();
 		const team: Team = await this.getWithUserId(owner.id);
-		if (team.owner.includes(owner.id)) {
+		if (team.owners.includes(owner.id)) {
 			for (let teamDTOKey in teamDTO) {
 				if (!teamDTO[teamDTOKey]) {
 					delete teamDTO[teamDTOKey];
@@ -96,7 +96,7 @@ export class TeamsService {
 
 	async addMember(teamModifyDto: TeamMemberModifyDto): Promise<Team> {
 		const team: Team = await this.get(teamModifyDto.teamId);
-		if (await this.authService.userIsInJWT(team.owner)) {
+		if (await this.authService.userIsInJWT(team.owners)) {
 			if (await this.usersService.exists(teamModifyDto.userId)) {
 				if (await this.isMember(teamModifyDto.userId)) {
 					throw new HttpException(
@@ -121,7 +121,7 @@ export class TeamsService {
 			teamModifyDto.userId = (await this.usersService.getWithToken()).id;
 		}
 		if (
-			(await this.authService.userIsInJWT(team.owner)) ||
+			(await this.authService.userIsInJWT(team.owners)) ||
 			(await this.authService.userIsInJWT(teamModifyDto.userId))
 		) {
 			if (await this.isOwner(teamModifyDto.userId)) {
@@ -155,7 +155,7 @@ export class TeamsService {
 		} else {
 			team = await this.get(id);
 		}
-		if (await this.authService.userIsInJWT(team.owner)) {
+		if (await this.authService.userIsInJWT(team.owners)) {
 			await this.teamsRepository.deleteTeam(team.id);
 			return true;
 		}
@@ -166,7 +166,7 @@ export class TeamsService {
 
 	async inviteMember(teamInviteDto: TeamInviteDto): Promise<Team> {
 		const team: Team = await this.get(teamInviteDto.teamId);
-		if (await this.authService.userIsInJWT(team.owner)) {
+		if (await this.authService.userIsInJWT(team.owners)) {
 			const user: User = await this.usersService.getWithEmail(
 				teamInviteDto.email
 			);
@@ -205,7 +205,7 @@ export class TeamsService {
 		const team: Team = await this.get(teamModifyDto.teamId);
 		if (
 			(await this.authService.userIsInJWT(teamModifyDto.userId)) ||
-			(await this.authService.userIsInJWT(team.owner))
+			(await this.authService.userIsInJWT(team.owners))
 		) {
 			return await this.teamsRepository.rejectInvite(
 				teamModifyDto.teamId,
@@ -244,7 +244,7 @@ export class TeamsService {
 		userId: string
 	): Promise<boolean> {
 		const team: Team = await this.get(id);
-		return team.owner.includes(userId);
+		return team.owners.includes(userId);
 	}
 
 	public async userIsMemberOfTeam(

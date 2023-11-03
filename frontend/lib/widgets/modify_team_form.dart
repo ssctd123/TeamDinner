@@ -78,7 +78,7 @@ class _ModifyTeamFormState extends State<ModifyTeamForm> {
                   SingleChildScrollView(
                     child: Column(
                       children: List.generate(team.members.length, (index) {
-                        if (team.members[index].id == team.owner.id) {
+                        if (team.owner.contains(team.members[index].id)) {
                           return const SizedBox();
                         }
                         return Row(

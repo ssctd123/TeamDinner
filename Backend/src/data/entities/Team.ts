@@ -9,9 +9,18 @@ export class Team {
 	@ApiProperty()
 	description: string;
 	@ApiProperty()
-	owner: [string];
+	owner: string;
+	@ApiProperty({ type: [String] })
+	owners: string[];
 	@ApiProperty({ type: [Member] })
 	members: Member[];
 	@ApiProperty({ type: [String] })
 	invitations: string[];
+
+	static correctLegacyProperties(): Team {
+		if (owners === undefined || owners.length == 0) {
+			owners = [owner];
+		}
+		return this;
+	}
 }

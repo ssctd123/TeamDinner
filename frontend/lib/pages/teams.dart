@@ -92,7 +92,7 @@ class _TeamPageState extends State<TeamPage> {
         members.add(memberUser);
       }
       memberTeam.setMembers(members);
-      if (user.id == memberTeam.owner.id) {
+      if (memberTeam.owner.contains(user.id)) {
         isOwner = true;
         List<User> invitations = [];
         for (var invitation in memberTeam.invitations) {
@@ -167,7 +167,7 @@ class _TeamPageState extends State<TeamPage> {
       ),
       Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Text("Team Lead: ${team.owner.toString()}",
+        child: Text("Team Lead(s): ${team.owner.join(', ')}",
             textAlign: TextAlign.left,
             style: const TextStyle(fontSize: 18, color: Colors.black)),
       ),
@@ -187,11 +187,11 @@ class _TeamPageState extends State<TeamPage> {
       //                 style: const TextStyle(fontSize: 14, color: Colors.black))
       //         ])),
       // Display the owners venmmo with how much the user owes
-      Padding(
+      /*Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text("Payor's Venmo: ${team.owner.venmo ?? "N/A"}",
               textAlign: TextAlign.left,
-              style: const TextStyle(fontSize: 18, color: Colors.black))),
+              style: const TextStyle(fontSize: 18, color: Colors.black))),*/
       Padding(
         padding: const EdgeInsets.all(10.0),
         child: Text(getDebtText(),

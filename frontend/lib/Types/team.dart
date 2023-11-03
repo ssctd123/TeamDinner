@@ -5,7 +5,7 @@ class Team {
   String id;
   String name;
   String description;
-  dynamic owner;
+  List<String> owner;
   List<dynamic> members;
   List<dynamic> invitations;
 
@@ -24,7 +24,9 @@ class Team {
   }
 
   setOwner(User owner) {
-    this.owner = owner;
+    if (!this.owner.contains(owner.id)) {
+      this.owner.add(owner.id);
+    }
   }
 
   setMembers(List<User> members) {
