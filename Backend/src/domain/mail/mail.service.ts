@@ -12,7 +12,7 @@ export interface MailInterface {
 export default class MailService {
     private static instance: MailService;
     // Create a transport for sending emails (replace with your email service's data)
-    const transporter = nodemailer.createTransport({
+    readonly transporter = nodemailer.createTransport({
         service: 'gmail', // Use your email service
         host: 'smtp.gmail.com',
         auth: {
