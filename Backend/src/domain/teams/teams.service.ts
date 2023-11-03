@@ -30,18 +30,18 @@ export class TeamsService {
 		if (!isOwner) {
 			return await this.teamsRepository.createTeam(new Team(
 				uuid(),
+				teamDTO.name,
+				teamDTO.description,
+				owner.id,
+				[owner.id],
 				[
 					{
 						id: owner.id,
 						debt: 0
 					}
 				],
-				owner.id,
-				[owner.id],
-				teamDTO.name,
-				teamDTO.description,
 				[]
-			);
+			));
 		}
 		throw new HttpException(
 			"User is already owner of a team",
