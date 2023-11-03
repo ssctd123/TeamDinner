@@ -6,7 +6,7 @@ import '../Types/message.dart';
 import '../util.dart';
 import 'base_repository.dart';
 // Repository for users, stores descriptions and behaviors of user object
-class LocationsRepository extends BaseRepository {
+class MessagesRepository extends BaseRepository {
   static final Map<String, String> headers = <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
   };

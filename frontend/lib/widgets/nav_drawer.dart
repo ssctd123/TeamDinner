@@ -74,6 +74,14 @@ class NavDrawer extends StatelessWidget {
               onNavigate?.call(const NotifyLocationTimePage()),
             },
           ),
+          ListTile(
+            leading: const Icon(Icons.location_city),
+            title: const Text('Send Team Message'),
+            onTap: () => {
+              Navigator.of(context).pop(),
+              onNavigate?.call(const SendTeamMessagePage()),
+            },
+          ),
         ],
       ),
     );
