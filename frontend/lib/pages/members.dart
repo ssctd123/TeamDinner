@@ -17,7 +17,7 @@ class MembersPage extends StatefulWidget {
 class _MembersPage extends State<MembersPage> {
 
   List<User> memberList = [];
-  Team team = Team("", "", "", "", [], []);
+  Team team = Team("", "", "", [], [], []);
   bool isOwner = false;
 
   @override
@@ -62,7 +62,7 @@ class _MembersPage extends State<MembersPage> {
                     style: const TextStyle(fontSize: 16, color: Colors.black, fontWeight: FontWeight.bold),
                     textAlign: TextAlign.left
                 ),
-                if (team.owner.contains(element.id))
+                if (team.owners.contains(element.id))
                   const Text("Team Lead",
                       style: const TextStyle(fontSize: 14, color: Colors.black,),
                       textAlign: TextAlign.left
@@ -75,7 +75,7 @@ class _MembersPage extends State<MembersPage> {
                 const Divider(),
               ],
             ),
-            if (isOwner && (!team.owner.contains(element.id))
+            if (isOwner && (!team.owners.contains(element.id)))
               SizedBox(
                 width: 120,
                 height: 35,
@@ -85,8 +85,9 @@ class _MembersPage extends State<MembersPage> {
                   shape:
                   RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
                   onPressed: () async {
+                    team.owners.add(element.id);
                     Map<String, dynamic> updates = {
-                      'owner': element.id
+                      'owners': team.owners
                     };
                     await TeamsRepository.update(team.name, updates);
                     setState(() {});
@@ -117,7 +118,7 @@ class _MembersPage extends State<MembersPage> {
     var user = await UsersRepository.get(null);
 
     team = await TeamsRepository.getMembersTeam(user.id);
-    isOwner = team.owner.contains(user.id);
+    isOwner = team.owners.contains(user.id);
 
     for (var member in team.members) {
       memberList.add(await UsersRepository.get(member['id']));

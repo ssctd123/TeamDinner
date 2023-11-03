@@ -19,7 +19,7 @@ class TeamPage extends StatefulWidget {
 
 // Layout and functions of the team page
 class _TeamPageState extends State<TeamPage> {
-  Team team = Team("", "", "", false, [], []);
+  Team team = Team("", "", "", [], [], []);
   bool isOwner = false;
   bool reset = true;
   User user = User("", "", "", "");
@@ -81,7 +81,6 @@ class _TeamPageState extends State<TeamPage> {
     user = await UsersRepository.get(null);
     try {
       var memberTeam = await TeamsRepository.getMembersTeam(user.id);
-      memberTeam.setOwner(await UsersRepository.get(memberTeam.owner));
       List<User> members = [];
       for (var member in memberTeam.members) {
         if (member["id"] == user.id) {
@@ -92,7 +91,7 @@ class _TeamPageState extends State<TeamPage> {
         members.add(memberUser);
       }
       memberTeam.setMembers(members);
-      if (memberTeam.owner.contains(user.id)) {
+      if (memberTeam.owners.contains(user.id)) {
         isOwner = true;
         List<User> invitations = [];
         for (var invitation in memberTeam.invitations) {
@@ -167,7 +166,7 @@ class _TeamPageState extends State<TeamPage> {
       ),
       Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Text("Team Lead(s): ${team.owner.join(', ')}",
+        child: Text("Team Lead(s): ${team.owners.join(', ')}",
             textAlign: TextAlign.left,
             style: const TextStyle(fontSize: 18, color: Colors.black)),
       ),
@@ -243,7 +242,7 @@ class _TeamPageState extends State<TeamPage> {
                 await TeamsRepository.removeMember(team.id, null);
                 if (mounted) {
                   setState(() {
-                    team = Team("", "", "", "", [], []);
+                    team = Team("", "", "", [], [], []);
                     //reset = true;
                   });
                 }
@@ -269,7 +268,7 @@ class _TeamPageState extends State<TeamPage> {
 
   // this resets the entire team page
   resetPage() async {
-    team = Team("", "", "", false, [], []);
+    team = Team("", "", "", [], [], []);
     isOwner = false;
     reset = true;
     user = User("", "", "", "");
