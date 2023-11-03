@@ -51,11 +51,8 @@ export class TeamsRepository extends FirebaseRepository {
 	}
 
 	async checkOwner(id: string): Promise<boolean> {
-		const snapshot: firestore.QuerySnapshot = await this.collection
-			.where("owner", "==", id)
-			.get();
-		console.log(snapshot.docs.length);
-		return snapshot.docs.length > 0;
+		const team = this.getTeamWithUserId(id);
+		return team.owners.includes(id);
 	}
 
 	async addMember(teamId: string, member: Member): Promise<Team> {
