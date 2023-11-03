@@ -51,7 +51,7 @@ export class TeamsService {
 	async update(teamDTO: TeamModifyDto): Promise<Team> {
 		const owner: User = await this.usersService.getWithToken();
 		const team: Team = await this.getWithUserId(owner.id);
-		if (team.owner === owner.id) {
+		if (team.owner.includes(owner.id)) {
 			for (let teamDTOKey in teamDTO) {
 				if (!teamDTO[teamDTOKey]) {
 					delete teamDTO[teamDTOKey];
@@ -244,7 +244,7 @@ export class TeamsService {
 		userId: string
 	): Promise<boolean> {
 		const team: Team = await this.get(id);
-		return team.owner === userId;
+		return team.owner.includes(userId);
 	}
 
 	public async userIsMemberOfTeam(

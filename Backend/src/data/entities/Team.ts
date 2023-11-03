@@ -9,7 +9,7 @@ export class Team {
 	@ApiProperty()
 	description: string;
 	@ApiProperty()
-	owner: string;
+	owner: [string];
 	@ApiProperty({ type: [Member] })
 	members: Member[];
 	@ApiProperty({ type: [String] })
