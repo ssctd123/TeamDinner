@@ -7,7 +7,7 @@ export class Vote {
 	@ApiProperty()
 	userId: string;
 	@ApiProperty()
-	quantities?: Record<string, integer>;
+	quantities?: Record<string, number>;
 
 	static fromDto(dto: VoteDto): Vote {
 		return {

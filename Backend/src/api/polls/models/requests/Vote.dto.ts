@@ -16,5 +16,5 @@ export class VoteDto {
 	optionIds: string[];
 	@ApiPropertyOptional()
 	@IsOptional()
-	quantities?: Record<string, integer>;
+	quantities?: Record<string, number>;
 }

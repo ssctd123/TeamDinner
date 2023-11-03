@@ -193,7 +193,7 @@ class _PollsPageState extends State<PollsPage> {
         });
       }
 
-    } else {
+    } else if (poll.stage != PollStage.NOT_STARTED) {
       widgets.add(PollForm(poll: poll, submitText: widget.tlPollStage == 1 ? "Submit Selections" : "Submit Vote"));
     }
     widgets.add(Container(height: 15,),);

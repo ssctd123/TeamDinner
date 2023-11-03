@@ -1,6 +1,7 @@
 import { IsNotEmpty, IsString } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
 import { uuid } from "../../utils/util";
+import { LocationCreateDto } from "../../api/locations/models/requests/LocationCreate.dto";
 
 export class Location {
     @ApiProperty()

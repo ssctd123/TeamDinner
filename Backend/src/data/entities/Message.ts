@@ -1,6 +1,7 @@
 import { IsNotEmpty, IsString } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
 import { uuid } from "../../utils/util";
+import { MessageCreateDto } from "../../api/messages/models/requests/MessageCreate.dto";
 
 export class Message {
 @ApiProperty()

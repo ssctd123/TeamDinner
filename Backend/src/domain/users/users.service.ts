@@ -83,7 +83,7 @@ export class UsersService {
 	}
 
 	async sendResetPassword(email: string): Promise<Boolean> {
-		const user: User = await this.getWithEmail(email: email);
+		const user: User = await this.getWithEmail(email);
 		if (user) {
 			const emailTemplate = generateResetPasswordTemplate(
 				'123456',

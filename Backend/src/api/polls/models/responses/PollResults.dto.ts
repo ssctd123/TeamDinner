@@ -1,5 +1,5 @@
 import { Poll } from "../../../../data/entities/Poll";
-import { QuantityResultDto } from "QuantityResult.dto";
+import { QuantityResultDto } from "./QuantityResult.dto";
 import { ApiProperty } from "@nestjs/swagger";
 
 export class PollResultsDto {
@@ -12,7 +12,7 @@ export class PollResultsDto {
 		}
 	})
 	results: { [key: string]: number };
-	quantityResults: { [key: string]: QuantityResult[] };
+	quantityResults: { [key: string]: QuantityResultDto[] };
 
 	static fromPoll(poll: Poll): PollResultsDto {
 		const results = {};
