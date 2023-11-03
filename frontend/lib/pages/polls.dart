@@ -194,7 +194,7 @@ class _PollsPageState extends State<PollsPage> {
       }
 
     } else {
-      widgets.add(PollForm(poll: poll));
+      widgets.add(PollForm(poll: poll, submitText: widget.tlPollStage == 1 ? "Submit Selections" : "Submit Vote"));
     }
     widgets.add(Container(height: 15,),);
     if (isOwner && poll.stage != null && poll.stage != PollStage.FINISHED) {
