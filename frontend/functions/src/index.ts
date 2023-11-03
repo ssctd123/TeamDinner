@@ -72,7 +72,7 @@ export const sendToDevices = functions.firestore
     const previousValue = change.before.data()['invites']
     const newValue = change.after.data()['invites']
 
-    if (previousValue.length > newValue.length) {
+    if (previousValue.length < newValue.length) {
       const userIds = change.after.data()['invites']
       const queryUsersSnapshot = await db
           .collection('users')

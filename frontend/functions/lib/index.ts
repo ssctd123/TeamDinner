@@ -67,12 +67,12 @@ export const sendToDevices = functions.firestore
 
   export const sendInvitation = functions.firestore
   .document('teams/{id}')
-  .onUpdate( async (change, context) => {
+  .onUpdate( async (change) => {
 
     const previousValue = change.before.data()['invites']
     const newValue = change.after.data()['invites']
 
-    if (previousValue.length > newValue.length) {
+    if (previousValue.length < newValue.length) {
       const userIds = change.after.data()['invites']
       const queryUsersSnapshot = await db
           .collection('users')
@@ -89,6 +89,7 @@ export const sendToDevices = functions.firestore
 
       return fcm.sendToDevice(tokens, payload);
     }
+    return null;
   });
 
 /*const test = async function() {
