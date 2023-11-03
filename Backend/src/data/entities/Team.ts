@@ -17,7 +17,7 @@ export class Team {
 	@ApiProperty({ type: [String] })
 	invitations: string[];
 
-	public static correctLegacyProperties(): Team {
+	public correctLegacyProperties(): Team {
 		if (owners === undefined || owners.length == 0) {
 			owners = [owner];
 		}
