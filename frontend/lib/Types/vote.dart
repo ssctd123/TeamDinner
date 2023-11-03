@@ -12,7 +12,7 @@ class Vote {
     json['quantities'].forEach((key, value) {
       quantities[key] = value;
     });
-    return Vote(json['teamId'],
+    return Vote("",
         json['userId'],
         json['optionIds'].map<String>((e) => e as String).toList(),
         quantities);
