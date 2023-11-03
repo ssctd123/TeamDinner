@@ -69,11 +69,11 @@ export const sendToDevices = functions.firestore
   .document('teams/{id}')
   .onUpdate( async (change) => {
 
-    const previousValue = change.before.data()['invites']
-    const newValue = change.after.data()['invites']
+    const previousValue = change.before.data()['invitations']
+    const newValue = change.after.data()['invitations']
 
     if (previousValue.length < newValue.length) {
-      const userIds = change.after.data()['invites']
+      const userIds = change.after.data()['invitations']
       const queryUsersSnapshot = await db
           .collection('users')
           .get();
