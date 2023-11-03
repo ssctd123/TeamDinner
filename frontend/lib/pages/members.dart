@@ -102,7 +102,7 @@ class _MembersPage extends State<MembersPage> {
                   ),
                 ),
               ),
-            if (team.owners.contains(element.id) && element.id != currentUser.id)
+            if (isOwner && team.owners.contains(element.id) && element.id != currentUser.id)
               SizedBox(
                 width: 120,
                 height: 35,
