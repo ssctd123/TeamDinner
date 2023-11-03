@@ -82,7 +82,7 @@ class _PollsPageState extends State<PollsPage> {
     try {
       Team memberTeam = await TeamsRepository.getMembersTeam(user.id);
       isOwner = memberTeam.owner == user.id;
-      Poll poll = await PollsRepository.get(memberTeam.id);
+      Poll poll = await PollsRepository.get(memberTeam.id + (widget.title ?? ""));
       for (var member in memberTeam.members) {
         var memberUser = await UsersRepository.get(member["id"]);
         memberNames[member["id"]] = memberUser.firstName + " " + memberUser.lastName;
