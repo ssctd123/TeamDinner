@@ -279,6 +279,7 @@ class _TeamPageState extends State<TeamPage> {
     isOwner = false;
     reset = true;
     user = User("", "", "", "");
+    ownerNames = []
     await _getTeam();
 
     if (mounted) {
