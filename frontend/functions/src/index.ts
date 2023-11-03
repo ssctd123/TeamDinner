@@ -39,6 +39,32 @@ export const sendToDevices = functions.firestore
     return fcm.sendToDevice(tokens, payload);
   });
 
+  export const sendTeamMessage = functions.firestore
+  .document('messages/{id}')
+  .onCreate(async snapshot => {
+
+    const message = snapshot.data();
+    const queryTeamsSnapshot = await db.collection('teams')
+        .get();
+
+    const foundUserIds = queryTeamsSnapshot.docs.filter(snap => snap.id == message.teamId).map((team) => team.data().members.map((x: any) => x['id']));
+    const userIds = foundUserIds[0];
+    const queryUsersSnapshot = await db
+        .collection('users')
+        .get();
+    const usersWithDeviceIds = queryUsersSnapshot.docs.filter((snap) => snap.data()?.deviceId != null).map(snap => snap.data());
+    const tokens = usersWithDeviceIds.filter(user => userIds.includes(user.id)).map(snap => snap.deviceId);
+    const payload: admin.messaging.MessagingPayload = {
+      notification: {
+        title: `${message.senderName} sent a message.`,
+        body: message.body,
+        click_action: 'FLUTTER_NOTIFICATION_CLICK'
+      }
+    };
+
+    return fcm.sendToDevice(tokens, payload);
+  });
+
 /*const test = async function() {
     const locations = await db.collection("locations")
         .get();
