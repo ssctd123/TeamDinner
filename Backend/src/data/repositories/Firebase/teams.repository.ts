@@ -19,7 +19,7 @@ export class TeamsRepository extends FirebaseRepository {
 			.doc(teamID)
 			.get()
 			.then((doc) => doc.data());
-		let result = new Team();
+		let result = new Team("", "", "", "", [], [], []);
 		result = Object.assign(result, (data as Team));
 		return result.correctLegacyProperties();
 	}
@@ -29,7 +29,7 @@ export class TeamsRepository extends FirebaseRepository {
 		for (let doc of snapshot.docs) {
 			const team: Team = doc.data() as Team;
 			if (team.members.find((member) => member.id === id)) {
-				let result = new Team();
+				let result = new Team("", "", "", "", [], [], []);
 				result = Object.assign(result, team);
 				return result.correctLegacyProperties();
 			}
@@ -40,7 +40,7 @@ e
 	async getTeams(): Promise<Team[]> {
 		const snapshot: firestore.QuerySnapshot = await this.collection.get();
 		return snapshot.docs.map((doc) => {
-			let result = new Team();
+			let result = new Team("", "", "", "", [], [], []);
 			result = Object.assign(result, (doc.data() as Team));
 			return result.correctLegacyProperties();
 		}) as Team[];

@@ -17,7 +17,6 @@ export class Team {
 	@ApiProperty({ type: [String] })
 	invitations: string[];
 
-	constructor() { }
 	constructor(id: string, name: string, description: string, owner: string, owners: string[], members: Member[], invitations: string[]) {
 		this.id = id;
 		this.name = name;
