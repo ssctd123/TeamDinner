@@ -32,7 +32,7 @@ export class TeamsRepository extends FirebaseRepository {
 		}
 		return null;
 	}
-
+e
 	async getTeams(): Promise<Team[]> {
 		const snapshot: firestore.QuerySnapshot = await this.collection.get();
 		return snapshot.docs.map((doc) => (doc.data() as Team).correctLegacyProperties()) as Team[];

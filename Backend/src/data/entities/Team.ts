@@ -18,8 +18,8 @@ export class Team {
 	invitations: string[];
 
 	public correctLegacyProperties(): Team {
-		if (owners === undefined || owners.length == 0) {
-			owners = [owner];
+		if (this.owners === undefined || this.owners.length == 0) {
+			this.owners = [this.owner];
 		}
 		return this;
 	}
