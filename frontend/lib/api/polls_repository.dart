@@ -89,8 +89,8 @@ class PollsRepository extends BaseRepository {
       body: jsonEncode(<String, dynamic>{
         "pollId": pollId,
         "userId": vote.userId,
+        "optionIds": vote.optionIds,
         "quantities": vote.quantities,
-        "optionIds": vote.optionIds
       }),
     );
     /* Error handling no votes for the poll */

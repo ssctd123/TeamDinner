@@ -3,7 +3,9 @@ import 'package:TeamDinner/api/polls_repository.dart';
 
 import '../Types/Poll.dart';
 import '../Types/poll_option.dart';
+import '../Types/team.dart';
 import '../Types/vote.dart';
+import '../api/teams_repository.dart';
 import '../api/users_repository.dart';
 
 class PollForm extends StatefulWidget {
@@ -117,7 +119,8 @@ class _PollFormState extends State<PollForm> {
                       .toList();
                   Map<String, int> optionQuantities = {for (var item in optionIds) item : textEditingDict[item]!.text == '' ? 0 : int.parse(textEditingDict[item]!.text)};
                   var user = await UsersRepository.get(null);
-                  await PollsRepository.vote(poll.id, Vote(user.id, optionIds, optionQuantities));
+                  Team memberTeam = await TeamsRepository.getMembersTeam(user.id);
+                  await PollsRepository.vote(poll.id, Vote(memberTeam.id, user.id, optionIds, optionQuantities));
                   if (mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('Vote cast.')));

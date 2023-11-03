@@ -115,7 +115,7 @@ export class PollsService {
 		const poll = await this.get(voteDto.pollId);
 		if (await this.isInProgress(poll)) {
 			if (this.optionsAreInPoll(poll, voteDto.optionIds)) {
-				if (await this.isMember(poll.id, voteDto.userId)) {
+				if (await this.isMember(voteDto.teamId, voteDto.userId)) {
 					if (await this.hasVoted(poll, voteDto.userId)) {
 						const currentVote = poll.votes.find(
 							(v) => v.userId == voteDto.userId
