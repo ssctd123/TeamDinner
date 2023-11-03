@@ -13,8 +13,7 @@ import {
 import { Body, Controller, Delete, Get, Post, Query } from "@nestjs/common";
 import { TeamsService } from "../../domain/teams/teams.service";
 import { Team } from "../../data/entities/Team";
-import { TeamCreateDto } from "./models/requests/
-TeamCreate.dto";
+import { TeamCreateDto } from "./models/requests/TeamCreate.dto";
 import { TeamMemberModifyDto } from "./models/requests/TeamMemberModify.dto";
 import { TeamInviteDto } from "./models/requests/TeamInvite.dto";
 import { TeamModifyDto } from "./models/requests/TeamModify.dto";
