@@ -65,6 +65,32 @@ export const sendToDevices = functions.firestore
     return fcm.sendToDevice(tokens, payload);
   });
 
+  export const sendInvitation = functions.firestore
+  .document('teams/{id}')
+  .onUpdate( async (change, context) => {
+
+    const previousValue = change.before.data()['invites']
+    const newValue = change.after.data()['invites']
+
+    if (previousValue.length > newValue.length) {
+      const userIds = change.after.data()['invites']
+      const queryUsersSnapshot = await db
+          .collection('users')
+          .get();
+      const usersWithDeviceIds = queryUsersSnapshot.docs.filter((snap) => snap.data()?.deviceId != null).map(snap => snap.data());
+      const tokens = usersWithDeviceIds.filter(user => userIds.includes(user.id)).map(snap => snap.deviceId);
+      const payload: admin.messaging.MessagingPayload = {
+        notification: {
+          title: `Team Invitation!`,
+          body: "You got invited to join a join.",
+          click_action: 'FLUTTER_NOTIFICATION_CLICK'
+        }
+      };
+
+      return fcm.sendToDevice(tokens, payload);
+    }
+  });
+
 /*const test = async function() {
     const locations = await db.collection("locations")
         .get();
