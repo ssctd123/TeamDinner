@@ -76,7 +76,7 @@ class NavDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.location_city),
+            leading: const Icon(Icons.message),
             title: const Text('Send Team Message'),
             onTap: () => {
               Navigator.of(context).pop(),

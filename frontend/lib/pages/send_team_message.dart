@@ -34,7 +34,7 @@ class _SendTeamMessagePage extends State<SendTeamMessagePage> {
             child: Column(
               children: [
                 buildTextField(
-                    messageContent, "Enter message...", Icons.message),
+                    messageContent, "Enter message...", Icons.abc),
                 SizedBox(
                   width: double.infinity,
                   child: RawMaterialButton(

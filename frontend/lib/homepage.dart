@@ -87,7 +87,7 @@ class _HomePageState extends State<HomePage> {
             gap: 8,
             tabs: const [
               GButton(
-                icon: Icons.group,
+                icon: Icons.groups,
                 text: 'Team',
                 backgroundColor: Color(0xFFEAB541),
               ),
