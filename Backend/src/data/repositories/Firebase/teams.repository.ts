@@ -51,7 +51,7 @@ e
 	}
 
 	async checkOwner(id: string): Promise<boolean> {
-		const team = this.getTeamWithUserId(id);
+		const team = await this.getTeamWithUserId(id);
 		return team.owners.includes(id);
 	}
 
