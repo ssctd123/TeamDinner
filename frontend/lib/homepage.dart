@@ -5,6 +5,10 @@ import 'package:TeamDinner/pages/teams.dart';
 import 'package:TeamDinner/widgets/nav_drawer.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
+import 'Types/team.dart';
+import 'Types/user.dart';
+import 'api/teams_repository.dart';
+import 'api/users_repository.dart';
 import 'pages/help_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -20,6 +24,10 @@ const List<Widget> _widgetOptions = <Widget>[
   MembersPage(),
   ProfilePage(),
 ];
+
+User currentUser = User("", "", "", "");
+Team team = Team("", "", "", [], [], []);
+bool isOwner = false;
 
 // Basic layout of the homepage
 class _HomePageState extends State<HomePage> {
@@ -52,20 +60,27 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      drawer: NavDrawer(
-        onSwitchTab: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-        },
-        onNavigate: (page) {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) {
-                  return page;
-                },
-              ),
+      drawer: FutureBuilder(
+        future: _getInformation(),
+        builder: (context, snapshot) {
+          return NavDrawer(
+            onSwitchTab: (index) {
+              setState(() {
+                _selectedIndex = index;
+              });
+            },
+            onNavigate: (page) {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return page;
+                    },
+                  ),
+              );
+            },
+            team: team,
+            isOwner: isOwner,
           );
         },
       ),
@@ -113,5 +128,29 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+  Future<void> _getInformation() async {
+    currentUser = await UsersRepository.get(null);
+    team = await TeamsRepository.getMembersTeam(currentUser.id);
+    isOwner = team.owners.contains(currentUser.id);
+
+    List<User> members = [];
+    for (var member in team.members) {
+      if (member["id"] == currentUser.id) {
+        currentUser.setDebt(member["debt"]);
+      }
+      User memberUser = await UsersRepository.get(member["id"]);
+      memberUser.setDebt(member["debt"]);
+      members.add(memberUser);
+    }
+    team.setMembers(members);
+    if (team.owners.contains(currentUser.id)) {
+      isOwner = true;
+      List<User> invitations = [];
+      for (var invitation in team.invitations) {
+        invitations.add(await UsersRepository.get(invitation));
+      }
+      team.setInvitations(invitations);
+    }
   }
 }

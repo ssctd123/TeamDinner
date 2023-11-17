@@ -223,7 +223,7 @@ class _TeamPageState extends State<TeamPage> {
           )),
       // Payments are visible if you are the owner
       Visibility(
-          visible: isOwner,
+          visible: false,
           child: ElevatedButton.icon(
             onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -279,7 +279,7 @@ class _TeamPageState extends State<TeamPage> {
     isOwner = false;
     reset = true;
     user = User("", "", "", "");
-    ownerNames = []
+    ownerNames = [];
     await _getTeam();
 
     if (mounted) {

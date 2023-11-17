@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import '../Types/team.dart';
 import '../pages/notify_location_time.dart';
 import '../pages/polls.dart';
 import '../pages/send_team_message.dart';
+import 'member_list_widgets.dart';
 
 class NavDrawer extends StatelessWidget {
-  const NavDrawer({Key? key, this.onSwitchTab, this.onNavigate}) : super(key: key);
+  const NavDrawer({Key? key, this.onSwitchTab, this.onNavigate, this.team, this.isOwner}) : super(key: key);
   final ValueChanged<int>? onSwitchTab;
   final ValueChanged<StatefulWidget>? onNavigate;
+  final Team? team;
+  final bool? isOwner;
   static const PollsPage menuChoicesPollPage = PollsPage(title: "Dinner Choices", tlPollStage: 0);
   static const PollsPage finalSelectionsPollPage = PollsPage(title: "Final Selections", tlPollStage: 1);
 
@@ -81,6 +85,25 @@ class NavDrawer extends StatelessWidget {
             onTap: () => {
               Navigator.of(context).pop(),
               onNavigate?.call(const SendTeamMessagePage()),
+            },
+          ),
+          Visibility(
+            visible: isOwner ?? false,
+            child: ListTile(
+              leading: const Icon(Icons.edit_document),
+              title: const Text('Log Payments'),
+              onTap: () => {
+                Navigator.of(context).pop(),
+                onNavigate?.call(MemberListWidget(team: team ?? Team("", "", "", [], [], []))),
+              },
+            ),
+          ),
+          ListTile(
+            leading: const Icon(Icons.help),
+            title: const Text('Help'),
+            onTap: () => {
+              Navigator.of(context).pop(),
+              // TODO: Add Navigation to Help Page
             },
           ),
         ],
