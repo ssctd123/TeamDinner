@@ -95,6 +95,17 @@ class NavDrawer extends StatelessWidget {
             ),
           ),
           Visibility(
+            visible: true,
+            child: ListTile(
+              leading: const Icon(Icons.numbers),
+              title: const Text('Number of Participants'),
+              onTap: () => {
+                Navigator.of(context).pop(),
+                //onNavigate?.call(const SendTeamMessagePage()),
+              },
+            ),
+          ),
+          Visibility(
             visible: isOwner ?? false,
             child: ListTile(
               leading: const Icon(Icons.monetization_on),
