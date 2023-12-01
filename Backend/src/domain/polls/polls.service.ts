@@ -54,7 +54,7 @@ export class PollsService {
 	async splitBill(teamBillDto: TeamBillDto): Promise<SplitBillDto> {
 		if (await this.isOwner()) {
 			const team: Team = await this.teamsService.get();
-			const pollId: team.id + teamBillDto.pollDesc;
+			const pollId: string = team.id + teamBillDto.pollDesc;
 			const optOuts = await this.getOptOuts(pollId);
 			const split = teamBillDto.amount / (team.members.length - optOuts);
 			let tipTotal = 0;
