@@ -72,21 +72,27 @@ class NavDrawer extends StatelessWidget {
               onNavigate?.call(finalSelectionsPollPage),
             },
           ),
-          ListTile(
-            leading: const Icon(Icons.location_city),
-            title: const Text('Notify Location and Time'),
-            onTap: () => {
-              Navigator.of(context).pop(),
-              onNavigate?.call(const NotifyLocationTimePage()),
-            },
+          Visibility(
+            visible: isOwner ?? false,
+            child: ListTile(
+              leading: const Icon(Icons.location_city),
+              title: const Text('Notify Location and Time'),
+              onTap: () => {
+                Navigator.of(context).pop(),
+                onNavigate?.call(const NotifyLocationTimePage()),
+              },
+            ),
           ),
-          ListTile(
-            leading: const Icon(Icons.message),
-            title: const Text('Send Team Message'),
-            onTap: () => {
-              Navigator.of(context).pop(),
-              onNavigate?.call(const SendTeamMessagePage()),
-            },
+          Visibility(
+            visible: isOwner ?? false,
+            child: ListTile(
+              leading: const Icon(Icons.message),
+              title: const Text('Send Team Message'),
+              onTap: () => {
+                Navigator.of(context).pop(),
+                onNavigate?.call(const SendTeamMessagePage()),
+              },
+            ),
           ),
           Visibility(
             visible: isOwner ?? false,
