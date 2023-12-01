@@ -37,7 +37,7 @@ export class PollsService {
 
 	async get(id?: string): Promise<Poll> {
 		if (!id) {
-			id = (await this.teamsService.get(id)).id;
+			throw new HttpException("Poll not found", HttpStatus.NOT_FOUND);
 		}
 		const poll = await this.pollsRepository.get(id);
 		if (poll) {
@@ -54,7 +54,7 @@ export class PollsService {
 	async splitBill(teamBillDto: TeamBillDto): Promise<SplitBillDto> {
 		if (await this.isOwner()) {
 			const team: Team = await this.teamsService.get();
-			const optOuts = await this.getOptOuts('${team.id}${teamBillDto.pollDesc}');
+			const optOuts = await this.getOptOuts(team.id + teamBillDto.pollDesc);
 			const split = teamBillDto.amount / (team.members.length - optOuts);
 			let tipTotal = 0;
 			for (const member of team.members) {
