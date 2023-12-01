@@ -105,6 +105,7 @@ class _SplitBillFormState extends State<SplitBillForm> {
                       onPressed: () async {
                         if (formKey.currentState!.validate()) {
                           final tip = await PollsRepository.split(
+                              "Final Selections",
                               double.parse(paymentController.text));
                           Navigator.of(context).pop();
                           /*setState(() {
