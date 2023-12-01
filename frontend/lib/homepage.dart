@@ -7,6 +7,7 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 
 import 'Types/team.dart';
 import 'Types/user.dart';
+import 'Types/user_type.dart';
 import 'api/teams_repository.dart';
 import 'api/users_repository.dart';
 import 'pages/help_page.dart';
@@ -80,6 +81,7 @@ class _HomePageState extends State<HomePage> {
               );
             },
             team: team,
+            isFamilyAccount: currentUser.userType == UserType.FAMILY,
             isOwner: isOwner,
           );
         },

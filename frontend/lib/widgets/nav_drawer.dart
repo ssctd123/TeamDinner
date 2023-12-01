@@ -8,11 +8,12 @@ import 'member_list_widgets.dart';
 import 'split_bill_form.dart';
 
 class NavDrawer extends StatelessWidget {
-  const NavDrawer({Key? key, this.onSwitchTab, this.onNavigate, this.team, this.isOwner}) : super(key: key);
+  const NavDrawer({Key? key, this.onSwitchTab, this.onNavigate, this.team, this.isFamilyAccount, this.isOwner}) : super(key: key);
   final ValueChanged<int>? onSwitchTab;
   final ValueChanged<StatefulWidget>? onNavigate;
   final Team? team;
   final bool? isOwner;
+  final bool? isFamilyAccount;
   static const PollsPage menuChoicesPollPage = PollsPage(title: "Dinner Choices", tlPollStage: 0);
   static const PollsPage finalSelectionsPollPage = PollsPage(title: "Final Selections", tlPollStage: 1);
 
@@ -96,7 +97,7 @@ class NavDrawer extends StatelessWidget {
             ),
           ),
           Visibility(
-            visible: true,
+            visible: isFamilyAccount ?? false,
             child: ListTile(
               leading: const Icon(Icons.numbers),
               title: const Text('Number of Participants'),
