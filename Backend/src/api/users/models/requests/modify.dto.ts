@@ -32,6 +32,6 @@ export class ModifyDto {
 	deviceId?: string;
 	@ApiPropertyOptional()
 	@IsOptional()
-	@IsString()
+	@Min(1)
 	numberOfParticipants?: number;
 }

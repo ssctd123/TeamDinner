@@ -301,7 +301,7 @@ class _TeamPageState extends State<TeamPage> {
     if (debt == 0) {
       return "You do not owe money!";
     } else if (debt > 0) {
-      return "You ${user.userType == UserType.FAMILY ? "and each participant" : ""} owe ${NumberFormat.simpleCurrency().format(debt)}";
+      return "You ${(user.userType == UserType.FAMILY && (user.numberOfParticipants ?? 0) > 1) ? "and each participant " : ""}owe ${NumberFormat.simpleCurrency().format(debt)}";
     } else {
       return "You are owed ${NumberFormat.simpleCurrency().format(-debt)}";
     }
