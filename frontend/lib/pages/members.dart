@@ -17,17 +17,13 @@ class MembersPage extends StatefulWidget {
 class _MembersPage extends State<MembersPage> {
 
   List<User> memberList = [];
-  Team team = Team("", "", "", "", [], []);
+  User currentUser = User("", "", "", "");
+  Team team = Team("", "", "", [], [], []);
   bool isOwner = false;
 
   @override
   Widget build(BuildContext context){
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color(0xFF045D5D),
-        centerTitle: true,
-        title: const Text('Members'),
-      ),
       resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
         child: Padding(
@@ -67,7 +63,7 @@ class _MembersPage extends State<MembersPage> {
                     style: const TextStyle(fontSize: 16, color: Colors.black, fontWeight: FontWeight.bold),
                     textAlign: TextAlign.left
                 ),
-                if (element.id == team.owner)
+                if (team.owners.contains(element.id))
                   const Text("Team Lead",
                       style: const TextStyle(fontSize: 14, color: Colors.black,),
                       textAlign: TextAlign.left
@@ -80,7 +76,7 @@ class _MembersPage extends State<MembersPage> {
                 const Divider(),
               ],
             ),
-            if (isOwner && team.owner != element.id)
+            if (isOwner && (!team.owners.contains(element.id)))
               SizedBox(
                 width: 120,
                 height: 35,
@@ -90,14 +86,41 @@ class _MembersPage extends State<MembersPage> {
                   shape:
                   RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
                   onPressed: () async {
+                    team.owners.add(element.id);
                     Map<String, dynamic> updates = {
-                      'owner': element.id
+                      'owners': team.owners
                     };
                     await TeamsRepository.update(team.name, updates);
                     setState(() {});
                   },
                   child: Text(
                     "Assign Team Lead",
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
+              ),
+            if (isOwner && team.owners.contains(element.id) && element.id != currentUser.id)
+              SizedBox(
+                width: 120,
+                height: 35,
+                child: RawMaterialButton(
+                  fillColor: Colors.red[300],
+                  padding: const EdgeInsets.symmetric(vertical: 5.0),
+                  shape:
+                  RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+                  onPressed: () async {
+                    team.owners.remove(element.id);
+                    Map<String, dynamic> updates = {
+                      'owners': team.owners
+                    };
+                    await TeamsRepository.update(team.name, updates);
+                    setState(() {});
+                  },
+                  child: Text(
+                    "Remove Team Lead",
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 12,
@@ -119,10 +142,10 @@ class _MembersPage extends State<MembersPage> {
 
   Future<List<User>> getInformation() async {
     memberList = [];
-    var user = await UsersRepository.get(null);
+    currentUser = await UsersRepository.get(null);
 
-    team = await TeamsRepository.getMembersTeam(user.id);
-    isOwner = team.owner == user.id;
+    team = await TeamsRepository.getMembersTeam(currentUser.id);
+    isOwner = team.owners.contains(currentUser.id);
 
     for (var member in team.members) {
       memberList.add(await UsersRepository.get(member['id']));

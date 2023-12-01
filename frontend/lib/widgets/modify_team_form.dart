@@ -78,7 +78,7 @@ class _ModifyTeamFormState extends State<ModifyTeamForm> {
                   SingleChildScrollView(
                     child: Column(
                       children: List.generate(team.members.length, (index) {
-                        if (team.members[index].id == team.owner.id) {
+                        if (team.owners.contains(team.members[index].id)) {
                           return const SizedBox();
                         }
                         return Row(
@@ -157,6 +157,7 @@ class _ModifyTeamFormState extends State<ModifyTeamForm> {
                           var description = descriptionController.value.text;
                           try {
                             Map<String, dynamic> updates = {
+                              'name': teamName,
                               'description': description
                             };
                             await TeamsRepository.update(teamName, updates);

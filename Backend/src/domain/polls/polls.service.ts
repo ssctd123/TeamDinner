@@ -37,13 +37,13 @@ export class PollsService {
 
 	async get(id?: string): Promise<Poll> {
 		if (!id) {
-			id = (await this.teamsService.get(id)).id;
+			throw new HttpException("Poll id not provided", HttpStatus.NOT_FOUND);
 		}
 		const poll = await this.pollsRepository.get(id);
 		if (poll) {
 			return poll;
 		}
-		throw new HttpException("Poll not found", HttpStatus.NOT_FOUND);
+		throw new HttpException("Poll not found!", HttpStatus.NOT_FOUND);
 	}
 
 	async getResults(id?: string): Promise<PollResultsDto> {
@@ -54,11 +54,12 @@ export class PollsService {
 	async splitBill(teamBillDto: TeamBillDto): Promise<SplitBillDto> {
 		if (await this.isOwner()) {
 			const team: Team = await this.teamsService.get();
-			const optOuts = await this.getOptOuts(team.id);
+			const pollId: string = team.id + teamBillDto.pollDesc;
+			const optOuts = await this.getOptOuts(pollId);
 			const split = teamBillDto.amount / (team.members.length - optOuts);
 			let tipTotal = 0;
 			for (const member of team.members) {
-				if (await this.isOptedOut(member.id)) {
+				if (await this.isOptedOut(member.id, pollId)) {
 					continue;
 				}
 				const user: User = await this.usersService.get(member.id);
@@ -89,8 +90,8 @@ export class PollsService {
 		return optOuts;
 	}
 
-	async isOptedOut(userId?: string): Promise<boolean> {
-		const poll = await this.get();
+	async isOptedOut(userId?: string, pollId: string): Promise<boolean> {
+		const poll = await this.get(pollId);
 		const vote = poll.votes.find((vote: Vote) => vote.userId == userId);
 		return vote && vote.optionIds.includes("-1");
 	}
@@ -115,7 +116,7 @@ export class PollsService {
 		const poll = await this.get(voteDto.pollId);
 		if (await this.isInProgress(poll)) {
 			if (this.optionsAreInPoll(poll, voteDto.optionIds)) {
-				if (await this.isMember(poll.id, voteDto.userId)) {
+				if (await this.isMember(voteDto.teamId, voteDto.userId)) {
 					if (await this.hasVoted(poll, voteDto.userId)) {
 						const currentVote = poll.votes.find(
 							(v) => v.userId == voteDto.userId

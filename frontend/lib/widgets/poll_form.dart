@@ -3,14 +3,17 @@ import 'package:TeamDinner/api/polls_repository.dart';
 
 import '../Types/Poll.dart';
 import '../Types/poll_option.dart';
+import '../Types/team.dart';
 import '../Types/vote.dart';
+import '../api/teams_repository.dart';
 import '../api/users_repository.dart';
 
 class PollForm extends StatefulWidget {
   final Poll poll;
+  final String? submitText;
   final Vote? vote;
 
-  const PollForm({Key? key, required this.poll, this.vote}) : super(key: key);
+  const PollForm({Key? key, required this.poll, required this.submitText, this.vote}) : super(key: key);
 
   @override
   State<PollForm> createState() => _PollFormState();
@@ -18,6 +21,7 @@ class PollForm extends StatefulWidget {
 
 class _PollFormState extends State<PollForm> {
   late Poll poll;
+  late String submitText;
   late List<bool> isSelected;
   late Vote? vote;
   var textEditingDict = <String, TextEditingController>{};
@@ -26,6 +30,7 @@ class _PollFormState extends State<PollForm> {
   void initState() {
     super.initState();
     poll = widget.poll;
+    submitText = widget.submitText ?? 'Submit Vote';
     vote = widget.vote;
     if (vote != null && vote!.optionIds.isNotEmpty) {
       isSelected = poll.options
@@ -114,7 +119,8 @@ class _PollFormState extends State<PollForm> {
                       .toList();
                   Map<String, int> optionQuantities = {for (var item in optionIds) item : textEditingDict[item]!.text == '' ? 0 : int.parse(textEditingDict[item]!.text)};
                   var user = await UsersRepository.get(null);
-                  await PollsRepository.vote(poll.id, Vote(user.id, optionIds, optionQuantities));
+                  Team memberTeam = await TeamsRepository.getMembersTeam(user.id);
+                  await PollsRepository.vote(poll.id, Vote(memberTeam.id, user.id, optionIds, optionQuantities));
                   if (mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('Vote cast.')));
@@ -124,7 +130,7 @@ class _PollFormState extends State<PollForm> {
                     backgroundColor: const Color(0xFF045F5F),
                     side: BorderSide.none,
                     shape: const StadiumBorder()),
-                child: const Text('Submit Vote',
+                child: Text(submitText,
                     style: TextStyle(color: Colors.white)),
               ))
       ],

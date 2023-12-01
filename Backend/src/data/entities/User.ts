@@ -26,4 +26,6 @@ export class User {
 	userType?: UserType;
 	@ApiPropertyOptional()
 	deviceId?: string;
+	@ApiPropertyOptional()
+	numberOfParticipants?: number;
 }

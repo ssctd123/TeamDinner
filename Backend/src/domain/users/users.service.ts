@@ -6,6 +6,8 @@ import { SignupDto } from "../../api/users/models/requests/signup.dto";
 import { Auth } from "../../data/entities/Auth";
 import { AuthService } from "../auth/auth.service";
 import { ModifyDto } from "../../api/users/models/requests/modify.dto";
+import generateResetPasswordTemplate from '../templates/resetPasswordTemplate';
+import MailService from '../mail/mail.service';
 
 @Injectable()
 export class UsersService {
@@ -65,6 +67,9 @@ export class UsersService {
 		if (modifyDto.deviceId) {
 			updateData.deviceId = modifyDto.deviceId;
 		}
+		if (modifyDto.numberOfParticipants) {
+			updateData.numberOfParticipants = modifyDto.numberOfParticipants;
+		}
 		return await this.usersRepository.modify(user.id, updateData);
 	}
 
@@ -78,5 +83,23 @@ export class UsersService {
 			throw new HttpException("User not found", 404);
 		}
 		return this.get(auth.id);
+	}
+
+	async sendResetPassword(email: string): Promise<Boolean> {
+		const user: User = await this.getWithEmail(email);
+		if (user) {
+			const emailTemplate = generateResetPasswordTemplate(
+				'123456',
+				user.firstName
+			);
+			const mailService = MailService.getInstance();
+			await mailService.sendMail({
+				to: user.email,
+				subject: 'Reset Password',
+				html: emailTemplate.html,
+			});
+			return true;
+		}
+		return false;
 	}
 }

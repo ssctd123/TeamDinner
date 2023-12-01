@@ -6,8 +6,7 @@ import '../helpers/PollHelper.dart';
 import '../Types/Poll.dart';
 
 class SplitBillForm extends StatefulWidget {
-  final Poll poll;
-  const SplitBillForm({Key? key, required this.poll}) : super(key: key);
+  const SplitBillForm({Key? key}) : super(key: key);
 
   @override
   State<SplitBillForm> createState() => _SplitBillFormState();
@@ -106,8 +105,8 @@ class _SplitBillFormState extends State<SplitBillForm> {
                       onPressed: () async {
                         if (formKey.currentState!.validate()) {
                           final tip = await PollsRepository.split(
+                              "Final Selections",
                               double.parse(paymentController.text));
-                          PollHelper.saveHasPollBeenSplit(widget.poll.id, true);
                           Navigator.of(context).pop();
                           /*setState(() {
                             this.tip = tip;

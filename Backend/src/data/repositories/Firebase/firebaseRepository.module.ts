@@ -5,6 +5,7 @@ import { AuthsRepository } from "./auths.repository";
 import { UtilsModule } from "../../../utils/utils.module";
 import { PollsRepository } from "./polls.repository";
 import { LocationsRepository } from "./locations.repository";
+import { MessagesRepository } from "./messages.repository";
 
 @Module({
 	exports: [
@@ -12,14 +13,16 @@ import { LocationsRepository } from "./locations.repository";
 		UsersRepository,
 		AuthsRepository,
 		PollsRepository,
-		LocationsRepository
+		LocationsRepository,
+		MessagesRepository
 	],
 	providers: [
 		TeamsRepository,
 		UsersRepository,
 		AuthsRepository,
 		PollsRepository,
-		LocationsRepository
+		LocationsRepository,
+		MessagesRepository
 	],
 	imports: [UtilsModule]
 })
