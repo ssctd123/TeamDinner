@@ -1,3 +1,4 @@
+import 'package:TeamDinner/pages/number_of_participants.dart';
 import 'package:flutter/material.dart';
 import '../Types/team.dart';
 import '../pages/notify_location_time.dart';
@@ -101,7 +102,7 @@ class NavDrawer extends StatelessWidget {
               title: const Text('Number of Participants'),
               onTap: () => {
                 Navigator.of(context).pop(),
-                //onNavigate?.call(const SendTeamMessagePage()),
+                onNavigate?.call(const NumberOfParticipantsPage()),
               },
             ),
           ),
