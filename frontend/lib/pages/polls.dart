@@ -12,8 +12,6 @@ import '../api/polls_repository.dart';
 import '../api/teams_repository.dart';
 import '../api/users_repository.dart';
 import '../widgets/create_poll_form.dart';
-import '../widgets/split_bill_form.dart';
-import '../helpers/PollHelper.dart';
 
 
 // Poll handling and functionality page
@@ -32,7 +30,6 @@ class _PollsPageState extends State<PollsPage> {
   Vote vote = Vote("","", [], null);
   bool reset = true;
   PollResults? results;
-  bool pollHasBeenSplit = false;
   Map<String, String> memberNames = {};
 
   // Establish layout of the page
@@ -75,7 +72,6 @@ class _PollsPageState extends State<PollsPage> {
   // Getting poll information for processing
   Future<Poll> _getPoll() async {
     if (!reset) {
-      pollHasBeenSplit = await PollHelper.hasPollBeenSplit(poll.id);
       return poll;
     }
     var user = await UsersRepository.get(null);
@@ -112,7 +108,6 @@ class _PollsPageState extends State<PollsPage> {
       });
     }
 
-    pollHasBeenSplit = await PollHelper.hasPollBeenSplit(poll.id);
     return poll;
   }
 
@@ -240,21 +235,6 @@ class _PollsPageState extends State<PollsPage> {
           icon: const Icon(Icons.poll),
           label: Text((widget.tlPollStage == 1) ? 'Start Final Selections Poll' : 'Start Dinner Choices Poll',
               style: TextStyle(color: Colors.white))));
-      if (poll.stage == PollStage.FINISHED && !pollHasBeenSplit && widget.tlPollStage == 1) {
-        widgets.add(ElevatedButton.icon(
-            style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF2E9079),
-                side: BorderSide.none,
-                shape: const StadiumBorder()),
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return SplitBillForm(poll: poll);
-              })).then((value) => {resetPage()});
-            },
-            icon: const Icon(Icons.monetization_on),
-            label: const Text('Split Bill',
-                style: TextStyle(color: Colors.white))));
-      }
     }
     return widgets;
   }
@@ -264,7 +244,6 @@ class _PollsPageState extends State<PollsPage> {
     poll = Poll("", "", "", DateTime.now(), "", false, false, []);
     isOwner = false;
     vote = Vote("","", [], null);
-    pollHasBeenSplit = false;
     reset = true;
 
     await _getPoll();

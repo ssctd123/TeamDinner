@@ -4,6 +4,7 @@ import '../pages/notify_location_time.dart';
 import '../pages/polls.dart';
 import '../pages/send_team_message.dart';
 import 'member_list_widgets.dart';
+import 'split_bill_form.dart';
 
 class NavDrawer extends StatelessWidget {
   const NavDrawer({Key? key, this.onSwitchTab, this.onNavigate, this.team, this.isOwner}) : super(key: key);
@@ -86,6 +87,17 @@ class NavDrawer extends StatelessWidget {
               Navigator.of(context).pop(),
               onNavigate?.call(const SendTeamMessagePage()),
             },
+          ),
+          Visibility(
+            visible: isOwner ?? false,
+            child: ListTile(
+              leading: const Icon(Icons.monetization_on),
+              title: const Text('Split Payment'),
+              onTap: () => {
+                Navigator.of(context).pop(),
+                onNavigate?.call(const SplitBillForm())
+              },
+            ),
           ),
           Visibility(
             visible: isOwner ?? false,
