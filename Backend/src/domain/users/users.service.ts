@@ -67,6 +67,9 @@ export class UsersService {
 		if (modifyDto.deviceId) {
 			updateData.deviceId = modifyDto.deviceId;
 		}
+		if (modifyDto.numberOfParticipants) {
+			updateData.numberOfParticipants = modifyDto.numberOfParticipants;
+		}
 		return await this.usersRepository.modify(user.id, updateData);
 	}
 

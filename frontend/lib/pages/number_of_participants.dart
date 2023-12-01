@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../api/users_repository.dart';
+
 class NumberOfParticipantsPage extends StatefulWidget {
   const NumberOfParticipantsPage({Key? key}) : super(key: key);
 
@@ -40,6 +42,13 @@ class _NumberOfParticipantsPage extends State<NumberOfParticipantsPage> {
                     RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
                     onPressed: () async {
                       if (formKey.currentState!.validate()) {
+                        Map<String, dynamic> updates = {
+                          'numberOfParticipants': int.parse(numberOfParticipants.value.text)
+                        };
+                        updates.removeWhere((key, value) =>
+                        value == null ||
+                            (value is String && value.isEmpty));
+                        UsersRepository.modify(updates);
                         //LocationsRepository.create(meetingLocation.text, meetingTime.text);
                         Navigator.of(context).pop();
                       }
@@ -67,6 +76,7 @@ class _NumberOfParticipantsPage extends State<NumberOfParticipantsPage> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16.0),
       child: TextFormField(
+        keyboardType: TextInputType.number,
         controller: controller,
         validator: (value) {
           if (value == null || value.isEmpty) {

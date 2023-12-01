@@ -1,3 +1,4 @@
+import 'package:TeamDinner/Types/user_type.dart';
 import 'package:flutter/material.dart';
 import 'package:TeamDinner/api/teams_repository.dart';
 import 'package:TeamDinner/api/users_repository.dart';
@@ -289,6 +290,9 @@ class _TeamPageState extends State<TeamPage> {
 
   // calculation for debit for the users
   calculateDebt() {
+    if (user.userType == UserType.FAMILY) {
+      return ((user.debt ?? 0) / (user.numberOfParticipants ?? 1));
+    }
     return user.debt ?? 0;
   }
 
@@ -297,7 +301,7 @@ class _TeamPageState extends State<TeamPage> {
     if (debt == 0) {
       return "You do not owe money!";
     } else if (debt > 0) {
-      return "You owe ${NumberFormat.simpleCurrency().format(debt)}";
+      return "You ${user.userType == UserType.FAMILY ? "and each participant" : ""} owe ${NumberFormat.simpleCurrency().format(debt)}";
     } else {
       return "You are owed ${NumberFormat.simpleCurrency().format(-debt)}";
     }

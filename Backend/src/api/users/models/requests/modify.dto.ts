@@ -30,4 +30,8 @@ export class ModifyDto {
 	@IsOptional()
 	@IsString()
 	deviceId?: string;
+	@ApiPropertyOptional()
+	@IsOptional()
+	@IsString()
+	numberOfParticipants?: number;
 }
