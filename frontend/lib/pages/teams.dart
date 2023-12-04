@@ -291,7 +291,7 @@ class _TeamPageState extends State<TeamPage> {
   // calculation for debit for the users
   calculateDebt() {
     if (user.userType == UserType.FAMILY) {
-      return ((user.debt ?? 0) / (user.numberOfParticipants ?? 1));
+      return ((user.debt as num ?? 0) / (user.numberOfParticipants as num ?? 1));
     }
     return user.debt ?? 0;
   }
