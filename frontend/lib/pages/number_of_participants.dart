@@ -32,7 +32,7 @@ class _NumberOfParticipantsPage extends State<NumberOfParticipantsPage> {
             child: Column(
               children: [
                 buildTextField(
-                    numberOfParticipants, "How many people?", Icons.people),
+                    numberOfParticipants, "How many people in your party participated in the meal?", Icons.people),
                 SizedBox(
                   width: double.infinity,
                   child: RawMaterialButton(
