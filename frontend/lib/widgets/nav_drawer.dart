@@ -4,6 +4,7 @@ import '../Types/team.dart';
 import '../pages/notify_location_time.dart';
 import '../pages/polls.dart';
 import '../pages/send_team_message.dart';
+import 'create_poll_form.dart';
 import 'member_list_widgets.dart';
 import 'split_bill_form.dart';
 
@@ -16,6 +17,7 @@ class NavDrawer extends StatelessWidget {
   final bool? isFamilyAccount;
   static const PollsPage menuChoicesPollPage = PollsPage(title: "Dinner Choices", tlPollStage: 0);
   static const PollsPage finalSelectionsPollPage = PollsPage(title: "Final Selections", tlPollStage: 1);
+  static const PollsPage customPollPage = PollsPage(title: "", tlPollStage: 0);
 
   @override
   Widget build(BuildContext context) {
@@ -72,6 +74,14 @@ class NavDrawer extends StatelessWidget {
             onTap: () => {
               Navigator.of(context).pop(),
               onNavigate?.call(finalSelectionsPollPage),
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.poll),
+            title: const Text('Create Your Own Poll'),
+            onTap: () => {
+              Navigator.of(context).pop(),
+              onNavigate?.call(customPollPage),
             },
           ),
           Visibility(

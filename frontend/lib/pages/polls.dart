@@ -11,6 +11,7 @@ import '../Types/team.dart';
 import '../api/polls_repository.dart';
 import '../api/teams_repository.dart';
 import '../api/users_repository.dart';
+import '../helpers/PollHelper.dart';
 import '../widgets/create_poll_form.dart';
 
 
@@ -78,7 +79,11 @@ class _PollsPageState extends State<PollsPage> {
     try {
       Team memberTeam = await TeamsRepository.getMembersTeam(user.id);
       isOwner = memberTeam.owners.contains(user.id);
-      Poll poll = await PollsRepository.get(memberTeam.id + (widget.title ?? ""));
+      String pollId = memberTeam.id + (widget.title ?? "");
+      if (widget.title?.isEmpty == true) {
+        pollId = await PollHelper.getCustomPollId();
+      }
+      Poll poll = await PollsRepository.get(pollId);
       for (var member in memberTeam.members) {
         var memberUser = await UsersRepository.get(member["id"]);
         memberNames[member["id"]] = memberUser.firstName + " " + memberUser.lastName;
@@ -116,7 +121,7 @@ class _PollsPageState extends State<PollsPage> {
     List<Widget> widgets = [];
     widgets.add(Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Text(widget.title ?? "",
+      child: Text(poll.topic,
           style: const TextStyle(
               fontSize: 30, fontWeight: FontWeight.bold, color: Colors.black)),
     ));
@@ -224,16 +229,27 @@ class _PollsPageState extends State<PollsPage> {
               shape: const StadiumBorder()),
           onPressed: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
+              String description = "";
+              bool enableMultipleMenuSelected = false;
+              bool enableQuantityEntry = false;
+              int stage = 0;
+              if (widget.title?.isNotEmpty == true) {
+                description = (widget.tlPollStage == 1) ? "Choose your final dinner selections and how many of each you want per family (including players)" : "What would you like for dinner?";
+                enableMultipleMenuSelected = (widget.tlPollStage == 1) ? true : false;
+                enableQuantityEntry = (widget.tlPollStage == 1) ? true : false;
+                stage = widget.title?.isNotEmpty == true ? 1 : 0;
+              }
               return CreatePollForm(
                 topicValue: widget.title,
-                descriptionValue: (widget.tlPollStage == 1) ? "Choose your final dinner selections and how many of each you want per family (including players)" : "What would you like for dinner?",
-                enableMultipleMenuSelections: (widget.tlPollStage == 1) ? true : false,
-                enableQuantityEntry: (widget.tlPollStage == 1) ? true : false,
+                descriptionValue: description,
+                enableMultipleMenuSelections: enableMultipleMenuSelected,
+                enableQuantityEntry: enableQuantityEntry,
+                stage: stage,
               );
             })).then((value) => {resetPage()});
           },
           icon: const Icon(Icons.poll),
-          label: Text((widget.tlPollStage == 1) ? 'Start Final Selections Poll' : 'Start Dinner Choices Poll',
+          label: Text(((widget.title?.isNotEmpty == true) ? ((widget.tlPollStage == 1) ? 'Start Final Selections Poll' : 'Start Dinner Choices Poll') : 'Create Your Poll'),
               style: TextStyle(color: Colors.white))));
     }
     return widgets;

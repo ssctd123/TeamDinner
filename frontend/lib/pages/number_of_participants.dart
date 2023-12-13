@@ -31,8 +31,18 @@ class _NumberOfParticipantsPage extends State<NumberOfParticipantsPage> {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
+                Padding(
+                    padding: const EdgeInsets.only(top: 16.0, bottom: 16.0),
+                    child: Text(
+                      "How many people in your party participated in the meal?",
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                      ))
+                ),
                 buildTextField(
-                    numberOfParticipants, "How many people in your party participated in the meal?", Icons.people),
+                    numberOfParticipants, "Enter number here...", Icons.people),
                 SizedBox(
                   width: double.infinity,
                   child: RawMaterialButton(
