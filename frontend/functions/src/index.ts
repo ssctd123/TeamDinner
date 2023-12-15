@@ -28,15 +28,19 @@ export const sendToDevices = functions.firestore
         .get();
     const usersWithDeviceIds = queryUsersSnapshot.docs.filter((snap) => snap.data()?.deviceId != null).map(snap => snap.data());
     const tokens = usersWithDeviceIds.filter(user => userIds.includes(user.id)).map(snap => snap.deviceId);
-    const payload: admin.messaging.MessagingPayload = {
-      notification: {
-        title: 'Location Update!',
-        body: `We will meet at ${location.name} at ${location.time}.`,
-        click_action: 'FLUTTER_NOTIFICATION_CLICK'
-      }
-    };
 
-    return fcm.sendToDevice(tokens, payload);
+    tokens.forEach(function (value) {
+      const messageSend = {
+        token: value,
+        notification: {
+          title: 'Location Update!',
+          body: `We will meet at ${location.name} at ${location.time}.`
+        }
+      }
+      fcm.send(messageSend);
+    });
+
+    return null;
   });
 
   export const sendTeamMessage = functions.firestore
@@ -54,15 +58,20 @@ export const sendToDevices = functions.firestore
         .get();
     const usersWithDeviceIds = queryUsersSnapshot.docs.filter((snap) => snap.data()?.deviceId != null).map(snap => snap.data());
     const tokens = usersWithDeviceIds.filter(user => userIds.includes(user.id)).map(snap => snap.deviceId);
-    const payload: admin.messaging.MessagingPayload = {
-      notification: {
-        title: `${message.senderName} sent a message.`,
-        body: message.body,
-        click_action: 'FLUTTER_NOTIFICATION_CLICK'
-      }
-    };
 
-    return fcm.sendToDevice(tokens, payload);
+    tokens.forEach(function (value) {
+      const messageSend = {
+        token: value,
+        notification: {
+          title: `${message.senderName} sent a message.`,
+          body: message.body
+        }
+      }
+      fcm.send(messageSend);
+    });
+
+    
+    return null;
   });
 
   export const sendInvitation = functions.firestore
@@ -79,15 +88,17 @@ export const sendToDevices = functions.firestore
           .get();
       const usersWithDeviceIds = queryUsersSnapshot.docs.filter((snap) => snap.data()?.deviceId != null).map(snap => snap.data());
       const tokens = usersWithDeviceIds.filter(user => userIds.includes(user.id)).map(snap => snap.deviceId);
-      const payload: admin.messaging.MessagingPayload = {
-        notification: {
-          title: `Team Invitation!`,
-          body: "You got invited to join a join.",
-          click_action: 'FLUTTER_NOTIFICATION_CLICK'
-        }
-      };
 
-      return fcm.sendToDevice(tokens, payload);
+      tokens.forEach(function (value) {
+        const messageSend = {
+          token: value,
+          notification: {
+            title: `Team Invitation!`,
+            body: "You got invited to join a join."
+          }
+        }
+        fcm.send(messageSend);
+      });
     }
     return null;
   });
