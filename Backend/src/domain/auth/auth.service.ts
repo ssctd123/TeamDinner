@@ -28,6 +28,7 @@ export class AuthService {
 				await this.authsRepository.modify(auth.id, updateData);
 				return auth;
 			}
+		}
 		return null;
 	}
 
@@ -93,5 +94,5 @@ export class AuthService {
 			email: auth.email,
 			isAdmin: auth.isAdmin
 		};
-	} 
+	}
 }
