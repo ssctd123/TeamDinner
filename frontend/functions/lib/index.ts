@@ -28,15 +28,82 @@ export const sendToDevices = functions.firestore
         .get();
     const usersWithDeviceIds = queryUsersSnapshot.docs.filter((snap) => snap.data()?.deviceId != null).map(snap => snap.data());
     const tokens = usersWithDeviceIds.filter(user => userIds.includes(user.id)).map(snap => snap.deviceId);
-    const payload: admin.messaging.MessagingPayload = {
-      notification: {
-        title: 'Location Update!',
-        body: `We will meet at ${location.name} at ${location.time}.`,
-        click_action: 'FLUTTER_NOTIFICATION_CLICK'
-      }
-    };
 
-    return fcm.sendToDevice(tokens, payload);
+    tokens.forEach(function (value) {
+      const messageSend = {
+        token: value,
+        notification: {
+          title: 'Location Update!',
+          body: `We will meet at ${location.name} at ${location.time}.`,
+          click_action: 'FLUTTER_NOTIFICATION_CLICK'
+        }
+      }
+      fcm.send(messageSend);
+    });
+
+    return null;
+  });
+
+  export const sendTeamMessage = functions.firestore
+  .document('messages/{id}')
+  .onCreate(async snapshot => {
+
+    const message = snapshot.data();
+    const queryTeamsSnapshot = await db.collection('teams')
+        .get();
+
+    const foundUserIds = queryTeamsSnapshot.docs.filter(snap => snap.id == message.teamId).map((team) => team.data().members.map((x: any) => x['id']));
+    const userIds = foundUserIds[0];
+    const queryUsersSnapshot = await db
+        .collection('users')
+        .get();
+    const usersWithDeviceIds = queryUsersSnapshot.docs.filter((snap) => snap.data()?.deviceId != null).map(snap => snap.data());
+    const tokens = usersWithDeviceIds.filter(user => userIds.includes(user.id)).map(snap => snap.deviceId);
+
+    tokens.forEach(function (value) {
+      const messageSend = {
+        token: value,
+        notification: {
+          title: `${message.senderName} sent a message.`,
+          body: message.body,
+          click_action: 'FLUTTER_NOTIFICATION_CLICK'
+        }
+      }
+      fcm.send(messageSend);
+    });
+
+    
+    return null;
+  });
+
+  export const sendInvitation = functions.firestore
+  .document('teams/{id}')
+  .onUpdate( async (change) => {
+
+    const previousValue = change.before.data()['invitations']
+    const newValue = change.after.data()['invitations']
+
+    if (previousValue.length < newValue.length) {
+      const userIds = change.after.data()['invitations']
+      const queryUsersSnapshot = await db
+          .collection('users')
+          .get();
+      const usersWithDeviceIds = queryUsersSnapshot.docs.filter((snap) => snap.data()?.deviceId != null).map(snap => snap.data());
+      const tokens = usersWithDeviceIds.filter(user => userIds.includes(user.id)).map(snap => snap.deviceId);
+
+      tokens.forEach(function (value) {
+        const messageSend = {
+          token: value,
+          notification: {
+            title: `Team Invitation!`,
+            body: "You got invited to join a join.",
+            click_action: 'FLUTTER_NOTIFICATION_CLICK'
+          }
+        }
+        fcm.send(messageSend);
+      });
+    }
+    return null;
   });
 
 /*const test = async function() {

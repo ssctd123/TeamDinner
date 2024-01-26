@@ -9,6 +9,10 @@ export class VoteDto {
 	@ApiPropertyOptional()
 	@IsString()
 	@IsOptional()
+	teamId?: string;
+	@ApiPropertyOptional()
+	@IsString()
+	@IsOptional()
 	userId?: string;
 	@ApiProperty()
 	@IsString({ each: true })
@@ -16,5 +20,5 @@ export class VoteDto {
 	optionIds: string[];
 	@ApiPropertyOptional()
 	@IsOptional()
-	quantities?: Record<string, integer>;
+	quantities?: Record<string, number>;
 }

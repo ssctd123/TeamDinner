@@ -1,10 +1,15 @@
+import 'package:TeamDinner/pages/members.dart';
 import 'package:flutter/material.dart';
-import 'package:TeamDinner/pages/polls.dart';
 import 'package:TeamDinner/pages/profile.dart';
 import 'package:TeamDinner/pages/teams.dart';
 import 'package:TeamDinner/widgets/nav_drawer.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
+import 'Types/team.dart';
+import 'Types/user.dart';
+import 'Types/user_type.dart';
+import 'api/teams_repository.dart';
+import 'api/users_repository.dart';
 import 'pages/help_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,9 +22,13 @@ class HomePage extends StatefulWidget {
 int _selectedIndex = 0;
 const List<Widget> _widgetOptions = <Widget>[
   TeamPage(),
-  PollsPage(),
+  MembersPage(),
   ProfilePage(),
 ];
+
+User currentUser = User("", "", "", "");
+Team team = Team("", "", "", [], [], []);
+bool isOwner = false;
 
 // Basic layout of the homepage
 class _HomePageState extends State<HomePage> {
@@ -52,20 +61,28 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      drawer: NavDrawer(
-        onSwitchTab: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-        },
-        onNavigate: (page) {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) {
-                  return page;
-                },
-              ),
+      drawer: FutureBuilder(
+        future: _getInformation(),
+        builder: (context, snapshot) {
+          return NavDrawer(
+            onSwitchTab: (index) {
+              setState(() {
+                _selectedIndex = index;
+              });
+            },
+            onNavigate: (page) {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return page;
+                    },
+                  ),
+              );
+            },
+            team: team,
+            isFamilyAccount: currentUser.userType == UserType.FAMILY,
+            isOwner: isOwner,
           );
         },
       ),
@@ -87,13 +104,13 @@ class _HomePageState extends State<HomePage> {
             gap: 8,
             tabs: const [
               GButton(
-                icon: Icons.group,
+                icon: Icons.groups,
                 text: 'Team',
                 backgroundColor: Color(0xFFEAB541),
               ),
               GButton(
-                icon: Icons.poll,
-                text: 'Poll',
+                icon: Icons.people,
+                text: 'Members',
                 backgroundColor: Color(0xFF9E3531),
               ),
               GButton(
@@ -113,5 +130,29 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+  Future<void> _getInformation() async {
+    currentUser = await UsersRepository.get(null);
+    team = await TeamsRepository.getMembersTeam(currentUser.id);
+    isOwner = team.owners.contains(currentUser.id);
+
+    List<User> members = [];
+    for (var member in team.members) {
+      if (member["id"] == currentUser.id) {
+        currentUser.setDebt(member["debt"]);
+      }
+      User memberUser = await UsersRepository.get(member["id"]);
+      memberUser.setDebt(member["debt"]);
+      members.add(memberUser);
+    }
+    team.setMembers(members);
+    if (team.owners.contains(currentUser.id)) {
+      isOwner = true;
+      List<User> invitations = [];
+      for (var invitation in team.invitations) {
+        invitations.add(await UsersRepository.get(invitation));
+      }
+      team.setInvitations(invitations);
+    }
   }
 }

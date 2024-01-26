@@ -1,3 +1,4 @@
+import 'package:TeamDinner/Types/user_type.dart';
 import 'package:flutter/material.dart';
 import 'package:TeamDinner/api/teams_repository.dart';
 import 'package:TeamDinner/api/users_repository.dart';
@@ -19,10 +20,11 @@ class TeamPage extends StatefulWidget {
 
 // Layout and functions of the team page
 class _TeamPageState extends State<TeamPage> {
-  Team team = Team("", "", "", false, [], []);
+  Team team = Team("", "", "", [], [], []);
   bool isOwner = false;
   bool reset = true;
   User user = User("", "", "", "");
+  List<String> ownerNames = [];
 
   @override
   // layout of the body of the team page
@@ -81,7 +83,6 @@ class _TeamPageState extends State<TeamPage> {
     user = await UsersRepository.get(null);
     try {
       var memberTeam = await TeamsRepository.getMembersTeam(user.id);
-      memberTeam.setOwner(await UsersRepository.get(memberTeam.owner));
       List<User> members = [];
       for (var member in memberTeam.members) {
         if (member["id"] == user.id) {
@@ -92,7 +93,7 @@ class _TeamPageState extends State<TeamPage> {
         members.add(memberUser);
       }
       memberTeam.setMembers(members);
-      if (user.id == memberTeam.owner.id) {
+      if (memberTeam.owners.contains(user.id)) {
         isOwner = true;
         List<User> invitations = [];
         for (var invitation in memberTeam.invitations) {
@@ -100,6 +101,12 @@ class _TeamPageState extends State<TeamPage> {
         }
         memberTeam.setInvitations(invitations);
       }
+
+      for (var owner in memberTeam.owners) {
+        var userResult = await UsersRepository.get(owner);
+        ownerNames.add("${userResult.firstName} ${userResult.lastName}");
+      }
+
       if (mounted) {
         setState(() {
           team = memberTeam;
@@ -167,7 +174,7 @@ class _TeamPageState extends State<TeamPage> {
       ),
       Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Text("Team Lead: ${team.owner.toString()}",
+        child: Text("Team Lead(s): ${ownerNames.join(', ')}",
             textAlign: TextAlign.left,
             style: const TextStyle(fontSize: 18, color: Colors.black)),
       ),
@@ -187,11 +194,11 @@ class _TeamPageState extends State<TeamPage> {
       //                 style: const TextStyle(fontSize: 14, color: Colors.black))
       //         ])),
       // Display the owners venmmo with how much the user owes
-      Padding(
+      /*Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text("Payor's Venmo: ${team.owner.venmo ?? "N/A"}",
               textAlign: TextAlign.left,
-              style: const TextStyle(fontSize: 18, color: Colors.black))),
+              style: const TextStyle(fontSize: 18, color: Colors.black))),*/
       Padding(
         padding: const EdgeInsets.all(10.0),
         child: Text(getDebtText(),
@@ -217,7 +224,7 @@ class _TeamPageState extends State<TeamPage> {
           )),
       // Payments are visible if you are the owner
       Visibility(
-          visible: isOwner,
+          visible: false,
           child: ElevatedButton.icon(
             onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -243,7 +250,7 @@ class _TeamPageState extends State<TeamPage> {
                 await TeamsRepository.removeMember(team.id, null);
                 if (mounted) {
                   setState(() {
-                    team = Team("", "", "", "", [], []);
+                    team = Team("", "", "", [], [], []);
                     //reset = true;
                   });
                 }
@@ -269,10 +276,11 @@ class _TeamPageState extends State<TeamPage> {
 
   // this resets the entire team page
   resetPage() async {
-    team = Team("", "", "", false, [], []);
+    team = Team("", "", "", [], [], []);
     isOwner = false;
     reset = true;
     user = User("", "", "", "");
+    ownerNames = [];
     await _getTeam();
 
     if (mounted) {
@@ -282,6 +290,9 @@ class _TeamPageState extends State<TeamPage> {
 
   // calculation for debit for the users
   calculateDebt() {
+    if (user.userType == UserType.FAMILY) {
+      return ((user.debt as num ?? 0) / (user.numberOfParticipants as num ?? 1));
+    }
     return user.debt ?? 0;
   }
 
@@ -290,7 +301,7 @@ class _TeamPageState extends State<TeamPage> {
     if (debt == 0) {
       return "You do not owe money!";
     } else if (debt > 0) {
-      return "You owe ${NumberFormat.simpleCurrency().format(debt)}";
+      return "You ${(user.userType == UserType.FAMILY && (user.numberOfParticipants ?? 0) > 1) ? "and each participant " : ""}owe ${NumberFormat.simpleCurrency().format(debt)}";
     } else {
       return "You are owed ${NumberFormat.simpleCurrency().format(-debt)}";
     }

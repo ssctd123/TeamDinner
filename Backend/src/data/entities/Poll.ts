@@ -45,7 +45,7 @@ export class Poll {
 			option: "Opt Out"
 		});
 		return {
-			id: teamId,
+			id: teamId + dto.topic,
 			topic: dto.topic,
 			description: dto.description,
 			time: dto.time,

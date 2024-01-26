@@ -19,7 +19,9 @@ export class TeamsRepository extends FirebaseRepository {
 			.doc(teamID)
 			.get()
 			.then((doc) => doc.data());
-		return data as Team;
+		let result = new Team("", "", "", "", [], [], []);
+		result = Object.assign(result, (data as Team));
+		return result.correctLegacyProperties();
 	}
 
 	async getTeamWithUserId(id: string): Promise<Team> {
@@ -27,15 +29,21 @@ export class TeamsRepository extends FirebaseRepository {
 		for (let doc of snapshot.docs) {
 			const team: Team = doc.data() as Team;
 			if (team.members.find((member) => member.id === id)) {
-				return team;
+				let result = new Team("", "", "", "", [], [], []);
+				result = Object.assign(result, team);
+				return result.correctLegacyProperties();
 			}
 		}
 		return null;
 	}
-
+e
 	async getTeams(): Promise<Team[]> {
 		const snapshot: firestore.QuerySnapshot = await this.collection.get();
-		return snapshot.docs.map((doc) => doc.data()) as Team[];
+		return snapshot.docs.map((doc) => {
+			let result = new Team("", "", "", "", [], [], []);
+			result = Object.assign(result, (doc.data() as Team));
+			return result.correctLegacyProperties();
+		}) as Team[];
 	}
 
 	async createTeam(team: Team): Promise<Team> {
@@ -51,11 +59,8 @@ export class TeamsRepository extends FirebaseRepository {
 	}
 
 	async checkOwner(id: string): Promise<boolean> {
-		const snapshot: firestore.QuerySnapshot = await this.collection
-			.where("owner", "==", id)
-			.get();
-		console.log(snapshot.docs.length);
-		return snapshot.docs.length > 0;
+		const team = await this.getTeamWithUserId(id);
+		return team.owners.includes(id);
 	}
 
 	async addMember(teamId: string, member: Member): Promise<Team> {

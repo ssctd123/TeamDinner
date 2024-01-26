@@ -1,11 +1,23 @@
+import 'package:TeamDinner/pages/number_of_participants.dart';
 import 'package:flutter/material.dart';
-import '../pages/members.dart';
+import '../Types/team.dart';
 import '../pages/notify_location_time.dart';
+import '../pages/polls.dart';
+import '../pages/send_team_message.dart';
+import 'create_poll_form.dart';
+import 'member_list_widgets.dart';
+import 'split_bill_form.dart';
 
 class NavDrawer extends StatelessWidget {
-  const NavDrawer({Key? key, this.onSwitchTab, this.onNavigate}) : super(key: key);
+  const NavDrawer({Key? key, this.onSwitchTab, this.onNavigate, this.team, this.isFamilyAccount, this.isOwner}) : super(key: key);
   final ValueChanged<int>? onSwitchTab;
   final ValueChanged<StatefulWidget>? onNavigate;
+  final Team? team;
+  final bool? isOwner;
+  final bool? isFamilyAccount;
+  static const PollsPage menuChoicesPollPage = PollsPage(title: "Dinner Choices", tlPollStage: 0);
+  static const PollsPage finalSelectionsPollPage = PollsPage(title: "Final Selections", tlPollStage: 1);
+  static const PollsPage customPollPage = PollsPage(title: "", tlPollStage: 0);
 
   @override
   Widget build(BuildContext context) {
@@ -33,8 +45,8 @@ class NavDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.poll),
-            title: const Text('Poll'),
+            leading: const Icon(Icons.people),
+            title: const Text('Members'),
             onTap: () => {
               onSwitchTab?.call(1),
               Navigator.of(context).pop()
@@ -49,19 +61,90 @@ class NavDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.people),
-            title: const Text('Members'),
+            leading: const Icon(Icons.poll),
+            title: const Text('Menu Choices Poll'),
             onTap: () => {
               Navigator.of(context).pop(),
-              onNavigate?.call(const MembersPage()),
+              onNavigate?.call(menuChoicesPollPage),
             },
           ),
           ListTile(
-            leading: const Icon(Icons.location_city),
-            title: const Text('Notify Location and Time'),
+            leading: const Icon(Icons.poll),
+            title: const Text('Final Selections Poll'),
             onTap: () => {
               Navigator.of(context).pop(),
-              onNavigate?.call(const NotifyLocationTimePage()),
+              onNavigate?.call(finalSelectionsPollPage),
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.poll),
+            title: const Text('Create Your Own Poll'),
+            onTap: () => {
+              Navigator.of(context).pop(),
+              onNavigate?.call(customPollPage),
+            },
+          ),
+          Visibility(
+            visible: isOwner ?? false,
+            child: ListTile(
+              leading: const Icon(Icons.location_city),
+              title: const Text('Notify Location and Time'),
+              onTap: () => {
+                Navigator.of(context).pop(),
+                onNavigate?.call(const NotifyLocationTimePage()),
+              },
+            ),
+          ),
+          Visibility(
+            visible: isOwner ?? false,
+            child: ListTile(
+              leading: const Icon(Icons.message),
+              title: const Text('Send Team Message'),
+              onTap: () => {
+                Navigator.of(context).pop(),
+                onNavigate?.call(const SendTeamMessagePage()),
+              },
+            ),
+          ),
+          Visibility(
+            visible: isFamilyAccount ?? false,
+            child: ListTile(
+              leading: const Icon(Icons.numbers),
+              title: const Text('Number of Participants'),
+              onTap: () => {
+                Navigator.of(context).pop(),
+                onNavigate?.call(const NumberOfParticipantsPage()),
+              },
+            ),
+          ),
+          Visibility(
+            visible: isOwner ?? false,
+            child: ListTile(
+              leading: const Icon(Icons.monetization_on),
+              title: const Text('Split Payment'),
+              onTap: () => {
+                Navigator.of(context).pop(),
+                onNavigate?.call(const SplitBillForm())
+              },
+            ),
+          ),
+          Visibility(
+            visible: isOwner ?? false,
+            child: ListTile(
+              leading: const Icon(Icons.edit_document),
+              title: const Text('Log Payments'),
+              onTap: () => {
+                Navigator.of(context).pop(),
+                onNavigate?.call(MemberListWidget(team: team ?? Team("", "", "", [], [], []))),
+              },
+            ),
+          ),
+          ListTile(
+            leading: const Icon(Icons.help),
+            title: const Text('Help'),
+            onTap: () => {
+              Navigator.of(context).pop(),
+              // TODO: Add Navigation to Help Page
             },
           ),
         ],

@@ -1,25 +1,25 @@
+import 'package:TeamDinner/widgets/poll_form.dart';
 import 'package:flutter/material.dart';
 import 'package:TeamDinner/Types/poll_option.dart';
 import 'package:TeamDinner/Types/poll_results.dart';
 import 'package:TeamDinner/Types/poll_stage.dart';
 import 'package:TeamDinner/Types/quantity_result.dart';
 import 'package:TeamDinner/Types/vote.dart';
-import 'package:intl/intl.dart';
 
 import '../Types/Poll.dart';
 import '../Types/team.dart';
 import '../api/polls_repository.dart';
 import '../api/teams_repository.dart';
 import '../api/users_repository.dart';
-import '../widgets/create_poll_form.dart';
-import '../widgets/poll_form.dart';
-import '../widgets/split_bill_form.dart';
 import '../helpers/PollHelper.dart';
+import '../widgets/create_poll_form.dart';
 
 
 // Poll handling and functionality page
 class PollsPage extends StatefulWidget {
-  const PollsPage({Key? key}) : super(key: key);
+  const PollsPage({Key? key, this.title, this.tlPollStage}) : super(key: key);
+  final String? title;
+  final int? tlPollStage;
 
   @override
   State<PollsPage> createState() => _PollsPageState();
@@ -28,17 +28,20 @@ class PollsPage extends StatefulWidget {
 class _PollsPageState extends State<PollsPage> {
   Poll poll = Poll("", "", "", DateTime.now(), "", false, false, []);
   bool isOwner = false;
-  Vote vote = Vote("", [], null);
+  Vote vote = Vote("","", [], null);
   bool reset = true;
   PollResults? results;
-  bool pollHasBeenSplit = false;
-  int tlPollStage = 0;
   Map<String, String> memberNames = {};
 
   // Establish layout of the page
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color(0xFF045D5D),
+        centerTitle: true,
+        title: Text("Poll"),
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(
@@ -70,22 +73,24 @@ class _PollsPageState extends State<PollsPage> {
   // Getting poll information for processing
   Future<Poll> _getPoll() async {
     if (!reset) {
-      pollHasBeenSplit = await PollHelper.hasPollBeenSplit(poll.id);
-      tlPollStage = await PollHelper.getTLPollStage();
       return poll;
     }
     var user = await UsersRepository.get(null);
     try {
       Team memberTeam = await TeamsRepository.getMembersTeam(user.id);
-      isOwner = memberTeam.owner == user.id;
-      Poll poll = await PollsRepository.get(memberTeam.id);
+      isOwner = memberTeam.owners.contains(user.id);
+      String pollId = memberTeam.id + (widget.title ?? "");
+      if (widget.title?.isEmpty == true) {
+        pollId = await PollHelper.getCustomPollId();
+      }
+      Poll poll = await PollsRepository.get(pollId);
       for (var member in memberTeam.members) {
         var memberUser = await UsersRepository.get(member["id"]);
         memberNames[member["id"]] = memberUser.firstName + " " + memberUser.lastName;
       }
       if (poll.votes != null) {
         vote = poll.votes!.firstWhere((vote) => vote.userId == user.id,
-            orElse: () => Vote("", [], null));
+            orElse: () => Vote("","", [], null));
       }
       PollResults? res;
       if (poll.stage == PollStage.FINISHED) {
@@ -108,8 +113,6 @@ class _PollsPageState extends State<PollsPage> {
       });
     }
 
-    pollHasBeenSplit = await PollHelper.hasPollBeenSplit(poll.id);
-    tlPollStage = await PollHelper.getTLPollStage();
     return poll;
   }
 
@@ -141,7 +144,7 @@ class _PollsPageState extends State<PollsPage> {
 
     widgets.add(Container(height: 15,),);
 
-    if (results != null) {
+    if (results != null && (results?.results.isNotEmpty == true || results?.quantityResults.isNotEmpty == true)) {
       widgets.add(const Padding(
         padding: EdgeInsets.all(6.0),
         child: Text("Results",
@@ -190,11 +193,12 @@ class _PollsPageState extends State<PollsPage> {
         });
       }
 
+    } else if (poll.stage != PollStage.NOT_STARTED) {
+      widgets.add(PollForm(poll: poll, submitText: widget.tlPollStage == 1 ? "Submit Selections" : "Submit Vote"));
     }
     widgets.add(Container(height: 15,),);
     if (isOwner && poll.stage != null && poll.stage != PollStage.FINISHED) {
-      String text =
-      poll.stage == PollStage.NOT_STARTED ? "Start Poll" : "End Poll";
+      String text = poll.stage == PollStage.NOT_STARTED ? "Start Poll" : "End Poll";
       widgets.add(Padding(
         padding: const EdgeInsets.all(8.0),
         child: ElevatedButton(
@@ -209,7 +213,6 @@ class _PollsPageState extends State<PollsPage> {
             if (poll.stage == PollStage.NOT_STARTED) {
               await PollsRepository.startPoll(poll.id);
             } else {
-              PollHelper.saveTLPollStage(tlPollStage + 1);
               await PollsRepository.endPoll(poll.id);
             }
             resetPage();
@@ -226,32 +229,28 @@ class _PollsPageState extends State<PollsPage> {
               shape: const StadiumBorder()),
           onPressed: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
+              String description = "";
+              bool enableMultipleMenuSelected = false;
+              bool enableQuantityEntry = false;
+              int stage = 0;
+              if (widget.title?.isNotEmpty == true) {
+                description = (widget.tlPollStage == 1) ? "Choose your final dinner selections and how many of each you want per family (including players)" : "What would you like for dinner?";
+                enableMultipleMenuSelected = (widget.tlPollStage == 1) ? true : false;
+                enableQuantityEntry = (widget.tlPollStage == 1) ? true : false;
+                stage = widget.title?.isNotEmpty == true ? 1 : 0;
+              }
               return CreatePollForm(
-                topicValue: (tlPollStage == 1) ? "Final Selections" : "Dinner Choices",
-                descriptionValue: (tlPollStage == 1) ? "Choose your final dinner selections and how many of each you want per family (including players)" : "What would you like for dinner?",
-                enableMultipleMenuSelections: (tlPollStage == 1) ? true : false,
-                enableQuantityEntry: (tlPollStage == 1) ? true : false,
+                topicValue: widget.title,
+                descriptionValue: description,
+                enableMultipleMenuSelections: enableMultipleMenuSelected,
+                enableQuantityEntry: enableQuantityEntry,
+                stage: stage,
               );
             })).then((value) => {resetPage()});
           },
           icon: const Icon(Icons.poll),
-          label: Text((tlPollStage == 1) ? 'Start Final Selections Poll' : 'Start Dinner Choices Poll',
+          label: Text(((widget.title?.isNotEmpty == true) ? ((widget.tlPollStage == 1) ? 'Start Final Selections Poll' : 'Start Dinner Choices Poll') : 'Create Your Poll'),
               style: TextStyle(color: Colors.white))));
-      if (poll.stage == PollStage.FINISHED && !pollHasBeenSplit && tlPollStage == 2) {
-        widgets.add(ElevatedButton.icon(
-            style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF2E9079),
-                side: BorderSide.none,
-                shape: const StadiumBorder()),
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return SplitBillForm(poll: poll);
-              })).then((value) => {resetPage()});
-            },
-            icon: const Icon(Icons.monetization_on),
-            label: const Text('Split Bill',
-                style: TextStyle(color: Colors.white))));
-      }
     }
     return widgets;
   }
@@ -260,9 +259,7 @@ class _PollsPageState extends State<PollsPage> {
   resetPage() async {
     poll = Poll("", "", "", DateTime.now(), "", false, false, []);
     isOwner = false;
-    vote = Vote("", [], null);
-    pollHasBeenSplit = false;
-    tlPollStage = 0;
+    vote = Vote("","", [], null);
     reset = true;
 
     await _getPoll();

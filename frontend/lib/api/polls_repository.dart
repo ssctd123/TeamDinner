@@ -89,8 +89,8 @@ class PollsRepository extends BaseRepository {
       body: jsonEncode(<String, dynamic>{
         "pollId": pollId,
         "userId": vote.userId,
+        "optionIds": vote.optionIds,
         "quantities": vote.quantities,
-        "optionIds": vote.optionIds
       }),
     );
     /* Error handling no votes for the poll */
@@ -131,14 +131,17 @@ class PollsRepository extends BaseRepository {
   }
 
   /* Handles splitting payment after poll has been completed */
-  static Future<double> split(double amount) async {
+  static Future<double> split(String pollDesc, double amount) async {
     final response = await http.post(
       Uri.parse("${BaseRepository.baseUrl}/$repositoryName/split"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         "Authorization": "Bearer ${(await Util.getAccessToken())!.token}"
       },
-      body: jsonEncode(<String, dynamic>{"amount": amount}),
+      body: jsonEncode(<String, dynamic>{
+        "pollDesc": pollDesc,
+        "amount": amount
+      }),
     );
 
     /* Error handling not able to split payments */

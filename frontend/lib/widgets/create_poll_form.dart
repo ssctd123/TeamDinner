@@ -6,12 +6,13 @@ import '../Types/Poll.dart';
 import '../helpers/PollHelper.dart';
 
 class CreatePollForm extends StatefulWidget {
-  const CreatePollForm({Key? key, this.topicValue, this.descriptionValue, this.enableMultipleMenuSelections, this.enableQuantityEntry}) : super(key: key);
+  const CreatePollForm({Key? key, this.topicValue, this.descriptionValue, this.enableMultipleMenuSelections, this.enableQuantityEntry, this.stage}) : super(key: key);
 
   final String? topicValue;
   final String? descriptionValue;
   final bool? enableMultipleMenuSelections;
   final bool? enableQuantityEntry;
+  final int? stage;
 
   @override
   State<CreatePollForm> createState() => _CreatePollFormState();
@@ -30,9 +31,12 @@ class _CreatePollFormState extends State<CreatePollForm> {
   TextEditingController topic = TextEditingController();
   TextEditingController description = TextEditingController();
   List options = [TextEditingController(), TextEditingController()];
-  int stage = 1;
+  int stage = 0;
 
   @override
+  void initState() {
+    stage = widget.stage ?? 0;
+  }
   // layout of the poll page
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,6 +73,37 @@ class _CreatePollFormState extends State<CreatePollForm> {
     setState(() {
       options.removeLast();
     });
+  }
+
+  String getTopicValue() {
+    if (widget.topicValue?.isNotEmpty == true) {
+      return widget.topicValue!;
+    }
+    return topic.text;
+  }
+  String getDescriptionValue() {
+    if (widget.descriptionValue?.isNotEmpty == true) {
+      return widget.descriptionValue!;
+    }
+    return description.text;
+  }
+  String getLocationValue() {
+    if (widget.topicValue?.isNotEmpty == true) {
+      return "location";
+    }
+    return meetingLocation.text;
+  }
+  bool getEnableMultipleSelectionsValue() {
+    if (widget.topicValue?.isNotEmpty == true) {
+      return widget.enableMultipleMenuSelections ?? false;
+    }
+    return isMultiple;
+  }
+  bool getEnableQuantityEntryValue() {
+    if (widget.topicValue?.isNotEmpty == true) {
+      return widget.enableQuantityEntry ?? false;
+    }
+    return isQuantity;
   }
   // Text field to create options in the poll
   Widget buildOption(int index) {
@@ -347,16 +382,20 @@ class _CreatePollFormState extends State<CreatePollForm> {
               }
               Poll poll = Poll(
                 "",
-                widget.topicValue ?? "",
-                widget.descriptionValue ?? "",
+                getTopicValue(),
+                getDescriptionValue(),
                 DateTime(now.year, now.month, now.day, time.hour, time.minute),
-                "location",
-                widget.enableMultipleMenuSelections ?? false,
-                widget.enableQuantityEntry ?? false,
+                getLocationValue(),
+                getEnableMultipleSelectionsValue(),
+                getEnableQuantityEntryValue(),
                 options,
               );
               poll = await PollsRepository.create(poll);
-              PollHelper.saveHasPollBeenSplit(poll.id, false);
+
+              if (widget.topicValue?.isEmpty == true) {
+                PollHelper.saveCustomPollId(poll.id);
+              }
+
               if (mounted) {
                 Navigator.pop(
                   context,
