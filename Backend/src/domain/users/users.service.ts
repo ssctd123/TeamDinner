@@ -89,7 +89,7 @@ export class UsersService {
 
 	async sendResetPassword(email: string): Promise<Boolean> {
 		const user: User = await this.getWithEmail(email);
-		const token = '123456';
+		const token = createNewToken();
 		if (user) {
 			const updateData: any = {};
 			updateData.resetToken = token;
@@ -109,4 +109,17 @@ export class UsersService {
 		}
 		return false;
 	}
+
+	function createNewToken(): string {
+		let outString: string = '';
+		let inOptions: string = '1234567890';
+
+		for (let i = 0; i < 6; i++) {
+
+		  outString += inOptions.charAt(Math.floor(Math.random() * inOptions.length));
+
+		}
+
+		return outString;
+	  }
 }
