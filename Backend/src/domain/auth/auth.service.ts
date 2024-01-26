@@ -24,7 +24,7 @@ export class AuthService {
 				return auth;
 			} else if (isTokenValid) {
 				const updateData: any = {};
-				updateData.resetPassword = '';
+				updateData.resetToken = '';
 				await this.authsRepository.modify(auth.id, updateData);
 				return auth;
 			}
