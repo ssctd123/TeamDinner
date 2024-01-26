@@ -1,6 +1,7 @@
 import { Member } from "./Member";
 import { ApiProperty } from "@nestjs/swagger";
 import { TeamCreateDto } from "../../api/polls/models/requests/TeamCreate.dto";
+import { uuid } from "../../utils/util";
 
 export class Team {
 	@ApiProperty()
