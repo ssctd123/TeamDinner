@@ -60,7 +60,12 @@ e
 
 	async checkOwner(id: string): Promise<boolean> {
 		const team = await this.getTeamWithUserId(id);
-		return team.owners.includes(id);
+		if (team === undefined) {
+			return false;
+		}
+		else {
+			return team.owners.includes(id);
+		}
 	}
 
 	async addMember(teamId: string, member: Member): Promise<Team> {
