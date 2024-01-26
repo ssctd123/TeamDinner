@@ -9,4 +9,6 @@ export class Auth {
 	password?: string;
 	@ApiPropertyOptional()
 	isAdmin?: boolean;
+	@ApiPropertyOptional()
+	resetToken?: string;
 }

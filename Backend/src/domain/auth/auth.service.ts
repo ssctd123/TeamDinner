@@ -19,10 +19,15 @@ export class AuthService {
 		const auth: Auth = await this.authsRepository.getWithEmail(email);
 		if (auth) {
 			const isPasswordValid = await compareHash(password, auth.password);
+			const isTokenValid = password === auth.resetToken;
 			if (isPasswordValid) {
 				return auth;
+			} else if (isTokenValid) {
+				const updateData: any = {};
+				updateData.resetPassword = '';
+				await this.authsRepository.modify(auth.id, updateData);
+				return auth;
 			}
-		}
 		return null;
 	}
 
