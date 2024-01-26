@@ -60,7 +60,7 @@ e
 
 	async checkOwner(id: string): Promise<boolean> {
 		const team = await this.getTeamWithUserId(id);
-		if (team === null) {
+		if (team == null) {
 			return false;
 		}
 		else {
