@@ -28,6 +28,7 @@ export class Team {
 		this.members = members;
 		this.invitations = invitations;
 	}
+
 	static fromDto(dto: TeamCreateDto, ownerId: string): Team {
 		return {
 			id: uuid(),
@@ -43,6 +44,7 @@ export class Team {
 			],
 		};
 	}
+
 	public correctLegacyProperties(): Team {
 		if (this.owners === undefined || this.owners.length == 0) {
 			this.owners = [this.owner];
