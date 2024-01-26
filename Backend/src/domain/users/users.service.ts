@@ -1,7 +1,7 @@
 import { HttpException, Injectable } from "@nestjs/common";
 import { User } from "../../data/entities/User";
 import { UsersRepository } from "../../data/repositories/Firebase/users.repository";
-import { AuthRepository } from "../../data/repositories/Firebase/auths.repository";
+import { AuthsRepository } from "../../data/repositories/Firebase/auths.repository";
 import { hash, uuid } from "../../utils/util";
 import { SignupDto } from "../../api/users/models/requests/signup.dto";
 import { Auth } from "../../data/entities/Auth";
@@ -14,7 +14,7 @@ import MailService from '../mail/mail.service';
 export class UsersService {
 	constructor(
 		private usersRepository: UsersRepository,
-		private authRepository: AuthRepository,
+		private authRepository: AuthsRepository,
 		private authService: AuthService
 	) {}
 
