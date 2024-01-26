@@ -93,5 +93,5 @@ export class AuthService {
 			email: auth.email,
 			isAdmin: auth.isAdmin
 		};
-	}
+	} 
 }
