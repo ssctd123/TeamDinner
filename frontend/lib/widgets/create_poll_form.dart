@@ -162,30 +162,13 @@ class _CreatePollFormState extends State<CreatePollForm> {
     return Column(
       children: [
         getHeader(),
-        buildTextField(topic, "Poll Name (i.e. Pick Your Favorite)", Icons.topic),
-        buildTextField(description, "Reason (i.e. Food Options or Final Selections)", Icons.description),
-        buildTextField(
-            meetingLocation, "Location (Where are we eating?)", Icons.location_city),
-        buildTextField(meetingTime, "Time", Icons.punch_clock,
-                () async {
-              FocusScope.of(context).requestFocus(FocusNode());
-
-              TimeOfDay? picked = await showTimePicker(
-                initialTime: TimeOfDay.now(),
-                context: context,
-              );
-              if (picked != null) {
-                meetingTime.text = picked.format(context); // add this line.
-                setState(() {
-                  time = picked;
-                });
-              }
-            }),
+        buildTextField(topic, "Poll Name", Icons.topic),
+        buildTextField(description, "Description", Icons.description),
         // Check box to enable eating at multiple restaurants
         Padding(
             padding: const EdgeInsets.only(bottom: 16.0),
             child: CheckboxListTile(
-              title: const Text("Enable Multiple Menu Selections"),
+              title: const Text("Include Multiple Selections"),
               value: isMultiple,
               activeColor: Colors.blue,
               tristate: false,
@@ -200,7 +183,7 @@ class _CreatePollFormState extends State<CreatePollForm> {
         Padding(
             padding: const EdgeInsets.only(bottom: 16.0),
             child: CheckboxListTile(
-              title: const Text("Enable Quantity Entry"),
+              title: const Text("Include Quantities"),
               value: isQuantity,
               activeColor: Colors.blue,
               tristate: false,

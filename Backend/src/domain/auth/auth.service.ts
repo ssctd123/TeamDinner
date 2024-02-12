@@ -26,6 +26,7 @@ export class AuthService {
 				const updateData: any = {};
 				updateData.resetToken = '';
 				await this.authsRepository.modify(auth.id, updateData);
+				auth.wasPasswordReset = true;
 				return auth;
 			}
 		}
@@ -42,7 +43,8 @@ export class AuthService {
 		}
 		const payload = { email: auth.email, sub: auth.id };
 		return {
-			token: this.jwtService.sign(payload)
+			token: this.jwtService.sign(payload),
+			wasPasswordReset: this.auth.wasPasswordReset
 		};
 	}
 
