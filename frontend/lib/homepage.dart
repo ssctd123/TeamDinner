@@ -13,7 +13,8 @@ import 'api/users_repository.dart';
 import 'pages/help_page.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  bool? wasPasswordReset;
+  HomePage({Key? key, this.wasPasswordReset}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -34,6 +35,9 @@ bool isOwner = false;
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    if (widget.wasPasswordReset == true) {
+      Future.delayed(Duration.zero, () => showAlert(context));
+    }
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -131,6 +135,32 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
+  void showAlert(BuildContext context) {
+    Widget okButton = TextButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.of(context).pop();
+        _selectedIndex = 2;
+      },
+    );
+
+    AlertDialog alert = AlertDialog(
+      title: Text("Password Reset!"),
+      content: Text("Your password has been resetted. Please update it on the profile page."),
+      actions: [
+        okButton,
+      ],
+    );
+
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alert;
+        }
+    );
+  }
+
   Future<void> _getInformation() async {
     currentUser = await UsersRepository.get(null);
     team = await TeamsRepository.getMembersTeam(currentUser.id);

@@ -118,9 +118,10 @@ class LoginFormState extends State<LoginForm> {
                     if (await Util.login(emailController.value.text, passwordController.value.text)) {
                       emailController.clear();
                       passwordController.clear();
+                      var token = await Util.getAccessToken();
                       Navigator.of(context).pushReplacement(
                           MaterialPageRoute(
-                              builder:(context) => const HomePage())
+                              builder:(context) => HomePage(wasPasswordReset: token?.wasPasswordReset))
                       );
                       // Error handling for not being able to login
                     } else {
