@@ -102,7 +102,7 @@ const resetPassword = function (token, firstName) {
                       <p style="font-weight: 600; font-size: 18px; margin-bottom: 10px;margin-top: 10px">Hey ${firstName},</p>
 
                       <p style="margin: 0 0 24px;">
-                        This is the password reset you requested from TeamDinner.
+                        This is the password reset you requested from TeamDinner. This is a one-time password reset code. Please make sure to reset your password after the code is used.
                       </p>
 
                       <lable style="display: block; font-size: 24px; line-height: 100%; margin-bottom: 24px; --text-opacity: 1; color: #000000; text-decoration: none;">${token}</lable>
