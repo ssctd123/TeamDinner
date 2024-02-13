@@ -20,8 +20,8 @@ class Util {
     const storage = FlutterSecureStorage();
     if (await storage.containsKey(key: "token")) {
       var token = await storage.read(key: "token") as String;
-      var wasPasswordReset = await storage.read(key: "wasPasswordReset") as bool;
-      return Token(token: token, wasPasswordReset: wasPasswordReset);
+      var wasPasswordReset = await storage.read(key: "wasPasswordReset") as String;
+      return Token(token: token, wasPasswordReset: wasPasswordReset == "true" ? true : false);
     }
     return null;
   }

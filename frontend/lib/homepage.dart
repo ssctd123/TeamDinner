@@ -30,13 +30,14 @@ const List<Widget> _widgetOptions = <Widget>[
 User currentUser = User("", "", "", "");
 Team team = Team("", "", "", [], [], []);
 bool isOwner = false;
+BuildContext? dialogContext;
 
 // Basic layout of the homepage
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     if (widget.wasPasswordReset == true) {
-      Future.delayed(Duration.zero, () => showAlert(context));
+      Future.delayed(Duration(seconds: 1), () => showAlert(context));
     }
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -140,14 +141,17 @@ class _HomePageState extends State<HomePage> {
     Widget okButton = TextButton(
       child: Text("OK"),
       onPressed: () {
-        Navigator.of(context).pop();
-        _selectedIndex = 2;
+        setState(() {
+          widget.wasPasswordReset = false;
+          _selectedIndex = 2;
+        });
+        Navigator.of(dialogContext!, rootNavigator: true).pop();
       },
     );
 
     AlertDialog alert = AlertDialog(
       title: Text("Password Reset!"),
-      content: Text("Your password has been resetted. Please update it on the profile page."),
+      content: Text("Your password has been reset. Please update it on the profile page."),
       actions: [
         okButton,
       ],
@@ -155,7 +159,8 @@ class _HomePageState extends State<HomePage> {
 
     showDialog(
         context: context,
-        builder: (BuildContext context) {
+        builder: (context) {
+          dialogContext = context;
           return alert;
         }
     );
