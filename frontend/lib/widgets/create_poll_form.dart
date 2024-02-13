@@ -368,7 +368,7 @@ class _CreatePollFormState extends State<CreatePollForm> {
                 getTopicValue(),
                 getDescriptionValue(),
                 DateTime(now.year, now.month, now.day, time.hour, time.minute),
-                getLocationValue(),
+                "location",
                 getEnableMultipleSelectionsValue(),
                 getEnableQuantityEntryValue(),
                 options,
