@@ -44,7 +44,7 @@ export class AuthService {
 		const payload = { email: auth.email, sub: auth.id };
 		return {
 			token: this.jwtService.sign(payload),
-			wasPasswordReset: this.auth.wasPasswordReset
+			wasPasswordReset: auth?.wasPasswordReset
 		};
 	}
 
