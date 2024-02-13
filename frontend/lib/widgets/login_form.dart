@@ -18,7 +18,13 @@ class LoginFormState extends State<LoginForm> {
   final formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  bool _passwordVisible = false;
   Future<Token>? accessToken;
+
+  @override
+  void initState() {
+    _passwordVisible = false;
+  }
 
   @override
   void dispose() {
@@ -55,7 +61,7 @@ class LoginFormState extends State<LoginForm> {
           Padding(
             padding: const EdgeInsets.only(bottom: 10.0),
             child: TextFormField(
-              obscureText: true,
+              obscureText: !_passwordVisible,
               controller: passwordController,
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -63,9 +69,20 @@ class LoginFormState extends State<LoginForm> {
                 }
                 return null;
               },
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 hintText: "User Password",
                 prefixIcon: Icon(Icons.lock, color: Colors.black),
+                suffixIcon: IconButton(
+                    icon: Icon(
+                      _passwordVisible ? Icons.visibility : Icons.visibility_off,
+                      color: Colors.black,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _passwordVisible = !_passwordVisible;
+                      });
+                    },
+                ),
               ),
             ),
           ),
@@ -101,9 +118,10 @@ class LoginFormState extends State<LoginForm> {
                     if (await Util.login(emailController.value.text, passwordController.value.text)) {
                       emailController.clear();
                       passwordController.clear();
+                      var token = await Util.getAccessToken();
                       Navigator.of(context).pushReplacement(
                           MaterialPageRoute(
-                              builder:(context) => const HomePage())
+                              builder:(context) => HomePage(wasPasswordReset: token?.wasPasswordReset))
                       );
                       // Error handling for not being able to login
                     } else {

@@ -1,5 +1,7 @@
 import { Member } from "./Member";
 import { ApiProperty } from "@nestjs/swagger";
+import { TeamCreateDto } from "../../api/polls/models/requests/TeamCreate.dto";
+import { uuid } from "../../utils/util";
 
 export class Team {
 	@ApiProperty()
@@ -25,6 +27,22 @@ export class Team {
 		this.owners = owners;
 		this.members = members;
 		this.invitations = invitations;
+	}
+
+	static fromDto(dto: TeamCreateDto, ownerId: string): Team {
+		return {
+			id: uuid(),
+			name: dto.name,
+			description: dto.description,
+			owner: ownerId,
+			owners: [ownerId],
+			members: [
+				{
+					id: ownerId,
+					debt: 0
+				}
+			],
+		};
 	}
 
 	public correctLegacyProperties(): Team {

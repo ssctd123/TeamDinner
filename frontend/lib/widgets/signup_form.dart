@@ -177,7 +177,7 @@ class SignupFormState extends State<SignupForm> {
                     if (await Util.login(email, password) && mounted) {
                       Navigator.of(context).pushAndRemoveUntil(
                           MaterialPageRoute(
-                              builder: (context) => const HomePage()),
+                              builder: (context) => HomePage()),
                           (r) => false);
                       // Error handling for not being able to login
                     } else {

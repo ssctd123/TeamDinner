@@ -24,8 +24,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
             content: Text('Email sent.')));
-
     senderEmail.clear();
+    Navigator.pop(
+      context,
+    );
   }
 
   @override

@@ -9,6 +9,7 @@ class Util {
       var result = await UsersRepository.login(email, password);
       const storage = FlutterSecureStorage();
       storage.write(key: "token", value: result.token);
+      storage.write(key: "wasPasswordReset", value: result.wasPasswordReset == true ? "true" : "false" );
       return true;
     } on Exception {
       return false;
@@ -19,7 +20,8 @@ class Util {
     const storage = FlutterSecureStorage();
     if (await storage.containsKey(key: "token")) {
       var token = await storage.read(key: "token") as String;
-      return Token(token: token);
+      var wasPasswordReset = await storage.read(key: "wasPasswordReset") as String;
+      return Token(token: token, wasPasswordReset: wasPasswordReset == "true" ? true : false);
     }
     return null;
   }

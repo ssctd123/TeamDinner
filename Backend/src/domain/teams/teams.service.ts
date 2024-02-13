@@ -28,20 +28,7 @@ export class TeamsService {
 		const owner: User = await this.usersService.getWithToken();
 		const isOwner = await this.isOwner(owner.id);
 		if (!isOwner) {
-			return await this.teamsRepository.createTeam(new Team(
-				uuid(),
-				teamDTO.name,
-				teamDTO.description,
-				owner.id,
-				[owner.id],
-				[
-					{
-						id: owner.id,
-						debt: 0
-					}
-				],
-				[]
-			));
+			return await this.teamsRepository.createTeam(Team.fromDto(teamDTO, owner.id));
 		}
 		throw new HttpException(
 			"User is already owner of a team",
